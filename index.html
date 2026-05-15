@@ -2290,6 +2290,161 @@ Boolean([])     <span class="cm">// true ❗</span>
           </div>
         </div>
       </div>
+      <div class="card c-blue">
+  <div class="card-header">
+    <div class="card-icon">📞</div>
+    <span class="card-title">Callbacks (JS)</span>
+    <span class="card-tag"> Async + Functions</span>
+  </div>
+
+  <div class="card-body">
+    <ul class="rule-list">
+      <li><strong>Callback</strong> = function passed into another function</li>
+      <li><strong>Executed later</strong> after some task/event completes</li>
+      <li><strong>Synchronous callback</strong> → runs immediately</li>
+      <li><strong>Asynchronous callback</strong> → runs later (timer/API/event)</li>
+      <li><strong>Functions are first-class citizens</strong> in JS</li>
+    </ul>
+
+    <pre><span class="cm">// Basic callback</span>
+function greet(name, callback) {
+  console.log('Hello ' + name);
+  callback();
+}
+
+function done() {
+  console.log('Greeting completed');
+}
+
+greet('Supriya', done);
+
+<span class="cm">// Output</span>
+<span class="cm">// Hello Supriya</span>
+<span class="cm">// Greeting completed</span>
+</pre>
+
+    <pre><span class="cm">// Anonymous callback</span>
+function processUser(callback) {
+  console.log('Processing user...');
+  callback();
+}
+
+processUser(function () {
+  console.log('User processed ✅');
+});
+</pre>
+
+    <pre><span class="cm">// Array methods use callbacks</span>
+const nums = [1, 2, 3];
+
+const doubled = nums.map(function(n) {
+  return n * 2;
+});
+
+console.log(doubled);
+
+<span class="cm">// [2, 4, 6]</span>
+</pre>
+
+    <pre><span class="cm">// Async callback with setTimeout</span>
+console.log('Start');
+
+setTimeout(function () {
+  console.log('Executed later ⏰');
+}, 2000);
+
+console.log('End');
+
+<span class="cm">// Output</span>
+<span class="cm">// Start</span>
+<span class="cm">// End</span>
+<span class="cm">// Executed later ⏰</span>
+</pre>
+
+    <pre><span class="cm">// Real-world API simulation</span>
+function fetchData(callback) {
+  setTimeout(() => {
+    const data = { id: 1, name: 'Angular Dev' };
+    callback(data);
+  }, 1000);
+}
+
+fetchData(function(data) {
+  console.log(data.name);
+});
+
+<span class="cm">// Angular Dev</span>
+</pre>
+
+    <pre><span class="cm">// Event listener callback</span>
+button.addEventListener('click', function () {
+  console.log('Button clicked 🔥');
+});
+
+<span class="cm">// Function runs only when user clicks</span>
+</pre>
+
+    <pre><span class="cm">// Callback hell 😬</span>
+loginUser(function(user) {
+  getProfile(user.id, function(profile) {
+    getPosts(profile.id, function(posts) {
+      console.log(posts);
+    });
+  });
+});
+
+<span class="cm">// Deep nesting becomes hard to manage</span>
+<span class="cm">// Solved using Promises / async-await</span>
+</pre>
+
+    <pre><span class="cm">// Common mistake ❌</span>
+function execute(callback) {
+  callback();
+}
+
+execute('hello');
+
+<span class="cm">// Error: callback is not a function</span>
+
+<span class="cm">// Fix ✅</span>
+execute(function () {
+  console.log('Valid callback');
+});
+</pre>
+
+    <pre><span class="cm">// Callback with error handling</span>
+function divide(a, b, callback) {
+  if (b === 0) {
+    callback('Cannot divide by zero', null);
+    return;
+  }
+
+  callback(null, a / b);
+}
+
+divide(10, 2, function(err, result) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+
+  console.log(result);
+});
+
+<span class="cm">// 5</span>
+</pre>
+
+    <div class="warn-box">
+      ⚠️ RULES:
+      <ul>
+        <li>Callbacks are heavily used in <strong>events, APIs, timers</strong></li>
+        <li>Avoid deeply nested callbacks → use <strong>Promises / async-await</strong></li>
+        <li>Always validate callback before calling</li>
+        <li>Callbacks enable <strong>non-blocking async behavior</strong> in JS</li>
+      </ul>
+    </div>
+  </div>
+</div>
       <div class="card c-rose">
         <div class="card-header">
           <div class="card-icon">🧠</div>
