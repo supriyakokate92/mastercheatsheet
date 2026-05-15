@@ -776,6 +776,9 @@
       <button class="nav-btn java-tab" onclick="show('java-essentials')">
         <span class="nav-dot java-dot"></span> Java Essentials
       </button>
+      <button class="nav-btn java-tab" onclick="show('java-spring')">
+        <span class="nav-dot java-dot"></span> Java Spring
+      </button>
       <button class="nav-btn" onclick="show('summary')" style="border-left:1px solid var(--border)">
         🎯 TL;DR All
       </button>
@@ -3403,8 +3406,574 @@ status
       </div>
     </div>
   </div>
+
   <!-- ══════════════════════════════════════════════════════════════════════
-     TAB 13 — MASTER TL;DR
+     TAB 13 — JS ESS
+══════════════════════════════════════════════════════════════════════ -->
+  <div id="java-spring" class="section">
+    <div class="section-label"> JAVA SPRING</div>
+    <div class="grid">
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- JAVA & SPRING BOOT ARCHITECTURE -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-purple">
+        <div class="card-header">
+          <div class="card-icon">☕</div>
+          <span class="card-title">Java + Spring Boot Architecture</span>
+          <span class="card-tag"> Backend Flow</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Angular UI sends REST requests</li>
+            <li>Spring Boot handles business logic</li>
+            <li>Repository layer talks to database</li>
+            <li>PostgreSQL stores tenant data</li>
+          </ul>
+
+          <pre><span class="cm">// Full Request Flow</span>
+Angular UI
+   ↓
+@RestController
+   ↓
+@Service
+   ↓
+@Repository
+   ↓
+PostgreSQL
+</pre>
+
+          <pre><span class="cm">// Angular API Call</span>
+this.http.get('/api/v1/quotes')
+.subscribe(data => {
+  this.quotes = data;
+});
+</pre>
+
+          <pre><span class="cm">// Spring Controller</span>
+@RestController
+@RequestMapping("/api/v1/quotes")
+public class QuoteController {
+
+  @GetMapping
+  public List&lt;Quote&gt; getQuotes() {
+    return service.getQuotes();
+  }
+}
+</pre>
+
+          <pre><span class="cm">// Service Layer</span>
+@Service
+public class QuoteService {
+
+  public List&lt;Quote&gt; getQuotes() {
+    return repo.findAll();
+  }
+}
+</pre>
+
+          <div class="warn-box">
+            ⚠️ CORE IDEA:
+            <ul>
+              <li>Controller = HTTP handling</li>
+              <li>Service = business rules</li>
+              <li>Repository = database queries</li>
+              <li>Keep layers separated</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- DEPENDENCY INJECTION -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-blue">
+        <div class="card-header">
+          <div class="card-icon">🧩</div>
+          <span class="card-title">Dependency Injection (@Autowired)</span>
+          <span class="card-tag"> Spring Core</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Spring automatically injects dependencies</li>
+            <li>Promotes loose coupling</li>
+            <li>Easier testing and mocking</li>
+            <li>Core principle of Spring Framework</li>
+          </ul>
+
+          <pre><span class="cm">// Tight Coupling ❌</span>
+public class QuoteService {
+  private QuoteRepository repo =
+      new QuoteRepository();
+}
+</pre>
+
+          <pre><span class="cm">// Dependency Injection ✅</span>
+@Service
+public class QuoteService {
+
+  @Autowired
+  private QuoteRepository repo;
+}
+</pre>
+
+          <pre><span class="cm">// Constructor Injection (Preferred)</span>
+@Service
+public class QuoteService {
+
+  private final QuoteRepository repo;
+
+  public QuoteService(QuoteRepository repo){
+    this.repo = repo;
+  }
+}
+</pre>
+
+          <pre><span class="cm">// Unit Testing Benefit</span>
+QuoteRepository mockRepo =
+   mock(QuoteRepository.class);
+
+QuoteService service =
+   new QuoteService(mockRepo);
+</pre>
+
+          <div class="warn-box">
+            ⚠️ INTERVIEW POINTS:
+            <ul>
+              <li>Loose coupling improves maintainability</li>
+              <li>Constructor injection preferred</li>
+              <li>Easy mocking for unit tests</li>
+              <li>Spring IoC container manages objects</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- TRANSACTIONAL -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-green">
+        <div class="card-header">
+          <div class="card-icon">💳</div>
+          <span class="card-title">@Transactional</span>
+          <span class="card-tag"> Data Consistency</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Ensures all-or-nothing database operations</li>
+            <li>Rollback happens automatically on failure</li>
+            <li>Prevents partial updates</li>
+            <li>Critical for financial systems</li>
+          </ul>
+
+          <pre><span class="cm">// Without Transaction ❌</span>
+deductMoney();
+
+<span class="cm">// Crash here 😬</span>
+
+addMoney();
+
+<span class="cm">// Data becomes inconsistent</span>
+</pre>
+
+          <pre><span class="cm">// With Transaction ✅</span>
+@Transactional
+public void transfer() {
+
+  deductMoney();
+  addMoney();
+}
+</pre>
+
+          <pre><span class="cm">// Spring Proxy Magic</span>
+Client
+  ↓
+Spring Proxy
+  ↓
+BEGIN TRANSACTION
+  ↓
+Your Method
+  ↓
+COMMIT / ROLLBACK
+</pre>
+
+          <pre><span class="cm">// Trap Question ⚠️</span>
+public void process() {
+   saveQuote(); <span class="cm">// proxy bypassed 😬</span>
+}
+
+@Transactional
+public void saveQuote(){}
+</pre>
+
+          <div class="warn-box">
+            ⚠️ IMPORTANT:
+            <ul>
+              <li>Internal method calls bypass proxy</li>
+              <li>Extract transactional logic to another service</li>
+              <li>Rollback happens on exceptions</li>
+              <li>Very common Wipro interview topic</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SPRING DATA JPA -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-orange">
+        <div class="card-header">
+          <div class="card-icon">🗄️</div>
+          <span class="card-title">Spring Data JPA</span>
+          <span class="card-tag"> ORM</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Eliminates boilerplate SQL</li>
+            <li>Spring auto-generates queries</li>
+            <li>Repositories simplify DB access</li>
+            <li>Supports pagination and sorting</li>
+          </ul>
+
+          <pre><span class="cm">// Repository</span>
+@Repository
+public interface QuoteRepository
+extends JpaRepository&lt;Quote, Long&gt; {
+}
+</pre>
+
+          <pre><span class="cm">// Query Generation</span>
+List&lt;Quote&gt;
+findByTenantIdAndStatus(
+  String tenantId,
+  String status
+);
+</pre>
+
+          <pre><span class="cm">// Generated SQL</span>
+SELECT *
+FROM quotes
+WHERE tenant_id = ?
+AND status = ?
+</pre>
+
+          <pre><span class="cm">// Pagination</span>
+PageRequest.of(page, 20);
+
+<span class="cm">// LIMIT + OFFSET generated automatically</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ JPA RULES:
+            <ul>
+              <li>Method names generate queries</li>
+              <li>Use pagination for huge tables</li>
+              <li>Avoid loading unnecessary relations</li>
+              <li>Prefer DTOs for API responses</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- REQUEST LIFECYCLE -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-red">
+        <div class="card-header">
+          <div class="card-icon">🔄</div>
+          <span class="card-title">Request Lifecycle</span>
+          <span class="card-tag"> End-to-End Flow</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>User action triggers Angular request</li>
+            <li>Gateway validates authentication</li>
+            <li>Controller handles HTTP request</li>
+            <li>Database queried through repository</li>
+          </ul>
+
+          <pre><span class="cm">// Angular UI</span>
+this.http.get('/api/quotes')
+.subscribe(res => {
+  this.quotes = res.content;
+});
+</pre>
+
+          <pre><span class="cm">// Request</span>
+GET /api/quotes?page=0
+
+Headers:
+Authorization: Bearer xxx
+X-Tenant-Id: ACME
+</pre>
+
+          <pre><span class="cm">// Backend Flow</span>
+Gateway
+ → Controller
+ → Service
+ → Repository
+ → Database
+</pre>
+
+          <pre><span class="cm">// JSON Response</span>
+{
+  "content": [],
+  "totalPages": 3,
+  "currentPage": 0
+}
+</pre>
+
+          <div class="warn-box">
+            ⚠️ FLOW SUMMARY:
+            <ul>
+              <li>Angular only consumes APIs</li>
+              <li>Spring handles validation + logic</li>
+              <li>Repository abstracts database</li>
+              <li>Response converted automatically to JSON</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- MULTI TENANCY -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-cyan">
+        <div class="card-header">
+          <div class="card-icon">🏢</div>
+          <span class="card-title">Multi-Tenancy in SAP</span>
+          <span class="card-tag"> SaaS Security</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Multiple customers share same application</li>
+            <li>tenant_id isolates customer data</li>
+            <li>Every query must filter tenant</li>
+            <li>Critical for SaaS platforms</li>
+          </ul>
+
+          <pre><span class="cm">// Shared Table</span>
+quotes
+--------------------------------
+id | tenant_id | amount
+1  | ACME      | 5000
+2  | XYZ       | 8000
+</pre>
+
+          <pre><span class="cm">// Safe Query ✅</span>
+SELECT *
+FROM quotes
+WHERE tenant_id = 'ACME'
+</pre>
+
+          <pre><span class="cm">// Dangerous Query ❌</span>
+SELECT *
+FROM quotes
+
+<span class="cm">// Data leak between tenants 😬</span>
+</pre>
+
+          <pre><span class="cm">// Angular Header</span>
+Headers:
+X-Tenant-Id: ACME
+</pre>
+
+          <div class="warn-box">
+            ⚠️ SECURITY RULES:
+            <ul>
+              <li>Always validate tenant from JWT</li>
+              <li>Never trust URL params for tenant</li>
+              <li>Audit all tenant access</li>
+              <li>Missing tenant filter = disaster</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- VIRTUAL THREADS -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-pink">
+        <div class="card-header">
+          <div class="card-icon">🧵</div>
+          <span class="card-title">Virtual Threads (Java 21)</span>
+          <span class="card-tag"> Concurrency</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Lightweight threads introduced in Java 21</li>
+            <li>Massively reduce memory usage</li>
+            <li>Ideal for concurrent I/O operations</li>
+            <li>Cheaper than traditional OS threads</li>
+          </ul>
+
+          <pre><span class="cm">// Traditional Threads</span>
+1000 users
+=
+1000 OS threads
+=
+~1GB memory 😬
+</pre>
+
+          <pre><span class="cm">// Virtual Threads</span>
+1 million virtual threads
+≈ 100MB memory ⚡
+</pre>
+
+          <pre><span class="cm">// Java 21</span>
+ExecutorService executor =
+Executors.newVirtualThreadPerTaskExecutor();
+</pre>
+
+          <pre><span class="cm">// SAP Context</span>
+10,000 quote requests
+handled with much lower RAM
+</pre>
+
+          <div class="warn-box">
+            ⚠️ WHEN TO USE:
+            <ul>
+              <li>Blocking I/O operations</li>
+              <li>High concurrency APIs</li>
+              <li>Microservices with heavy traffic</li>
+              <li>Not useful for CPU-heavy work</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- PARALLEL STREAM PITFALL -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-yellow">
+        <div class="card-header">
+          <div class="card-icon">⚡</div>
+          <span class="card-title">parallelStream() Pitfall</span>
+          <span class="card-tag"> Performance</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Good for CPU-heavy computations</li>
+            <li>Bad for blocking DB/network calls</li>
+            <li>Uses shared ForkJoinPool</li>
+            <li>Can reduce performance unexpectedly</li>
+          </ul>
+
+          <pre><span class="cm">// GOOD ✅</span>
+numbers.parallelStream()
+.map(n -> n * n)
+.reduce(0, Integer::sum);
+</pre>
+
+          <pre><span class="cm">// BAD ❌</span>
+ids.parallelStream()
+.map(id -> db.getUser(id))
+.collect(Collectors.toList());
+
+<span class="cm">// Threads block waiting for DB</span>
+</pre>
+
+          <pre><span class="cm">// What Happens 😬</span>
+ForkJoinPool = 8 threads
+
+All 8 blocked on database
+→ No real parallelism
+</pre>
+
+          <pre><span class="cm">// Better Solution ✅</span>
+Use:
+✓ Virtual Threads
+✓ Reactive APIs
+✓ Async processing
+</pre>
+
+          <div class="warn-box">
+            ⚠️ INTERVIEW ANSWER:
+            <ul>
+              <li>Never use parallelStream for blocking I/O</li>
+              <li>Good only for CPU-bound tasks</li>
+              <li>ForkJoinPool starvation is common</li>
+              <li>Sequential can outperform parallel</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- N+1 QUERY PROBLEM -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-teal">
+        <div class="card-header">
+          <div class="card-icon">🐢</div>
+          <span class="card-title">N+1 Query Problem</span>
+          <span class="card-tag"> Database Optimization</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>One query triggers many extra queries</li>
+            <li>Very common JPA performance issue</li>
+            <li>Causes slow APIs</li>
+            <li>Fixed using fetch joins or EntityGraph</li>
+          </ul>
+
+          <pre><span class="cm">// Problem ❌</span>
+1 query → load quotes
+
+Then:
+100 extra queries
+→ load line items
+</pre>
+
+          <pre><span class="cm">// Total Queries 😬</span>
+1 + 100 queries
+
+<span class="cm">// Extremely slow</span>
+</pre>
+
+          <pre><span class="cm">// Fix ✅</span>
+@EntityGraph(
+ attributePaths = {"lineItems"}
+)
+List&lt;Quote&gt; findAll();
+</pre>
+
+          <pre><span class="cm">// Result</span>
+Single JOIN query
+500ms → 50ms ⚡
+</pre>
+
+          <div class="warn-box">
+            ⚠️ PERFORMANCE RULES:
+            <ul>
+              <li>Watch Hibernate logs carefully</li>
+              <li>Use JOIN FETCH for related data</li>
+              <li>Avoid lazy-loading inside loops</li>
+              <li>Very popular interview question</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ══════════════════════════════════════════════════════════════════════
+     TAB 14 — MASTER TL;DR
 ══════════════════════════════════════════════════════════════════════ -->
   <div id="summary" class="section">
     <div class="section-label">🎯 Master TL;DR — Everything at a Glance</div>
