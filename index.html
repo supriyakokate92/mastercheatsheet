@@ -24,6 +24,7 @@
       --ts-color: #38bdf8;
       --ng-color: #e879f9;
       --js-color: #facc15;
+      --java-color: #f41e3b;
       --text: #e2e8f0;
       --muted: #475569;
       --code-bg: #060a10;
@@ -182,6 +183,11 @@
       color: var(--js-color);
     }
 
+    .nav-btn.java-tab.active {
+      border-bottom-color: var(--java-color);
+      color: var(--java-color);
+    }
+
     .nav-dot {
       width: 6px;
       height: 6px;
@@ -199,6 +205,10 @@
 
     .js-dot {
       background: var(--js-color);
+    }
+
+    .java-dot {
+      background: var(--java-color);
     }
 
     /* ═══ SECTIONS ═══ */
@@ -721,6 +731,7 @@
       <span class="hero-badge ts">🔷 TypeScript</span>
       <span class="hero-badge ng">🅰️ Angular 19–21</span>
       <span class="hero-badge js">🔒 JavaScript</span>
+      <span class="hero-badge java">☕ Java</span>
     </div>
     <h1>Master Cheatsheet</h1>
     <p class="subtitle">All topics combined · Click a tab to jump instantly · Last-min interview prep</p>
@@ -761,6 +772,9 @@
       </button>
       <button class="nav-btn js-tab" onclick="show('js-essentials')">
         <span class="nav-dot js-dot"></span> JS Essentials
+      </button>
+      <button class="nav-btn java-tab" onclick="show('java-essentials')">
+        <span class="nav-dot java-dot"></span> Java Essentials
       </button>
       <button class="nav-btn" onclick="show('summary')" style="border-left:1px solid var(--border)">
         🎯 TL;DR All
@@ -2291,22 +2305,22 @@ Boolean([])     <span class="cm">// true ❗</span>
         </div>
       </div>
       <div class="card c-blue">
-  <div class="card-header">
-    <div class="card-icon">📞</div>
-    <span class="card-title">Callbacks (JS)</span>
-    <span class="card-tag"> Async + Functions</span>
-  </div>
+        <div class="card-header">
+          <div class="card-icon">📞</div>
+          <span class="card-title">Callbacks (JS)</span>
+          <span class="card-tag"> Async + Functions</span>
+        </div>
 
-  <div class="card-body">
-    <ul class="rule-list">
-      <li><strong>Callback</strong> = function passed into another function</li>
-      <li><strong>Executed later</strong> after some task/event completes</li>
-      <li><strong>Synchronous callback</strong> → runs immediately</li>
-      <li><strong>Asynchronous callback</strong> → runs later (timer/API/event)</li>
-      <li><strong>Functions are first-class citizens</strong> in JS</li>
-    </ul>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Callback</strong> = function passed into another function</li>
+            <li><strong>Executed later</strong> after some task/event completes</li>
+            <li><strong>Synchronous callback</strong> → runs immediately</li>
+            <li><strong>Asynchronous callback</strong> → runs later (timer/API/event)</li>
+            <li><strong>Functions are first-class citizens</strong> in JS</li>
+          </ul>
 
-    <pre><span class="cm">// Basic callback</span>
+          <pre><span class="cm">// Basic callback</span>
 function greet(name, callback) {
   console.log('Hello ' + name);
   callback();
@@ -2323,7 +2337,7 @@ greet('Supriya', done);
 <span class="cm">// Greeting completed</span>
 </pre>
 
-    <pre><span class="cm">// Anonymous callback</span>
+          <pre><span class="cm">// Anonymous callback</span>
 function processUser(callback) {
   console.log('Processing user...');
   callback();
@@ -2334,7 +2348,7 @@ processUser(function () {
 });
 </pre>
 
-    <pre><span class="cm">// Array methods use callbacks</span>
+          <pre><span class="cm">// Array methods use callbacks</span>
 const nums = [1, 2, 3];
 
 const doubled = nums.map(function(n) {
@@ -2346,7 +2360,7 @@ console.log(doubled);
 <span class="cm">// [2, 4, 6]</span>
 </pre>
 
-    <pre><span class="cm">// Async callback with setTimeout</span>
+          <pre><span class="cm">// Async callback with setTimeout</span>
 console.log('Start');
 
 setTimeout(function () {
@@ -2361,7 +2375,7 @@ console.log('End');
 <span class="cm">// Executed later ⏰</span>
 </pre>
 
-    <pre><span class="cm">// Real-world API simulation</span>
+          <pre><span class="cm">// Real-world API simulation</span>
 function fetchData(callback) {
   setTimeout(() => {
     const data = { id: 1, name: 'Angular Dev' };
@@ -2376,7 +2390,7 @@ fetchData(function(data) {
 <span class="cm">// Angular Dev</span>
 </pre>
 
-    <pre><span class="cm">// Event listener callback</span>
+          <pre><span class="cm">// Event listener callback</span>
 button.addEventListener('click', function () {
   console.log('Button clicked 🔥');
 });
@@ -2384,7 +2398,7 @@ button.addEventListener('click', function () {
 <span class="cm">// Function runs only when user clicks</span>
 </pre>
 
-    <pre><span class="cm">// Callback hell 😬</span>
+          <pre><span class="cm">// Callback hell 😬</span>
 loginUser(function(user) {
   getProfile(user.id, function(profile) {
     getPosts(profile.id, function(posts) {
@@ -2397,7 +2411,7 @@ loginUser(function(user) {
 <span class="cm">// Solved using Promises / async-await</span>
 </pre>
 
-    <pre><span class="cm">// Common mistake ❌</span>
+          <pre><span class="cm">// Common mistake ❌</span>
 function execute(callback) {
   callback();
 }
@@ -2412,7 +2426,7 @@ execute(function () {
 });
 </pre>
 
-    <pre><span class="cm">// Callback with error handling</span>
+          <pre><span class="cm">// Callback with error handling</span>
 function divide(a, b, callback) {
   if (b === 0) {
     callback('Cannot divide by zero', null);
@@ -2434,17 +2448,17 @@ divide(10, 2, function(err, result) {
 <span class="cm">// 5</span>
 </pre>
 
-    <div class="warn-box">
-      ⚠️ RULES:
-      <ul>
-        <li>Callbacks are heavily used in <strong>events, APIs, timers</strong></li>
-        <li>Avoid deeply nested callbacks → use <strong>Promises / async-await</strong></li>
-        <li>Always validate callback before calling</li>
-        <li>Callbacks enable <strong>non-blocking async behavior</strong> in JS</li>
-      </ul>
-    </div>
-  </div>
-</div>
+          <div class="warn-box">
+            ⚠️ RULES:
+            <ul>
+              <li>Callbacks are heavily used in <strong>events, APIs, timers</strong></li>
+              <li>Avoid deeply nested callbacks → use <strong>Promises / async-await</strong></li>
+              <li>Always validate callback before calling</li>
+              <li>Callbacks enable <strong>non-blocking async behavior</strong> in JS</li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="card c-rose">
         <div class="card-header">
           <div class="card-icon">🧠</div>
@@ -2779,7 +2793,618 @@ form.valueChanges.pipe(
   </div>
 
   <!-- ══════════════════════════════════════════════════════════════════════
-     TAB 12 — MASTER TL;DR
+     TAB 12 — JS ESS
+══════════════════════════════════════════════════════════════════════ -->
+  <div id="java-essentials" class="section">
+    <div class="section-label"> JAVA ESSENTIALS</div>
+    <div class="grid">
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- CAP THEOREM -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-purple">
+        <div class="card-header">
+          <div class="card-icon">⚖️</div>
+          <span class="card-title">CAP Theorem</span>
+          <span class="card-tag"> Distributed Systems</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>C</strong> = Consistency → all users see same data</li>
+            <li><strong>A</strong> = Availability → system always responds</li>
+            <li><strong>P</strong> = Partition Tolerance → survives network split</li>
+            <li>Distributed systems can only fully guarantee <strong>2 of 3</strong></li>
+            <li>Modern systems usually choose <strong>CP</strong> or <strong>AP</strong></li>
+          </ul>
+
+          <pre><span class="cm">// Consistency-first (Banking)</span>
+this.http.post('/api/transfer', data)
+.subscribe(response => {
+  this.balance = response.newBalance;
+});
+
+<span class="cm">// Wait for server confirmation ✅</span>
+</pre>
+
+          <pre><span class="cm">// Availability-first (Social Media)</span>
+this.likes++; <span class="cm">// optimistic update</span>
+
+this.http.post('/api/like', {id}).subscribe(
+  () => {},
+  () => this.likes-- <span class="cm">// rollback if failed</span>
+);
+
+<span class="cm">// Fast UX, eventual consistency ⚡</span>
+</pre>
+
+          <pre><span class="cm">// CP Example</span>
+US server ↔ EU server connection broken
+
+EU users:
+"System temporarily unavailable"
+
+<span class="cm">// Better unavailable than inconsistent</span>
+</pre>
+
+          <pre><span class="cm">// AP Example</span>
+US sees quote price = $100
+EU sees quote price = $80
+
+<span class="cm">// Temporary inconsistency accepted</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ RULES:
+            <ul>
+              <li><strong>Banking/Finance</strong> → Prefer Consistency</li>
+              <li><strong>Social/Feeds</strong> → Prefer Availability</li>
+              <li>Partition tolerance is usually mandatory in cloud systems</li>
+              <li>Frontend UX depends on backend CAP choice</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- API DESIGN -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-blue">
+        <div class="card-header">
+          <div class="card-icon">🚀</div>
+          <span class="card-title">API Design for 100M Requests/Day</span>
+          <span class="card-tag"> Scalability</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>100M/day ≈ <strong>1157 req/sec average</strong></li>
+            <li>Peak traffic can hit <strong>5000 req/sec</strong></li>
+            <li>Need caching, load balancing, async processing</li>
+            <li>Never return huge datasets directly</li>
+          </ul>
+
+          <pre><span class="cm">// Pagination ✅</span>
+GET /api/quotes?page=0&limit=50
+
+this.http.get('/api/quotes?page=0&limit=50');
+
+<span class="cm">// Only fetch 50 rows</span>
+</pre>
+
+          <pre><span class="cm">// Filtering ✅</span>
+GET /api/quotes?status=pending
+
+<span class="cm">// Reduce unnecessary data transfer</span>
+</pre>
+
+          <pre><span class="cm">// Cursor-based pagination</span>
+GET /api/quotes?cursor=12345&limit=50
+
+<span class="cm">// Faster than OFFSET for huge datasets</span>
+</pre>
+
+          <pre><span class="cm">// Cache Layer (Redis)</span>
+1000 req/sec
+700 served from cache ⚡
+300 hit database 🐢
+</pre>
+
+          <pre><span class="cm">// Async Processing</span>
+POST /generate-report
+
+<span class="cm">// Queue job → return immediately</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ SCALING RULES:
+            <ul>
+              <li>Always paginate APIs</li>
+              <li>Cache top frequently accessed queries</li>
+              <li>Use CDN for images/static assets</li>
+              <li>Move slow operations to queues</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- REST vs gRPC -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-green">
+        <div class="card-header">
+          <div class="card-icon">🔌</div>
+          <span class="card-title">REST vs gRPC</span>
+          <span class="card-tag"> Communication</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>REST</strong> → JSON + HTTP/1.1</li>
+            <li><strong>gRPC</strong> → Binary + HTTP/2</li>
+            <li>REST easier for browsers/public APIs</li>
+            <li>gRPC faster for microservices</li>
+          </ul>
+
+          <pre><span class="cm">// REST</span>
+GET /api/quotes/123
+
+{
+  "id": 123,
+  "amount": 50000
+}
+
+<span class="cm">// Human-readable JSON</span>
+</pre>
+
+          <pre><span class="cm">// Angular uses REST</span>
+this.http.get('/api/quotes/123')
+.subscribe(data => this.quote = data);
+</pre>
+
+          <pre><span class="cm">// gRPC internal service call</span>
+service QuoteService {
+  rpc GetQuote(QuoteId) returns (Quote);
+}
+
+<span class="cm">// Binary protocol, ultra-fast ⚡</span>
+</pre>
+
+          <pre><span class="cm">// Real architecture</span>
+Angular UI ←REST→ API Gateway
+API Gateway ←gRPC→ Microservices
+</pre>
+
+          <div class="warn-box">
+            ⚠️ USE CASES:
+            <ul>
+              <li>REST → Browser/mobile/public APIs</li>
+              <li>gRPC → Internal microservices</li>
+              <li>REST easier to debug</li>
+              <li>gRPC smaller payload + lower latency</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- ACID vs BASE -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-red">
+        <div class="card-header">
+          <div class="card-icon">🏦</div>
+          <span class="card-title">ACID vs BASE</span>
+          <span class="card-tag"> Transactions</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>ACID</strong> = strict consistency</li>
+            <li><strong>BASE</strong> = eventual consistency</li>
+            <li>ACID for money/legal systems</li>
+            <li>BASE for social/realtime systems</li>
+          </ul>
+
+          <pre><span class="cm">// ACID transaction</span>
+BEGIN TRANSACTION
+
+UPDATE accountA -100
+UPDATE accountB +100
+
+COMMIT
+
+<span class="cm">// All succeed or rollback ✅</span>
+</pre>
+
+          <pre><span class="cm">// Spring Boot ACID</span>
+@Transactional
+public void transfer() {
+  deduct();
+  add();
+}
+</pre>
+
+          <pre><span class="cm">// BASE optimistic update</span>
+this.likes++;
+
+this.http.post('/api/like', data)
+.subscribe(
+  () => {},
+  () => this.likes--
+);
+
+<span class="cm">// Eventual consistency ⚡</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ CHOOSE WISELY:
+            <ul>
+              <li>Payments/transfers → ACID</li>
+              <li>Likes/comments/views → BASE</li>
+              <li>ACID = slower but safe</li>
+              <li>BASE = faster but temporarily stale</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SERVICE MESH -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-orange">
+        <div class="card-header">
+          <div class="card-icon">🕸️</div>
+          <span class="card-title">Service Mesh (Istio)</span>
+          <span class="card-tag"> Microservices</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Handles retries, timeouts, circuit breakers</li>
+            <li>Implemented via sidecar proxy (Envoy)</li>
+            <li>Policies configured in YAML</li>
+            <li>Removes boilerplate from services</li>
+          </ul>
+
+          <pre><span class="cm">// Without mesh ❌</span>
+try {
+  accountService.get(id);
+} catch {
+  retry();
+}
+</pre>
+
+          <pre><span class="cm">// With mesh ✅</span>
+accountService.get(id);
+
+<span class="cm">// Mesh handles retries automatically</span>
+</pre>
+
+          <pre><span class="cm">// Istio Retry Policy</span>
+retries:
+  attempts: 3
+  perTryTimeout: 5s
+
+timeout: 10s
+</pre>
+
+          <pre><span class="cm">// Circuit Breaker</span>
+If service fails 5 times:
+  STOP sending traffic temporarily
+</pre>
+
+          <div class="warn-box">
+            ⚠️ BENEFITS:
+            <ul>
+              <li>Automatic retries</li>
+              <li>Circuit breakers prevent cascading failures</li>
+              <li>Centralized policies</li>
+              <li>Built-in monitoring/tracing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- MULTI TENANCY -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-cyan">
+        <div class="card-header">
+          <div class="card-icon">🏢</div>
+          <span class="card-title">Multi-Tenancy</span>
+          <span class="card-tag"> Data Isolation</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Multiple customers use same application</li>
+            <li>Tenant data must stay isolated</li>
+            <li>Most SaaS apps use shared DB + tenant_id</li>
+          </ul>
+
+          <pre><span class="cm">// Shared table</span>
+quotes
+--------------------------------
+id | tenant_id | amount
+1  | tenant_1  | 5000
+2  | tenant_2  | 8000
+</pre>
+
+          <pre><span class="cm">// Backend filter</span>
+SELECT * FROM quotes
+WHERE tenant_id = 'tenant_1'
+
+<span class="cm">// CRITICAL for security 🔒</span>
+</pre>
+
+          <pre><span class="cm">// Angular request</span>
+GET /api/quotes
+
+Header:
+X-Tenant-Id: tenant_1
+</pre>
+
+          <pre><span class="cm">// Dangerous ❌</span>
+SELECT * FROM quotes
+
+<span class="cm">// Missing tenant filter = data leak 😬</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ SECURITY RULES:
+            <ul>
+              <li>Every query must filter by tenant_id</li>
+              <li>Never trust tenant from URL params</li>
+              <li>Validate tenant using JWT/auth</li>
+              <li>Audit log all access</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- CQRS -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-pink">
+        <div class="card-header">
+          <div class="card-icon">📚</div>
+          <span class="card-title">CQRS</span>
+          <span class="card-tag"> Read/Write Separation</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Command</strong> = writes</li>
+            <li><strong>Query</strong> = reads</li>
+            <li>Separate databases optimized differently</li>
+            <li>Usually eventually consistent</li>
+          </ul>
+
+          <pre><span class="cm">// Write</span>
+POST /api/quotes
+→ PostgreSQL
+
+<span class="cm">// Read</span>
+GET /api/quotes
+→ Elasticsearch
+</pre>
+
+          <pre><span class="cm">// Workflow</span>
+1. Write quote
+2. Publish event
+3. Update read database
+4. UI reads optimized data
+</pre>
+
+          <pre><span class="cm">// Benefits</span>
+✓ Faster reads
+✓ Scale independently
+✓ Different DBs for different workloads
+</pre>
+
+          <pre><span class="cm">// Tradeoffs</span>
+✗ More complexity
+✗ Eventual consistency
+✗ Multiple databases
+</pre>
+
+          <div class="warn-box">
+            ⚠️ USE CQRS WHEN:
+            <ul>
+              <li>Heavy analytics/search</li>
+              <li>High read traffic</li>
+              <li>Different scaling needs for reads/writes</li>
+              <li>NOT for simple CRUD apps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- EVENT SOURCING -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-indigo">
+        <div class="card-header">
+          <div class="card-icon">📜</div>
+          <span class="card-title">Event Sourcing</span>
+          <span class="card-tag"> Audit Trail</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Store events instead of current state</li>
+            <li>Events are immutable (append-only)</li>
+            <li>Current state reconstructed by replaying events</li>
+          </ul>
+
+          <pre><span class="cm">// Events</span>
+QuoteCreated
+QuoteAmountChanged
+QuoteApproved
+</pre>
+
+          <pre><span class="cm">// Current state derived from replay</span>
+Quote:
+{
+  amount: 50000,
+  status: 'approved'
+}
+</pre>
+
+          <pre><span class="cm">// Time travel ⏳</span>
+Replay events until:
+2026-05-01 10:00 AM
+
+<span class="cm">// Restore past state</span>
+</pre>
+
+          <pre><span class="cm">// Benefits</span>
+✓ Full audit history
+✓ Undo/redo possible
+✓ Debugging easier
+</pre>
+
+          <div class="warn-box">
+            ⚠️ USE WHEN:
+            <ul>
+              <li>Finance/compliance systems</li>
+              <li>Need audit trail</li>
+              <li>Complex workflows</li>
+              <li>NOT for simple CRUD</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- RATE LIMITING -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-yellow">
+        <div class="card-header">
+          <div class="card-icon">🚦</div>
+          <span class="card-title">Rate Limiting</span>
+          <span class="card-tag"> API Protection</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Protects APIs from abuse</li>
+            <li>Common strategies: Token Bucket, Sliding Window</li>
+            <li>Returns HTTP 429 when exceeded</li>
+          </ul>
+
+          <pre><span class="cm">// Token Bucket</span>
+Bucket = 100 tokens
+Each request = 1 token
+
+Refill:
+10 tokens/second
+
+<span class="cm">// Allows bursts ⚡</span>
+</pre>
+
+          <pre><span class="cm">// Sliding Window</span>
+Max 10 requests/second
+
+Track all requests in current window
+
+<span class="cm">// Strict enforcement 🔒</span>
+</pre>
+
+          <pre><span class="cm">// Response</span>
+HTTP 429 Too Many Requests
+
+Retry-After: 10
+</pre>
+
+          <pre><span class="cm">// Multi-level limiting</span>
+✓ Global limit
+✓ Per-user limit
+✓ Per-IP limit
+✓ Per-endpoint limit
+</pre>
+
+          <div class="warn-box">
+            ⚠️ BEST PRACTICE:
+            <ul>
+              <li>Token bucket for general APIs</li>
+              <li>Sliding window for strict quotas</li>
+              <li>Store counters in Redis</li>
+              <li>Protect expensive endpoints harder</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+      <!-- SHARDING -->
+      <!-- ═══════════════════════════════════════════════════════════════ -->
+
+      <div class="card c-teal">
+        <div class="card-header">
+          <div class="card-icon">🧩</div>
+          <span class="card-title">Database Sharding</span>
+          <span class="card-tag"> Scaling</span>
+        </div>
+
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Split huge database across multiple servers</li>
+            <li>Improves scalability and performance</li>
+            <li>Requires good sharding key selection</li>
+          </ul>
+
+          <pre><span class="cm">// Hash-based sharding</span>
+shardId = hash(customerId) % 4
+
+Customer 123 → Shard 2
+Customer 456 → Shard 1
+</pre>
+
+          <pre><span class="cm">// Range-based sharding</span>
+Shard 1: IDs 0-250M
+Shard 2: IDs 250M-500M
+
+<span class="cm">// Simple but can create hot shards</span>
+</pre>
+
+          <pre><span class="cm">// Good shard key ✅</span>
+customerId
+tenantId
+
+<span class="cm">// Evenly distributed</span>
+</pre>
+
+          <pre><span class="cm">// Bad shard key ❌</span>
+timestamp
+status
+
+<span class="cm">// Creates hot shards 😬</span>
+</pre>
+
+          <div class="warn-box">
+            ⚠️ SHARDING RULES:
+            <ul>
+              <li>Choose immutable shard key</li>
+              <li>Shard key must distribute evenly</li>
+              <li>Cross-shard queries are expensive</li>
+              <li>Hash-based is most common</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ══════════════════════════════════════════════════════════════════════
+     TAB 13 — MASTER TL;DR
 ══════════════════════════════════════════════════════════════════════ -->
   <div id="summary" class="section">
     <div class="section-label">🎯 Master TL;DR — Everything at a Glance</div>
