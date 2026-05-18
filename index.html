@@ -704,8 +704,14 @@
     /* ═══ MASTER SUMMARY CARD ═══ */
     .master-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1rem;
+      align-items: start;
+    }
+
+    /* prevents overflow inside grid items */
+    .master-grid>div {
+      min-width: 0;
     }
 
     .master-col .label {
@@ -719,6 +725,32 @@
       font-size: .72rem;
       letter-spacing: .05em;
       padding-bottom: 2rem;
+    }
+
+    .accordion {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .accordion-header {
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      padding-top: 0;
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 2000px;
+      padding-top: 16px;
     }
   </style>
 </head>
@@ -4091,7 +4123,7 @@ Single JOIN query
         <div class="card-header">
           <div class="card-icon">🟦</div>
           <span class="card-title">TypeScript — DSA Syntax</span>
-          <span class="card-tag">TS Quick Revise</span>
+          <span class="card-tag">Interview Cheat Sheet</span>
         </div>
 
         <div class="card-body master-grid">
@@ -4099,30 +4131,48 @@ Single JOIN query
           <div>
             <div class="label">Variables</div>
             <ul class="rule-list">
-              <li><span class="chip">let</span> num: number = 10</li>
-              <li><span class="chip">const</span> name: string = "Sam"</li>
+              <li><span class="chip">let / const</span></li>
+              <li><span class="chip">number / string / boolean</span></li>
               <li>Array → <span class="chip">number[]</span></li>
-              <li>Boolean → <span class="chip">boolean</span></li>
+              <li>
+                Example:
+                <pre class="chip">let n: number = 10;</pre>
+              </li>
             </ul>
           </div>
 
           <div>
-            <div class="label">Set</div>
+            <div class="label">Set (Remove duplicates)</div>
             <ul class="rule-list">
-              <li><span class="chip">new Set&lt;number&gt;()</span></li>
-              <li>Add → <span class="chip">set.add(1)</span></li>
-              <li>Delete → <span class="chip">set.delete(1)</span></li>
-              <li>Check → <span class="chip">set.has(1)</span></li>
+              <li><span class="chip">new Set()</span></li>
+              <li>Add → <span class="chip">set.add(x)</span></li>
+              <li>Check → <span class="chip">set.has(x)</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+const s = new Set<number>();
+s.add(1);
+s.add(2);
+console.log(s.has(2));
+          </pre>
+              </li>
             </ul>
           </div>
 
           <div>
-            <div class="label">Map</div>
+            <div class="label">Map (Frequency / lookup)</div>
             <ul class="rule-list">
               <li><span class="chip">new Map()</span></li>
-              <li>Insert → <span class="chip">map.set(k,v)</span></li>
-              <li>Read → <span class="chip">map.get(k)</span></li>
-              <li>Delete → <span class="chip">map.delete(k)</span></li>
+              <li>Set → <span class="chip">map.set(k,v)</span></li>
+              <li>Get → <span class="chip">map.get(k)</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+const mp = new Map<string, number>();
+mp.set("a", 1);
+console.log(mp.get("a"));
+          </pre>
+              </li>
             </ul>
           </div>
 
@@ -4130,1643 +4180,1764 @@ Single JOIN query
             <div class="label">Conditionals</div>
             <ul class="rule-list">
               <li><span class="chip">if / else</span></li>
-              <li><span class="chip">switch(case)</span></li>
-              <li>Strict compare → <span class="chip">===</span></li>
-              <li>Ternary → <span class="chip">cond ? a : b</span></li>
+              <li><span class="chip">switch</span></li>
+              <li>Ternary → <span class="chip">a ? b : c</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+if (n > 0) console.log("pos");
+else console.log("neg");
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Loops (Most used in DSA)</div>
+            <ul class="rule-list">
+              <li><span class="chip">for</span></li>
+              <li><span class="chip">for...of</span></li>
+              <li><span class="chip">while</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+for (let i = 0; i < arr.length; i++) {
+  console.log(arr[i]);
+}
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Array Ops (VERY IMPORTANT)</div>
+            <ul class="rule-list">
+              <li><span class="chip">push / pop</span></li>
+              <li><span class="chip">shift / unshift</span></li>
+              <li><span class="chip">slice / splice</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+arr.push(10);
+arr.pop();
+arr.sort((a,b)=>a-b);
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Logs (Debugging)</div>
+            <ul class="rule-list">
+              <li><span class="chip">console.log(x)</span></li>
+              <li>Array → <span class="chip">console.log([...arr])</span></li>
+              <li>Map → <span class="chip">console.log(Array.from(mp))</span></li>
+              <li>
+                Template:
+                <pre class="chip">console.log(`val=${x}`);</pre>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <!-- JAVA CARD -->
+      <div class="card c-pink full">
+        <div class="card-header">
+          <div class="card-icon">☕</div>
+          <span class="card-title">Java — DSA Syntax</span>
+          <span class="card-tag">Interview Cheat Sheet</span>
+        </div>
+
+        <div class="card-body master-grid">
+
+          <div>
+            <div class="label">Variables</div>
+            <ul class="rule-list">
+              <li><span class="chip">int, String, boolean</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+int n = 10;
+String s = "hello";
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">HashSet (Unique values)</div>
+            <ul class="rule-list">
+              <li><span class="chip">HashSet&lt;&gt;</span></li>
+              <li>Add → <span class="chip">add()</span></li>
+              <li>Check → <span class="chip">contains()</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+Set<Integer> set = new HashSet<>();
+set.add(1);
+System.out.println(set.contains(1));
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">HashMap (Frequency / lookup)</div>
+            <ul class="rule-list">
+              <li><span class="chip">HashMap&lt;&gt;</span></li>
+              <li>Put → <span class="chip">put(k,v)</span></li>
+              <li>Get → <span class="chip">get(k)</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+Map<String,Integer> mp = new HashMap<>();
+mp.put("a",1);
+System.out.println(mp.get("a"));
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Conditionals</div>
+            <ul class="rule-list">
+              <li><span class="chip">if / else</span></li>
+              <li><span class="chip">switch</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+if(n > 0) System.out.println("pos");
+else System.out.println("neg");
+          </pre>
+              </li>
             </ul>
           </div>
 
           <div>
             <div class="label">Loops</div>
             <ul class="rule-list">
-              <li><span class="chip">for(let i=0...)</span></li>
-              <li><span class="chip">for...of</span> arrays</li>
-              <li><span class="chip">for...in</span> object keys</li>
-              <li><span class="chip">while(condition)</span></li>
+              <li><span class="chip">for</span></li>
+              <li><span class="chip">for-each</span></li>
+              <li><span class="chip">while</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+for(int i=0;i<n;i++){
+  System.out.println(i);
+}
+          </pre>
+              </li>
             </ul>
           </div>
 
           <div>
-            <div class="label">Useful DSA APIs</div>
+            <div class="label">Collections (DSA core)</div>
             <ul class="rule-list">
-              <li><span class="chip">arr.push()</span></li>
-              <li><span class="chip">arr.pop()</span></li>
-              <li><span class="chip">arr.shift()</span></li>
-              <li><span class="chip">arr.sort((a,b)=>a-b)</span></li>
+              <li><span class="chip">Arrays.sort()</span></li>
+              <li><span class="chip">Collections.sort()</span></li>
+              <li><span class="chip">Queue / Stack</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+Arrays.sort(arr);
+Stack<Integer> st = new Stack<>();
+st.push(10);
+          </pre>
+              </li>
             </ul>
           </div>
 
-          <div class="label">Print / Logs</div>
+          <div>
+            <div class="label">Logs (Debugging)</div>
+            <ul class="rule-list">
+              <li><span class="chip">System.out.println()</span></li>
+              <li>Array → <span class="chip">Arrays.toString()</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+System.out.println(Arrays.toString(arr));
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <!-- PYTHON CARD -->
+      <div class="card c-green full">
+        <div class="card-header">
+          <div class="card-icon">🐍</div>
+          <span class="card-title">Python — DSA Syntax</span>
+          <span class="card-tag">Interview Cheat Sheet</span>
+        </div>
+
+        <div class="card-body master-grid">
+
+          <div>
+            <div class="label">Variables</div>
+            <ul class="rule-list">
+              <li><span class="chip">int / str / bool</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+n = 10
+s = "hello"
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Set (Unique values)</div>
+            <ul class="rule-list">
+              <li><span class="chip">set()</span></li>
+              <li>Add → <span class="chip">add()</span></li>
+              <li>Check → <span class="chip">in</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+s = set()
+s.add(1)
+print(1 in s)
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Dict (Frequency / lookup)</div>
+            <ul class="rule-list">
+              <li><span class="chip">{}</span></li>
+              <li>Insert → <span class="chip">mp[k]=v</span></li>
+              <li>Get → <span class="chip">mp.get(k)</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+mp = {}
+mp["a"] = 1
+print(mp.get("a"))
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Conditionals</div>
+            <ul class="rule-list">
+              <li><span class="chip">if / elif / else</span></li>
+              <li><span class="chip">match-case</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+if n > 0:
+    print("pos")
+else:
+    print("neg")
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Loops</div>
+            <ul class="rule-list">
+              <li><span class="chip">for in range</span></li>
+              <li><span class="chip">for x in arr</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+for i in range(n):
+    print(i)
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Collections (DSA core)</div>
+            <ul class="rule-list">
+              <li><span class="chip">list</span></li>
+              <li><span class="chip">deque</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+from collections import deque
+q = deque()
+q.append(1)
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div class="label">Logs (Debugging)</div>
+            <ul class="rule-list">
+              <li><span class="chip">print()</span></li>
+              <li>List → <span class="chip">print(arr)</span></li>
+              <li>
+                Example:
+                <pre class="chip">
+print(f"value = {n}")
+          </pre>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+      <!-- ACCORDION CARD -->
+      <div class="accordion">
+        <!-- 30-sec interview answers -->
+        <div class="card c-purple full  accordion-item active">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">🎙️</div><span class="card-title">30-Second Interview Answers</span><span
+              class="card-tag">Say This</span>
+          </div>
+          <div class="card-body accordion-content"
+            style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">
+            <div>
+              <div class="label">AsyncPipe</div>
+              <div class="quote-box">"AsyncPipe subscribes to an Observable or Promise in the template, renders the
+                latest
+                value, triggers change detection, and auto-unsubscribes on destroy — preventing memory leaks."</div>
+            </div>
+            <div>
+              <div class="label">any vs unknown</div>
+              <div class="quote-box">"<code>any</code> disables all type checks — bugs show at runtime.
+                <code>unknown</code> forces type narrowing before use, so errors are caught at compile time."
+              </div>
+            </div>
+            <div>
+              <div class="label">Custom Async Pipe</div>
+              <div class="quote-box">"A custom async pipe manually subscribes, stores latest value, calls
+                markForCheck(),
+                and unsubscribes on destroy. It's useful for loading/error state handling beyond the built-in
+                AsyncPipe."
+              </div>
+            </div>
+            <div>
+              <div class="label">Reactive vs Template Forms</div>
+              <div class="quote-box">"Template-driven forms are simpler for static/small forms. Reactive forms define
+                structure in TypeScript using FormBuilder and Validators — better for dynamic fields and NgRx
+                integration."</div>
+            </div>
+            <div>
+              <div class="label">NgZone</div>
+              <div class="quote-box">"NgZone lets me run heavy operations outside Angular's change detection cycle using
+                runOutsideAngular, preventing unnecessary re-renders for ML, charts, or WebSocket processing."</div>
+            </div>
+            <div>
+              <div class="label">Standalone vs NgModule</div>
+              <div class="quote-box">"Standalone components skip NgModule boilerplate — bootstrapApplication directly
+                registers providers. It's better for tree-shaking, lazy loading, and microfrontend integration."</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Angular 21  Core & Features -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🚀</div>
+            <span class="card-title">Angular 21 Core</span>
+            <span class="card-tag">Deep Dive</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">What are Signals in Angular 21, and how do they differ from traditional Reactive Forms?
+              </div>
+              <div class="quote-box">
+                "Signals are fine-grained reactive primitives that track dependencies at read time and update only the
+                consumers that depend on them.<br><br>
+
+                Unlike Reactive Forms, which rely on RxJS Observables and push-based streams, Signals are synchronous
+                and
+                pull-based, making updates more predictable and performant.<br><br>
+
+                In large-scale applications, this reduces unnecessary recalculations and eliminates subscription
+                management overhead."<br><br>
+
+                <b>Trade-off:</b> Reactive Forms are still better for complex validation flows and async pipelines.
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">Explain Signal Forms and how they improve type safety and reactivity.</div>
+              <div class="quote-box">
+                "Signal Forms leverage TypeScript inference directly on state objects instead of abstract FormControl
+                trees, resulting in stronger type safety.<br><br>
+
+                They eliminate valueChanges subscriptions and rely on direct state mutation through update(), making
+                reactivity deterministic and easier to reason about.<br><br>
+
+                This significantly reduces boilerplate and improves maintainability in large applications."<br><br>
+
+                <b>Limitation:</b> Ecosystem maturity and fewer built-in validators compared to Reactive Forms.
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">How does Angular 21 handle zoneless change detection, and what are its performance
+                implications?</div>
+              <div class="quote-box">
+                "Angular 21 removes zone.js and shifts to explicit reactivity using Signals.<br><br>
+
+                Instead of global dirty checking triggered by async operations, updates are driven only by signal
+                dependency changes.<br><br>
+
+                This reduces CPU overhead and improves rendering predictability."<br><br>
+
+                <b>Performance Impact:</b><br>
+                🚀 Faster updates<br>
+                🚀 Reduced unnecessary checks<br>
+                🚀 Better scalability in large apps
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How would you migrate a legacy app to zoneless mode safely?</div>
+              <div class="quote-box">
+                "A safe migration strategy is incremental.<br><br>
+
+                Start by identifying components heavily dependent on async operations, then replace implicit zone-based
+                updates with Signals and effects.<br><br>
+
+                Introduce zoneless mode gradually, beginning with isolated or leaf components."<br><br>
+
+                <b>Strategy:</b><br>
+                - Replace subscriptions with signals<br>
+                - Use effect() for side effects<br>
+                - Validate UI updates manually<br><br>
+
+                <b>Risk:</b> Missed updates due to hidden dependencies.
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">Angular 21 defaults to Vitest. What are the advantages over Karma/Jasmine?</div>
+              <div class="quote-box">
+                "Vitest uses Vite’s dev server and native ESM, enabling near-instant test execution compared to Karma’s
+                browser-based runner.<br><br>
+
+                This significantly improves developer productivity and CI performance.<br><br>
+
+                It also aligns Angular testing with modern frontend ecosystems."<br><br>
+
+                <b>Key Benefit:</b> Faster feedback loops and scalable test pipelines.
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">What are potential pitfalls when migrating existing tests to Vitest?</div>
+              <div class="quote-box">
+                "Key challenges include differences in mocking APIs, async behavior, and Angular TestBed
+                integration.<br><br>
+
+                Jasmine utilities like createSpy and zone-based async helpers must be replaced with Vitest
+                equivalents."<br><br>
+
+                <b>Example:</b> vi.fn() instead of jasmine.createSpy()<br><br>
+
+                <b>Risk:</b> False positives due to incorrect async handling or missing Angular-specific setup.
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">How does Ivy + Signals improve dynamic component rendering?</div>
+              <div class="quote-box">
+                "Ivy’s incremental DOM combined with Signals enables fine-grained updates where only affected nodes
+                re-render.<br><br>
+
+                This significantly reduces reconciliation cost compared to global change detection cycles.<br><br>
+
+                Dynamic components benefit from faster instantiation and more efficient updates."<br><br>
+
+                <b>Outcome:</b> High-performance UI rendering at scale.
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div>
+              <div class="label">Describe how Signals can coexist with RxJS in Angular 21.</div>
+              <div class="quote-box">
+                "Signals and RxJS serve complementary roles.<br><br>
+
+                RxJS handles asynchronous data streams such as HTTP calls and WebSockets, while Signals manage
+                synchronous
+                UI state.<br><br>
+
+                Observables can be bridged into Signals for seamless integration."<br><br>
+
+                <b>Best Practice:</b> Use RxJS for data flow, Signals for UI state.<br><br>
+
+                <b>Anti-pattern:</b> Replacing all RxJS with Signals.
+              </div>
+            </div>
+
+            <!-- Q9 -->
+            <div>
+              <div class="label">Explain the impact of Angular 21 on tree-shaking and bundle size.</div>
+              <div class="quote-box">
+                "Angular 21 improves tree-shaking by eliminating zone.js and reducing reliance on RxJS-heavy
+                patterns.<br><br>
+
+                Signals create explicit dependency graphs, allowing unused reactive paths to be pruned during build
+                time."<br><br>
+
+                <b>Impact:</b><br>
+                📉 Smaller bundles<br>
+                ⚡ Faster load times<br>
+                🚀 Improved runtime performance
+              </div>
+            </div>
+
+            <!-- Q10 -->
+            <div>
+              <div class="label">How would you debug a Signal Forms template error after upgrading to Angular 21?</div>
+              <div class="quote-box">
+                "Most issues arise from incorrect signal access or missing reactive tracking.<br><br>
+
+                Signals must be invoked as functions in templates to establish dependencies."<br><br>
+
+                <b>Example:</b> form().name instead of form.name<br><br>
+
+                <b>Debug Strategy:</b><br>
+                - Verify signal reads in template<br>
+                - Inspect effect() dependencies<br>
+                - Check TypeScript inference<br><br>
+
+                <b>Common Pitfall:</b> Silent UI failures due to missed dependency tracking.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Rxjs and Operators -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">⚡</div>
+            <span class="card-title">RxJS & Angular 21 — Upgrade + Operators</span>
+            <span class="card-tag">Upgrade + Operators</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">After Angular 21 upgrade, multiple API calls are executing out of order. Which RxJS
+                operator ensures sequential execution?</div>
+              <div class="quote-box">
+                "Use <b>concatMap</b> to ensure sequential execution.<br><br>
+
+                It queues inner observables and executes them one after another, preserving order — critical for
+                dependent
+                API workflows.<br><br>
+
+                <b>Why not mergeMap?</b> It runs in parallel → order not guaranteed.<br><br>
+
+                <b> Insight:</b> Use concatMap when order matters (payments, transactions), otherwise prefer
+                switchMap/mergeMap for performance."
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">toPromise() is deprecated in RxJS 7+. How do you handle promise-based HTTP calls now?
+              </div>
+              <div class="quote-box">
+                "Use <b>firstValueFrom()</b> or <b>lastValueFrom()</b> depending on the use case.<br><br>
+
+                firstValueFrom → resolves on first emission (common for HTTP)<br>
+                lastValueFrom → waits for completion<br><br>
+
+                <b>Example:</b><br>
+                firstValueFrom(this.http.get('/api'))<br><br>
+
+                <b> Insight:</b> Avoid converting to promises unless integrating with async/await boundaries."
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">How would you cancel previous API calls in a search box using RxJS 7+?</div>
+              <div class="quote-box">
+                "Use <b>switchMap</b> — it cancels previous inner observables automatically.<br><br>
+
+                Ideal for search/autocomplete where only latest input matters.<br><br>
+
+                <b>Pattern:</b><br>
+                input$.pipe(debounceTime(300), switchMap(query => http.get(...)))<br><br>
+
+                <b> Insight:</b> switchMap is the default safe choice for user-driven async flows."
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How do you replace catch() for error handling in RxJS 7+?</div>
+              <div class="quote-box">
+                "Use <b>catchError</b> operator inside pipe().<br><br>
+
+                It allows graceful fallback or transformation of errors.<br><br>
+
+                <b>Example:</b><br>
+                catchError(err => of([]))<br><br>
+
+                <b> Insight:</b> Always return a new observable → never break the stream."
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">An HTTP observable triggers multiple calls across components. How do you use
+                shareReplay
+                safely?</div>
+              <div class="quote-box">
+                "Use <b>shareReplay({ bufferSize: 1, refCount: true })</b>.<br><br>
+
+                This caches the latest value and avoids duplicate API calls while preventing memory leaks.<br><br>
+
+                <b>Risk:</b> Without refCount → memory leak (hot observable never completes).<br><br>
+
+                <b> Insight:</b> Use in shared services, not components."
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">Why does tap() sometimes trigger multiple API calls, and how do you fix it?</div>
+              <div class="quote-box">
+                "tap() does not cause API calls — multiple subscriptions do.<br><br>
+
+                Each subscription re-executes the source observable (cold behavior).<br><br>
+
+                <b>Fix:</b> Use shareReplay() to share execution.<br><br>
+
+                <b> Insight:</b> Always identify cold vs hot observables during debugging."
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">How do you fix TypeScript type errors in mergeMap after Angular 21/RxJS upgrade?</div>
+              <div class="quote-box">
+                "Explicitly type the return observable in mergeMap.<br><br>
+
+                RxJS 7 has stricter typings requiring clear generics.<br><br>
+
+                <b>Example:</b><br>
+                mergeMap((res): Observable<User> => this.http.get(...))<br><br>
+
+                  <b> Insight:</b> Strong typing improves maintainability at scale."
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div>
+              <div class="label">Combine user and orders API calls in RxJS 7+ safely and clearly.</div>
+              <div class="quote-box">
+                "Use <b>forkJoin</b> for parallel execution when both results are required.<br><br>
+
+                <b>Example:</b><br>
+                forkJoin({ user: user$, orders: orders$ })<br><br>
+
+                <b>Behavior:</b> Executes in parallel, emits once when all complete.<br><br>
+
+                <b> Insight:</b> Use forkJoin for dashboard/load screens."
+              </div>
+            </div>
+
+            <!-- Q9 -->
+            <div>
+              <div class="label">How do you prevent memory leaks using takeUntilDestroyed() in Angular 16+ / 21?</div>
+              <div class="quote-box">
+                "Use <b>takeUntilDestroyed()</b> to auto-unsubscribe when component is destroyed.<br><br>
+
+                <b>Example:</b><br>
+                this.api$.pipe(takeUntilDestroyed()).subscribe()<br><br>
+
+                <b> Insight:</b> Prefer this over manual Subject cleanup — reduces boilerplate and bugs."
+              </div>
+            </div>
+
+            <!-- Q10 -->
+            <div>
+              <div class="label">Explain operator choices (concatMap, mergeMap, switchMap, forkJoin) in real-world
+                scenarios.</div>
+              <div class="quote-box">
+                "concatMap → sequential (payments)<br>
+                mergeMap → parallel (bulk APIs)<br>
+                switchMap → cancel previous (search)<br>
+                forkJoin → wait for all (dashboard)<br><br>
+
+                <b> Insight:</b> Choosing wrong operator leads to race conditions or performance issues."
+              </div>
+            </div>
+
+            <!-- Q11 -->
+            <div>
+              <div class="label">Conditional RxJS streams behave differently after upgrade. How do you fix it?</div>
+              <div class="quote-box">
+                "Use <b>iif()</b> or conditional logic inside switchMap.<br><br>
+
+                Avoid branching outside stream — keep logic declarative.<br><br>
+
+                <b> Insight:</b> Streams should remain composable and predictable."
+              </div>
+            </div>
+
+            <!-- Q12 -->
+            <div>
+              <div class="label">How do you prevent repeated emissions in upgraded RxJS observables?</div>
+              <div class="quote-box">
+                "Use <b>distinctUntilChanged()</b> or <b>distinctUntilKeyChanged()</b>.<br><br>
+
+                Prevents unnecessary re-renders and API calls.<br><br>
+
+                <b> Insight:</b> Critical for performance in large apps."
+              </div>
+            </div>
+
+            <!-- Q13 -->
+            <div>
+              <div class="label">How do you cancel nested observables properly in Angular 21?</div>
+              <div class="quote-box">
+                "Use <b>switchMap</b> instead of nested subscriptions.<br><br>
+
+                This ensures previous inner observables are cancelled automatically.<br><br>
+
+                <b>Anti-pattern:</b> subscribe inside subscribe<br><br>
+
+                <b> Insight:</b> Flat streams = maintainable code."
+              </div>
+            </div>
+
+            <!-- Q14 -->
+            <div>
+              <div class="label">How would you combine debounceTime, distinctUntilChanged, and switchMap for live
+                validation forms?</div>
+              <div class="quote-box">
+                "Use pipeline:<br><br>
+
+                debounceTime → reduce API calls<br>
+                distinctUntilChanged → ignore duplicates<br>
+                switchMap → cancel stale requests<br><br>
+
+                <b> Insight:</b> This pattern is standard for scalable UX."
+              </div>
+            </div>
+
+            <!-- Q15 -->
+            <div>
+              <div class="label">Rewrite forkJoin for clarity and safety after Angular 21 upgrade.</div>
+              <div class="quote-box">
+                "Use object-based forkJoin instead of array for clarity.<br><br>
+
+                <b>Example:</b><br>
+                forkJoin({ user: user$, orders: orders$ })<br><br>
+
+                Improves readability and type safety.<br><br>
+
+                <b> Insight:</b> Prefer self-documenting code in large teams."
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Ivy AOT JIT -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">⚙️</div>
+            <span class="card-title">Ivy, AOT & JIT — Compiler + Runtime</span>
+            <span class="card-tag">Compiler + Runtime</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">What is Ivy, and how does it differ from View Engine?</div>
+              <div class="quote-box">
+                "Ivy is Angular’s next-generation rendering and compilation engine that replaces View Engine with a more
+                efficient, instruction-based runtime.<br><br>
+
+                Instead of generating large factory files, Ivy compiles components into small, tree-shakable
+                instructions
+                embedded directly in the component.<br><br>
+
+                <b>Key Difference:</b><br>
+                View Engine → metadata + factories<br>
+                Ivy → local, component-level compilation<br><br>
+
+                <b> Insight:</b> Ivy reduces framework overhead and enables fine-grained optimization similar to modern
+                frameworks."
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">How does Ivy improve bundle size, performance, and tree-shaking?</div>
+              <div class="quote-box">
+                "Ivy improves bundle size by compiling only the code that is actually used, thanks to its locality
+                principle.<br><br>
+
+                Tree-shaking becomes more effective because unused components and instructions are eliminated at build
+                time.<br><br>
+
+                Performance improves due to smaller bundles and faster runtime execution with direct DOM
+                instructions.<br><br>
+
+                <b> Insight:</b> Smaller JS footprint directly impacts Core Web Vitals and large-scale app performance."
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">Describe partial compilation in Ivy.</div>
+              <div class="quote-box">
+                "Partial compilation means libraries are compiled into an intermediate format that can be fully compiled
+                later during application build.<br><br>
+
+                This allows better compatibility across Angular versions and enables faster incremental builds.<br><br>
+
+                <b> Insight:</b> Critical for large monorepos and shared library ecosystems."
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How does Ivy affect ComponentFactoryResolver and dynamic component loading?</div>
+              <div class="quote-box">
+                "With Ivy, ComponentFactoryResolver is no longer required because components can be instantiated
+                directly.<br><br>
+
+                <b>Example:</b> createComponent(Component)<br><br>
+
+                This simplifies dynamic component loading and reduces boilerplate.<br><br>
+
+                <b> Insight:</b> Improves developer ergonomics and runtime performance."
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">Explain the difference between AOT and JIT compilation.</div>
+              <div class="quote-box">
+                "AOT (Ahead-of-Time) compiles templates during build time, while JIT (Just-in-Time) compiles them in the
+                browser at runtime.<br><br>
+
+                AOT → faster startup, smaller bundle, early error detection<br>
+                JIT → faster development, more flexible debugging<br><br>
+
+                <b> Insight:</b> AOT is the default for production systems."
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">How does AOT improve runtime performance and error detection?</div>
+              <div class="quote-box">
+                "AOT eliminates runtime compilation, reducing CPU usage and improving initial load time.<br><br>
+
+                It also performs static analysis, catching template and type errors at build time instead of
+                runtime.<br><br>
+
+                <b> Insight:</b> Shifts failure detection left → critical for reliability in large systems."
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">Why might an app work in JIT but fail in AOT? How do you debug?</div>
+              <div class="quote-box">
+                "JIT is more permissive and allows dynamic patterns that AOT cannot statically analyze.<br><br>
+
+                Common issues include missing decorators, dynamic imports, or incorrect typings.<br><br>
+
+                <b>Debug Strategy:</b><br>
+                - Enable strict templates<br>
+                - Check Angular compiler errors<br>
+                - Avoid dynamic code patterns<br><br>
+
+                <b> Insight:</b> AOT failures often reveal hidden architectural issues."
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div>
+              <div class="label">How does AOT affect lazy-loaded modules?</div>
+              <div class="quote-box">
+                "AOT compiles lazy-loaded modules into separate chunks during build time.<br><br>
+
+                This improves load performance and ensures type safety even for lazy modules.<br><br>
+
+                <b> Insight:</b> Enables scalable microfrontend-like architecture."
+              </div>
+            </div>
+
+            <!-- Q9 -->
+            <div>
+              <div class="label">When would you prefer JIT over AOT in modern Angular apps?</div>
+              <div class="quote-box">
+                "JIT is preferred during development for faster rebuilds and debugging flexibility.<br><br>
+
+                It may also be useful in highly dynamic plugin-based systems.<br><br>
+
+                <b> Insight:</b> Rarely used in production due to performance and security concerns."
+              </div>
+            </div>
+
+            <!-- Q10 -->
+            <div>
+              <div class="label">Can JIT and Ivy coexist in Angular 21? Explain benefits/risks.</div>
+              <div class="quote-box">
+                "Yes, Ivy is the rendering engine while JIT/AOT are compilation strategies — they can coexist.<br><br>
+
+                <b>Benefit:</b> Flexible development + optimized production builds<br>
+                <b>Risk:</b> Behavioral inconsistencies if relying on JIT-only patterns<br><br>
+
+                <b> Insight:</b> Always validate with AOT to ensure production stability."
+              </div>
+            </div>
+
+            <!-- Q11 -->
+            <div>
+              <div class="label">How do Angular decorators (@Injectable, @Component) interact differently with Ivy?
+              </div>
+              <div class="quote-box">
+                "In Ivy, decorators are compiled into static fields on the class instead of external metadata
+                files.<br><br>
+
+                This enables better tree-shaking and faster compilation.<br><br>
+
+                <b> Insight:</b> Reduces reflection usage and improves runtime efficiency."
+              </div>
+            </div>
+
+            <!-- Q12 -->
+            <div>
+              <div class="label">Explain how Ivy + AOT affects dynamic imports.</div>
+              <div class="quote-box">
+                "Ivy + AOT ensures dynamic imports are statically analyzable and optimized into separate chunks.<br><br>
+
+                This improves lazy loading performance and avoids runtime compilation overhead.<br><br>
+
+                <b> Insight:</b> Critical for scalable code-splitting strategies."
+              </div>
+            </div>
+
+            <!-- Q13 -->
+            <div>
+              <div class="label">Compare Ivy + AOT vs View Engine + JIT in memory, initial load, runtime errors.</div>
+              <div class="quote-box">
+                "Ivy + AOT → smaller memory footprint, faster initial load, fewer runtime errors<br>
+                View Engine + JIT → larger bundles, slower startup, more runtime failures<br><br>
+
+                <b> Insight:</b> Modern Angular eliminates most runtime surprises through compile-time guarantees."
+              </div>
+            </div>
+
+            <!-- Q14 -->
+            <div>
+              <div class="label">How do you optimize build times with Ivy, AOT, and incremental compilation?</div>
+              <div class="quote-box">
+                "Use incremental builds, enable caching, and leverage partial compilation for libraries.<br><br>
+
+                Split large modules and reduce unnecessary dependencies.<br><br>
+
+                <b> Insight:</b> Build performance is critical in large monorepos and CI pipelines."
+              </div>
+            </div>
+
+            <!-- Q15 -->
+            <div>
+              <div class="label">After upgrade, a library fails AOT build but works in JIT. How do you fix it?</div>
+              <div class="quote-box">
+                "Identify non-AOT-compatible patterns such as dynamic code, missing decorators, or improper
+                typings.<br><br>
+
+                Ensure the library is compiled with partial compilation and compatible Angular version.<br><br>
+
+                <b>Steps:</b><br>
+                - Enable strict mode<br>
+                - Fix metadata errors<br>
+                - Rebuild library with ng-packagr<br><br>
+
+                <b> Insight:</b> Treat AOT failures as design issues, not just build errors."
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Performance Optimization and Debugging -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">🚀</div>
+            <span class="card-title">Performance Optimization + MFE — Interview Answers</span>
+            <span class="card-tag">Debugging + Architecture</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- PERFORMANCE SECTION -->
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">How would you debug slow initial load in an Angular 21 app?</div>
+              <div class="quote-box">
+                "I would start with bundle analysis and runtime profiling.<br><br>
+
+                <b>Steps:</b><br>
+                - Analyze bundle using source-map-explorer<br>
+                - Check large dependencies and unused code<br>
+                - Measure TTI, FCP via Lighthouse<br>
+                - Inspect network waterfalls<br><br>
+
+                Then optimize via lazy loading, removing zone.js (zoneless), and reducing RxJS overhead.<br><br>
+
+                <b> Insight:</b> Always separate network, CPU, and rendering bottlenecks."
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">How does Signals + OnPush improve change detection performance?</div>
+              <div class="quote-box">
+                "Signals provide fine-grained reactivity, while OnPush limits change detection to explicit
+                triggers.<br><br>
+
+                Combined, they eliminate global change detection cycles and update only affected components.<br><br>
+
+                <b>Result:</b><br>
+                🚀 Minimal re-renders<br>
+                🚀 Predictable updates<br><br>
+
+                <b> Insight:</b> This aligns Angular with React/Solid’s reactive model."
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">What strategies would you use to lazy-load feature modules effectively?</div>
+              <div class="quote-box">
+                "Use route-based lazy loading with dynamic imports and split by business domains.<br><br>
+
+                Preload critical modules and defer non-essential ones.<br><br>
+
+                <b>Advanced:</b><br>
+                - Predictive preloading<br>
+                - Microfrontend-based loading<br><br>
+
+                <b> Insight:</b> Align module boundaries with user journeys, not technical layers."
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How do you measure bundle size impact after upgrading to Angular 21?</div>
+              <div class="quote-box">
+                "Compare pre/post build artifacts using bundle analyzers.<br><br>
+
+                Track gzip/brotli sizes and identify changes due to Signals, Ivy, and zoneless mode.<br><br>
+
+                <b>Metrics:</b> Bundle size, TTI, FCP<br><br>
+
+                <b> Insight:</b> Always validate performance improvements with real metrics, not assumptions."
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">How would you optimize large RxJS pipelines for performance?</div>
+              <div class="quote-box">
+                "Avoid unnecessary operators and reduce emissions early using debounceTime and
+                distinctUntilChanged.<br><br>
+
+                Use switchMap for cancellation and shareReplay for caching.<br><br>
+
+                <b> Insight:</b> Optimize upstream — fewer emissions = better performance."
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">What are the best practices to avoid memory leaks in Angular 21?</div>
+              <div class="quote-box">
+                "Use takeUntilDestroyed(), avoid manual subscriptions, and clean up side effects.<br><br>
+
+                Prefer Signals over subscriptions where possible.<br><br>
+
+                <b> Insight:</b> Memory leaks in frontend apps degrade long-session performance significantly."
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">How do you optimize dynamic forms for performance?</div>
+              <div class="quote-box">
+                "Use OnPush, trackBy in ngFor, and Signals for state management.<br><br>
+
+                Avoid unnecessary re-renders by isolating form sections.<br><br>
+
+                <b> Insight:</b> Treat forms as high-frequency update systems — optimize granularity."
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div>
+              <div class="label">Explain tree-shaking pitfalls when using third-party libraries with Ivy.</div>
+              <div class="quote-box">
+                "Libraries that are not Ivy-compatible or use side effects can block tree-shaking.<br><br>
+
+                Large utility imports (e.g., full lodash) increase bundle size.<br><br>
+
+                <b>Fix:</b> Use ES modules and selective imports.<br><br>
+
+                <b> Insight:</b> Third-party code is often the biggest hidden performance cost."
+              </div>
+            </div>
+
+            <!-- Q9 -->
+            <div>
+              <div class="label">How do you handle performance regression after migration?</div>
+              <div class="quote-box">
+                "Identify regressions via profiling and compare baseline metrics.<br><br>
+
+                Roll back problematic changes and isolate root causes (signals misuse, improper RxJS usage).<br><br>
+
+                <b> Insight:</b> Always use feature flags and gradual rollout during migration."
+              </div>
+            </div>
+
+            <!-- Q10 -->
+            <div>
+              <div class="label">Explain hot module replacement (HMR) in Angular 21 and its benefits.</div>
+              <div class="quote-box">
+                "HMR updates modules in real-time without full reload, preserving app state.<br><br>
+
+                Improves developer productivity and reduces feedback loop time.<br><br>
+
+                <b> Insight:</b> Critical for large teams to iterate faster."
+              </div>
+            </div>
+
+            <!-- MFE SECTION -->
+
+            <!-- Q11 -->
+            <div>
+              <div class="label">How would you architect an Angular 21 app for future MFE adoption?</div>
+              <div class="quote-box">
+                "Design with domain-driven modules, independent deployments, and clear boundaries.<br><br>
+
+                Use module federation or similar approaches for runtime integration.<br><br>
+
+                <b> Insight:</b> Optimize for team autonomy and independent scaling."
+              </div>
+            </div>
+
+            <!-- Q12 -->
+            <div>
+              <div class="label">What patterns ensure loose coupling between features?</div>
+              <div class="quote-box">
+                "Use event-driven communication, shared contracts, and dependency inversion.<br><br>
+
+                Avoid direct imports between features.<br><br>
+
+                <b> Insight:</b> Loose coupling enables parallel team development."
+              </div>
+            </div>
+
+            <!-- Q13 -->
+            <div>
+              <div class="label">How do MFEs communicate securely (same-domain vs cross-domain)?</div>
+              <div class="quote-box">
+                "Same-domain → shared services or global event bus<br>
+                Cross-domain → postMessage with strict origin validation<br><br>
+
+                <b> Insight:</b> Security boundaries are critical in distributed frontend systems."
+              </div>
+            </div>
+
+            <!-- Q14 -->
+            <div>
+              <div class="label">How do you manage global state across MFEs?</div>
+              <div class="quote-box">
+                "Use shared state services, event buses, or backend-driven state.<br><br>
+
+                Avoid tight coupling via centralized stores unless necessary.<br><br>
+
+                <b> Insight:</b> Prefer eventual consistency over tight synchronization."
+              </div>
+            </div>
+
+            <!-- Q15 -->
+            <div>
+              <div class="label">How does Signals help MFE state management?</div>
+              <div class="quote-box">
+                "Signals provide localized, fine-grained state management within each MFE.<br><br>
+
+                They reduce dependency on global stores and improve performance.<br><br>
+
+                <b> Insight:</b> Ideal for isolating state boundaries."
+              </div>
+            </div>
+
+            <!-- Q16 -->
+            <div>
+              <div class="label">How do you handle shared libraries and version conflicts in MFEs?</div>
+              <div class="quote-box">
+                "Use strict versioning and shared dependency configuration (e.g., module federation shared
+                scope).<br><br>
+
+                Avoid duplicate framework instances.<br><br>
+
+                <b> Insight:</b> Version conflicts can break runtime — enforce governance."
+              </div>
+            </div>
+
+            <!-- Q17 -->
+            <div>
+              <div class="label">Explain lazy-loading MFEs with Angular 21.</div>
+              <div class="quote-box">
+                "Load MFEs dynamically via module federation or remote entry points.<br><br>
+
+                Combine with Angular routing for seamless navigation.<br><br>
+
+                <b> Insight:</b> Enables independent deployment and scaling of frontend systems."
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Micro-Frontend (MFE) & Modular Architecture -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">🧩</div>
+            <span class="card-title">Micro-Frontend (MFE) — Architecture + Scale</span>
+            <span class="card-tag">Architecture + Scale</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">How would you architect an Angular 21 app for future MFE adoption?</div>
+              <div class="quote-box">
+                "I would design the system using domain-driven boundaries, where each feature module represents a
+                business
+                capability (e.g., checkout, search, profile).<br><br>
+
+                The core shell app would handle routing, authentication, and shared infrastructure, while feature
+                modules
+                remain independently deployable.<br><br>
+
+                I would use runtime integration strategies like module federation to dynamically load MFEs.<br><br>
+
+                <b>Key Principles:</b><br>
+                - Independent deployability<br>
+                - Clear API contracts<br>
+                - Isolation of dependencies<br><br>
+
+                <b> Insight:</b> Optimize for team autonomy and parallel development, not just code
+                organization.<br><br>
+
+                <b>Trade-off:</b> Increased complexity in orchestration and debugging.
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">What patterns ensure loose coupling between features?</div>
+              <div class="quote-box">
+                "Loose coupling is achieved through clear contracts and indirect communication.<br><br>
+
+                <b>Patterns:</b><br>
+                - Event-driven architecture (pub/sub)<br>
+                - Dependency inversion via interfaces<br>
+                - API-based communication instead of direct imports<br><br>
+
+                Avoid sharing internal implementation details between MFEs.<br><br>
+
+                <b> Insight:</b> Loose coupling enables independent team velocity and reduces cross-team
+                dependencies.<br><br>
+
+                <b>Anti-pattern:</b> Direct module imports across MFEs.
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">How do MFEs communicate securely (same-domain vs cross-domain)?</div>
+              <div class="quote-box">
+                "Communication depends on deployment model:<br><br>
+
+                <b>Same-domain:</b><br>
+                - Shared services<br>
+                - In-memory event bus<br><br>
+
+                <b>Cross-domain:</b><br>
+                - window.postMessage with strict origin validation<br>
+                - Backend APIs as a secure intermediary<br><br>
+
+                <b>Security Considerations:</b><br>
+                - Validate message origin<br>
+                - Avoid exposing sensitive data in client communication<br><br>
+
+                <b> Insight:</b> Treat MFEs as distributed systems — enforce zero-trust boundaries."
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How do you manage global state across MFEs?</div>
+              <div class="quote-box">
+                "Global state should be minimized and carefully controlled.<br><br>
+
+                <b>Approaches:</b><br>
+                - Shared state service (for same-domain MFEs)<br>
+                - Event-driven updates (pub/sub)<br>
+                - Backend-driven state (source of truth)<br><br>
+
+                Avoid tightly coupled global stores unless absolutely necessary.<br><br>
+
+                <b> Insight:</b> Prefer eventual consistency over strict synchronization to improve scalability.<br><br>
+
+                <b>Trade-off:</b> More complexity in handling state synchronization.
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">How does Signals help MFE state management?</div>
+              <div class="quote-box">
+                "Signals provide localized, fine-grained reactivity within each MFE.<br><br>
+
+                They reduce dependency on global stores and allow each microfrontend to manage its own state
+                independently.<br><br>
+
+                Signals can also expose reactive state via controlled APIs when cross-MFE sharing is needed.<br><br>
+
+                <b> Insight:</b> Signals align well with MFE isolation principles by minimizing shared mutable
+                state.<br><br>
+
+                <b>Benefit:</b> Improved performance and reduced coupling.
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">How do you handle shared libraries and version conflicts in MFEs?</div>
+              <div class="quote-box">
+                "Use shared dependency management strategies such as module federation shared scopes.<br><br>
+
+                <b>Best Practices:</b><br>
+                - Enforce strict version compatibility<br>
+                - Share critical dependencies (e.g., Angular core) as singletons<br>
+                - Avoid duplicating large libraries<br><br>
+
+                <b> Insight:</b> Version conflicts can cause runtime failures — governance is essential.<br><br>
+
+                <b>Trade-off:</b> Tight version constraints vs flexibility for teams.
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">Explain lazy-loading MFEs with Angular 21.</div>
+              <div class="quote-box">
+                "MFEs are loaded dynamically at runtime using module federation or remote entry points.<br><br>
+
+                Angular routing can be configured to lazy-load these remote modules seamlessly.<br><br>
+
+                <b>Flow:</b><br>
+                - User navigates to route<br>
+                - Remote bundle is fetched<br>
+                - Module is bootstrapped dynamically<br><br>
+
+                <b> Insight:</b> Enables independent deployment and reduces initial bundle size.<br><br>
+
+                <b>Trade-off:</b> Network latency and runtime dependency management complexity.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Upgrade, Migration & Strategy -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">🔄</div>
+            <span class="card-title">Upgrade, Migration & Strategy — Scalability + Risk</span>
+            <span class="card-tag">Scalability + Risk</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">What are the key considerations when upgrading from Angular 17–20 to Angular 21?</div>
+              <div class="quote-box">
+                "The upgrade should be treated as a controlled migration, not just a version bump.<br><br>
+
+                <b>Key Considerations:</b><br>
+                - Signals adoption strategy (where to introduce vs keep RxJS)<br>
+                - Zoneless readiness (removal of implicit change detection)<br>
+                - RxJS 7+ compatibility and deprecated APIs<br>
+                - Test migration (Karma/Jasmine → Vitest)<br>
+                - Third-party library compatibility with Ivy/AOT<br><br>
+
+                <b>Approach:</b><br>
+                - Incremental upgrade (module-by-module)<br>
+                - Feature flags for risky changes<br>
+                - Benchmark before/after performance<br><br>
+
+                <b> Insight:</b> Large-scale upgrades are risk management problems — prioritize stability over speed."
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">How do you migrate RxJS-heavy logic to Signals without breaking observables?</div>
+              <div class="quote-box">
+                "Migration should be hybrid, not replacement.<br><br>
+
+                <b>Strategy:</b><br>
+                - Keep RxJS for async streams (HTTP, websockets)<br>
+                - Convert final UI state into Signals<br>
+                - Bridge using subscriptions or adapters<br><br>
+
+                <b>Example Pattern:</b><br>
+                Observable → subscribe → signal.set()<br><br>
+
+                Avoid rewriting complex RxJS pipelines unless necessary.<br><br>
+
+                <b> Insight:</b> Signals complement RxJS — they don’t replace it.<br><br>
+
+                <b>Risk:</b> Breaking reactive chains or duplicating state.
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">How do you handle legacy template errors after Angular 21 upgrade?</div>
+              <div class="quote-box">
+                "Angular 21 introduces stricter template type checking, exposing hidden issues.<br><br>
+
+                <b>Fix Strategy:</b><br>
+                - Enable strictTemplates and resolve errors incrementally<br>
+                - Replace unsafe bindings (null/undefined issues)<br>
+                - Ensure correct signal access (call as function)<br><br>
+
+                <b>Debugging:</b><br>
+                - Use compiler error logs<br>
+                - Isolate problematic components<br><br>
+
+                <b> Insight:</b> Treat these errors as improvements in code quality, not regressions.<br><br>
+
+                <b>Anti-pattern:</b> Disabling strict mode to bypass errors.
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How would you plan CI/CD for Angular 21 apps (Vitest, zoneless mode, build pipeline)?
+              </div>
+              <div class="quote-box">
+                "CI/CD should ensure fast feedback, stability, and reproducibility.<br><br>
+
+                <b>Pipeline Design:</b><br>
+                - Use Vitest for fast unit testing<br>
+                - Enforce AOT builds in CI<br>
+                - Add bundle size and performance checks<br>
+                - Run zoneless mode tests to catch missing updates<br><br>
+
+                <b>Advanced:</b><br>
+                - Parallel test execution<br>
+                - Incremental builds with caching<br>
+                - Canary releases for risky changes<br><br>
+
+                <b> Insight:</b> CI/CD is a performance and reliability gate, not just automation.<br><br>
+
+                <b>Risk:</b> Inconsistent behavior between local and CI environments.
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">What are the risks of adopting experimental APIs like Signal Forms in production?</div>
+              <div class="quote-box">
+                "Experimental APIs introduce uncertainty in stability and long-term support.<br><br>
+
+                <b>Risks:</b><br>
+                - Breaking changes in future versions<br>
+                - Limited ecosystem/tooling support<br>
+                - Incomplete feature set (e.g., validators)<br><br>
+
+                <b>Mitigation:</b><br>
+                - Use behind feature flags<br>
+                - Limit to non-critical flows<br>
+                - Abstract usage behind internal APIs<br><br>
+
+                <b> Insight:</b> Adopt innovation carefully — balance early advantage with operational risk.<br><br>
+
+                <b>Trade-off:</b> Faster adoption vs long-term maintainability.
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Java/ Springboot Core -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header  accordion-header">
+            <div class="card-icon">☕</div>
+            <span class="card-title">Java + Spring Boot Core</span>
+            <span class="card-tag">Backend Deep Dive</span>
+          </div>
+
+          <div class="card-body  accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <!-- FLOW -->
+            <div>
+              <div class="label">How does Spring Boot fit in a Microfrontend (Angular Sales App) architecture?</div>
+              <div class="quote-box">
+                "In a microfrontend architecture, Angular applications act as UI layers that communicate with backend
+                services via REST APIs.<br><br>
+
+                The typical request flow is:<br><br>
+
+                <b>Angular Microfrontend (UI)</b> → <b>Controller (REST API)</b> → <b>Service (Business Logic)</b> →
+                <b>Repository (Data Access)</b> → <b>Database</b><br><br>
+
+                Each layer has a clear responsibility:<br>
+                - Controller: Handles HTTP requests/responses<br>
+                - Service: Implements business rules<br>
+                - Repository: Interacts with database using JPA (Java Persistence API)<br>
+                - Database: Stores persistent data<br><br>
+
+                <b>Example:</b> Sales dashboard fetching orders → Angular calls <code>/api/orders</code> → Spring
+                processes → DB returns data → UI renders table.<br><br>
+
+                <b>Key Insight:</b> Spring Boot is the engine powering your microfrontend UI."
+              </div>
+            </div>
+
+            <!-- Q1 -->
+            <div>
+              <div class="label">How do Virtual Threads (Project Loom - Java 21) improve scalability in Spring Boot
+                applications?</div>
+              <div class="quote-box">
+                "Virtual Threads (from Project Loom) are lightweight threads managed by the JVM instead of the
+                OS.<br><br>
+
+                Traditional model: 1 thread = ~1MB memory → limited scalability.<br>
+                Virtual threads: Millions of threads with minimal memory overhead.<br><br>
+
+                This allows handling massive concurrent I/O operations (like API calls, DB calls) without blocking
+                system
+                resources.<br><br>
+
+                <b>Impact on Spring Boot:</b><br>
+                - Simplifies concurrency (no need for complex async/reactive code)<br>
+                - Improves throughput for I/O-bound applications<br><br>
+
+                <b>Use Case:</b> High-traffic sales APIs handling thousands of concurrent users.<br><br>
+
+                <b>Key Benefit:</b> Write simple synchronous code with massive scalability."
+              </div>
+            </div>
+
+            <!-- Q2 -->
+            <div>
+              <div class="label">When is parallelStream() a bad choice in Java Streams API (Application Programming
+                Interface)?</div>
+              <div class="quote-box">
+                "parallelStream() uses ForkJoinPool (shared thread pool based on CPU cores).<br><br>
+
+                It becomes inefficient when:<br>
+                - Performing blocking I/O (database/API calls)<br>
+                - Working with shared mutable state (synchronization overhead)<br>
+                - Small datasets (<1000 elements)<br><br>
+
+                  <b>Bad Example:</b> Fetching users from DB inside parallel stream (threads get blocked).<br><br>
+
+                  <b>Good Example:</b> CPU-intensive tasks like mathematical computations.<br><br>
+
+                  <b>Risk:</b> Thread starvation and degraded performance.<br><br>
+
+                  <b>Rule:</b> Use parallelStream ONLY for CPU-bound, stateless operations."
+              </div>
+            </div>
+
+            <!-- Q3 -->
+            <div>
+              <div class="label">How does @Transactional (Transaction Management) work internally in Spring?</div>
+              <div class="quote-box">
+                "@Transactional enables declarative transaction management using AOP (Aspect-Oriented
+                Programming).<br><br>
+
+                Spring creates a proxy (CGLIB or JDK dynamic proxy) around the service bean.<br><br>
+
+                Flow:<br>
+                Client → Proxy → Transaction शुरू → Method execution → Commit/Rollback<br><br>
+
+                <b>Critical Limitation:</b><br>
+                Internal method calls within the same class bypass the proxy → NO transaction applied.<br><br>
+
+                <b>Rollback Rule:</b><br>
+                - Rolls back on RuntimeException<br>
+                - Does NOT rollback on checked exceptions by default<br><br>
+
+                <b>Best Practice:</b> Keep transactional methods in separate service classes.<br><br>
+
+                <b>Common Bug:</b> Transactions silently not working due to self-invocation."
+              </div>
+            </div>
+
+            <!-- Q4 -->
+            <div>
+              <div class="label">How do you troubleshoot a 100% CPU spike in a Java Spring Boot application?</div>
+              <div class="quote-box">
+                "Step-by-step debugging approach:<br><br>
+
+                1. Identify high CPU threads → <code>top -H</code><br>
+                2. Convert thread ID to hex<br>
+                3. Take thread dump → <code>jcmd &lt;pid&gt; Thread.print</code><br>
+                4. Analyze stack trace<br><br>
+
+                <b>Common Causes:</b><br>
+                - Infinite loops<br>
+                - Deadlocks<br>
+                - Blocking I/O<br>
+                - Excessive parallel processing<br><br>
+
+                <b>Real Example:</b> Order processing loop stuck in retry logic.<br><br>
+
+                <b>Goal:</b> Identify the exact line of code causing CPU burn."
+              </div>
+            </div>
+
+            <!-- Q5 -->
+            <div>
+              <div class="label">What is the difference between @Fetch(FetchMode.JOIN) and @EntityGraph in JPA (Java
+                Persistence API)?</div>
+              <div class="quote-box">
+                "Both are used to solve the N+1 query problem.<br><br>
+
+                <b>@Fetch(FetchMode.JOIN):</b><br>
+                - Global strategy defined on entity<br>
+                - Always performs JOIN → can lead to over-fetching<br><br>
+
+                <b>@EntityGraph:</b><br>
+                - Query-level control<br>
+                - Fetch only required associations per use case<br><br>
+
+                <b>Recommendation:</b> Prefer @EntityGraph for flexibility and performance.<br><br>
+
+                <b>Use Case:</b> Fetch users with department only when needed.<br><br>
+
+                <b>Benefit:</b> Avoid unnecessary database load."
+              </div>
+            </div>
+
+            <!-- Q6 -->
+            <div>
+              <div class="label">How do you design pagination and filtering in REST APIs while avoiding N+1 problem?
+              </div>
+              <div class="quote-box">
+                "Design REST endpoint:<br>
+                <code>GET /api/users?page=0&size=20&role=ADMIN&status=ACTIVE</code><br><br>
+
+                <b>Approach:</b><br>
+                - Use Specification (dynamic query building)<br>
+                - Use PageRequest for pagination<br>
+                - Use @EntityGraph to fetch related entities<br>
+                - Convert results to DTO (Data Transfer Object) at query level<br><br>
+
+                <b>Avoid:</b> In-memory filtering or mapping<br><br>
+
+                <b>Frontend Mapping:</b> Angular tables with filters and pagination controls.<br><br>
+
+                <b>Goal:</b> Efficient, scalable API responses."
+              </div>
+            </div>
+
+            <!-- Q7 -->
+            <div>
+              <div class="label">What is HATEOAS (Hypermedia As The Engine Of Application State) and when should you use
+                it?</div>
+              <div class="quote-box">
+                "HATEOAS is a REST constraint where API responses include links to related actions.<br><br>
+
+                Example:<br>
+                Order response includes link to payment endpoint.<br><br>
+
+                <b>Use When:</b><br>
+                - Complex workflows (order → payment → shipment)<br>
+                - Public APIs or mobile apps<br><br>
+
+                <b>Avoid When:</b><br>
+                - Simple CRUD APIs<br>
+                - Internal microservices<br><br>
+
+                <b>Insight:</b> Adds flexibility but increases response complexity."
+              </div>
+            </div>
+
+            <!-- Q8 -->
+            <div>
+              <div class="label">Explain ACID properties in databases with a real-world example.</div>
+              <div class="quote-box">
+                "ACID ensures reliable database transactions:<br><br>
+
+                <b>A - Atomicity:</b> All operations succeed or none (money transfer)<br>
+                <b>C - Consistency:</b> Data remains valid (constraints maintained)<br>
+                <b>I - Isolation:</b> Transactions don’t interfere<br>
+                <b>D - Durability:</b> Data persists after commit<br><br>
+
+                <b>Example:</b> Payment processing in sales system.<br><br>
+
+                <b>Importance:</b> Prevents data corruption and ensures reliability."
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <!-- UI LLD: Data Table (Sorting, Filtering, Pagination) -->
+      <div class="card c-yellow full">
+        <div class="card-header">
+          <div class="card-icon">📊</div>
+          <span class="card-title">UI LLD: Data Table (Sorting, Filtering, Pagination)</span>
+          <span class="card-tag">Advanced</span>
+        </div>
+
+        <div class="card-body">
+
           <ul class="rule-list">
-            <li>Console → <span class="chip">console.log(x)</span></li>
-            <li>Array → <span class="chip">console.log(arr)</span></li>
-            <li>Map → <span class="chip">console.log(map)</span></li>
-            <li>Template → <span class="chip">`Value: ${x}`</span></li>
+            <li><strong>Goal</strong> → Display large datasets efficiently</li>
+            <li><strong>Features</strong> → sorting, filtering, pagination</li>
+            <li><strong>Customization</strong> → dynamic columns (show/hide)</li>
+            <li><strong>State</strong> → data, sort, filters, page, columns</li>
+            <li><strong>Memoization</strong> → avoid recomputation</li>
+            <li><strong>Virtualization</strong> → render only visible rows</li>
+            <li><strong>Change Detection</strong> → OnPush for performance</li>
           </ul>
-        </div>
 
-      </div>
-    </div>
-
-
-    <!-- JAVA CARD -->
-    <div class="card c-pink full">
-      <div class="card-header">
-        <div class="card-icon">☕</div>
-        <span class="card-title">Java — DSA Syntax</span>
-        <span class="card-tag">Java Quick Revise</span>
-      </div>
-
-      <div class="card-body master-grid">
-
-        <div>
-          <div class="label">Variables</div>
-          <ul class="rule-list">
-            <li><span class="chip">int</span> num = 10</li>
-            <li><span class="chip">String</span> name = "Sam"</li>
-            <li>Array → <span class="chip">int[] arr</span></li>
-            <li>Boolean → <span class="chip">boolean</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Set</div>
-          <ul class="rule-list">
-            <li><span class="chip">new HashSet&lt;&gt;()</span></li>
-            <li>Add → <span class="chip">set.add()</span></li>
-            <li>Delete → <span class="chip">set.remove()</span></li>
-            <li>Check → <span class="chip">set.contains()</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Map</div>
-          <ul class="rule-list">
-            <li><span class="chip">new HashMap&lt;&gt;()</span></li>
-            <li>Insert → <span class="chip">map.put()</span></li>
-            <li>Read → <span class="chip">map.get()</span></li>
-            <li>Delete → <span class="chip">map.remove()</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Conditionals</div>
-          <ul class="rule-list">
-            <li><span class="chip">if / else</span></li>
-            <li><span class="chip">switch(case)</span></li>
-            <li>Compare strings → <span class="chip">equals()</span></li>
-            <li>Ternary supported</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Loops</div>
-          <ul class="rule-list">
-            <li><span class="chip">for(int i=0...)</span></li>
-            <li>Enhanced → <span class="chip">for(int x : arr)</span></li>
-            <li><span class="chip">while(condition)</span></li>
-            <li><span class="chip">break / continue</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Useful DSA APIs</div>
-          <ul class="rule-list">
-            <li><span class="chip">Arrays.sort()</span></li>
-            <li><span class="chip">Collections.sort()</span></li>
-            <li><span class="chip">Queue.offer()</span></li>
-            <li><span class="chip">Stack.push()</span></li>
-          </ul>
-        </div>
-        <div>
-          <div class="label">Print / Logs</div>
-          <ul class="rule-list">
-            <li>Console → <span class="chip">System.out.println(x)</span></li>
-            <li>Array → <span class="chip">Arrays.toString(arr)</span></li>
-            <li>Map → <span class="chip">System.out.println(map)</span></li>
-            <li>Debug → <span class="chip">System.out.print()</span></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-
-    <!-- PYTHON CARD -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">🐍</div>
-        <span class="card-title">Python — DSA Syntax</span>
-        <span class="card-tag">Python Quick Revise</span>
-      </div>
-
-      <div class="card-body master-grid">
-
-        <div>
-          <div class="label">Variables</div>
-          <ul class="rule-list">
-            <li><span class="chip">num = 10</span></li>
-            <li><span class="chip">name = "Sam"</span></li>
-            <li>List → <span class="chip">arr = []</span></li>
-            <li>Boolean → <span class="chip">True / False</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Set</div>
-          <ul class="rule-list">
-            <li><span class="chip">s = set()</span></li>
-            <li>Add → <span class="chip">s.add()</span></li>
-            <li>Delete → <span class="chip">s.remove()</span></li>
-            <li>Check → <span class="chip">x in s</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Map / Dict</div>
-          <ul class="rule-list">
-            <li><span class="chip">mp = {}</span></li>
-            <li>Insert → <span class="chip">mp[k] = v</span></li>
-            <li>Read → <span class="chip">mp.get(k)</span></li>
-            <li>Delete → <span class="chip">del mp[k]</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Conditionals</div>
-          <ul class="rule-list">
-            <li><span class="chip">if / elif / else</span></li>
-            <li><span class="chip">match-case</span></li>
-            <li>Indentation matters</li>
-            <li>Ternary supported</li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Loops</div>
-          <ul class="rule-list">
-            <li><span class="chip">for i in range()</span></li>
-            <li><span class="chip">for x in arr</span></li>
-            <li><span class="chip">while(condition)</span></li>
-            <li><span class="chip">break / continue</span></li>
-          </ul>
-        </div>
-
-        <div>
-          <div class="label">Useful DSA APIs</div>
-          <ul class="rule-list">
-            <li><span class="chip">arr.append()</span></li>
-            <li><span class="chip">arr.pop()</span></li>
-            <li><span class="chip">sorted(arr)</span></li>
-            <li><span class="chip">collections.deque</span></li>
-          </ul>
-        </div>
-        <div>
-          <div class="label">Print / Logs</div>
-          <ul class="rule-list">
-            <li>Console → <span class="chip">print(x)</span></li>
-            <li>Array → <span class="chip">print(arr)</span></li>
-            <li>Map → <span class="chip">print(mp)</span></li>
-            <li>Formatted → <span class="chip">f"Value: {x}"</span></li>
-          </ul>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 30-sec interview answers -->
-    <div class="card c-purple full">
-      <div class="card-header">
-        <div class="card-icon">🎙️</div><span class="card-title">30-Second Interview Answers</span><span
-          class="card-tag">Say This</span>
-      </div>
-      <div class="card-body" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem">
-        <div>
-          <div class="label">AsyncPipe</div>
-          <div class="quote-box">"AsyncPipe subscribes to an Observable or Promise in the template, renders the latest
-            value, triggers change detection, and auto-unsubscribes on destroy — preventing memory leaks."</div>
-        </div>
-        <div>
-          <div class="label">any vs unknown</div>
-          <div class="quote-box">"<code>any</code> disables all type checks — bugs show at runtime.
-            <code>unknown</code> forces type narrowing before use, so errors are caught at compile time."
-          </div>
-        </div>
-        <div>
-          <div class="label">Custom Async Pipe</div>
-          <div class="quote-box">"A custom async pipe manually subscribes, stores latest value, calls markForCheck(),
-            and unsubscribes on destroy. It's useful for loading/error state handling beyond the built-in AsyncPipe."
-          </div>
-        </div>
-        <div>
-          <div class="label">Reactive vs Template Forms</div>
-          <div class="quote-box">"Template-driven forms are simpler for static/small forms. Reactive forms define
-            structure in TypeScript using FormBuilder and Validators — better for dynamic fields and NgRx
-            integration."</div>
-        </div>
-        <div>
-          <div class="label">NgZone</div>
-          <div class="quote-box">"NgZone lets me run heavy operations outside Angular's change detection cycle using
-            runOutsideAngular, preventing unnecessary re-renders for ML, charts, or WebSocket processing."</div>
-        </div>
-        <div>
-          <div class="label">Standalone vs NgModule</div>
-          <div class="quote-box">"Standalone components skip NgModule boilerplate — bootstrapApplication directly
-            registers providers. It's better for tree-shaking, lazy loading, and microfrontend integration."</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Angular 21  Core & Features -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">🚀</div>
-        <span class="card-title">Angular 21 Core</span>
-        <span class="card-tag">Deep Dive</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">What are Signals in Angular 21, and how do they differ from traditional Reactive Forms?
-          </div>
-          <div class="quote-box">
-            "Signals are fine-grained reactive primitives that track dependencies at read time and update only the
-            consumers that depend on them.<br><br>
-
-            Unlike Reactive Forms, which rely on RxJS Observables and push-based streams, Signals are synchronous and
-            pull-based, making updates more predictable and performant.<br><br>
-
-            In large-scale applications, this reduces unnecessary recalculations and eliminates subscription
-            management overhead."<br><br>
-
-            <b>Trade-off:</b> Reactive Forms are still better for complex validation flows and async pipelines.
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">Explain Signal Forms and how they improve type safety and reactivity.</div>
-          <div class="quote-box">
-            "Signal Forms leverage TypeScript inference directly on state objects instead of abstract FormControl
-            trees, resulting in stronger type safety.<br><br>
-
-            They eliminate valueChanges subscriptions and rely on direct state mutation through update(), making
-            reactivity deterministic and easier to reason about.<br><br>
-
-            This significantly reduces boilerplate and improves maintainability in large applications."<br><br>
-
-            <b>Limitation:</b> Ecosystem maturity and fewer built-in validators compared to Reactive Forms.
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">How does Angular 21 handle zoneless change detection, and what are its performance
-            implications?</div>
-          <div class="quote-box">
-            "Angular 21 removes zone.js and shifts to explicit reactivity using Signals.<br><br>
-
-            Instead of global dirty checking triggered by async operations, updates are driven only by signal
-            dependency changes.<br><br>
-
-            This reduces CPU overhead and improves rendering predictability."<br><br>
-
-            <b>Performance Impact:</b><br>
-            🚀 Faster updates<br>
-            🚀 Reduced unnecessary checks<br>
-            🚀 Better scalability in large apps
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How would you migrate a legacy app to zoneless mode safely?</div>
-          <div class="quote-box">
-            "A safe migration strategy is incremental.<br><br>
-
-            Start by identifying components heavily dependent on async operations, then replace implicit zone-based
-            updates with Signals and effects.<br><br>
-
-            Introduce zoneless mode gradually, beginning with isolated or leaf components."<br><br>
-
-            <b>Strategy:</b><br>
-            - Replace subscriptions with signals<br>
-            - Use effect() for side effects<br>
-            - Validate UI updates manually<br><br>
-
-            <b>Risk:</b> Missed updates due to hidden dependencies.
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">Angular 21 defaults to Vitest. What are the advantages over Karma/Jasmine?</div>
-          <div class="quote-box">
-            "Vitest uses Vite’s dev server and native ESM, enabling near-instant test execution compared to Karma’s
-            browser-based runner.<br><br>
-
-            This significantly improves developer productivity and CI performance.<br><br>
-
-            It also aligns Angular testing with modern frontend ecosystems."<br><br>
-
-            <b>Key Benefit:</b> Faster feedback loops and scalable test pipelines.
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">What are potential pitfalls when migrating existing tests to Vitest?</div>
-          <div class="quote-box">
-            "Key challenges include differences in mocking APIs, async behavior, and Angular TestBed
-            integration.<br><br>
-
-            Jasmine utilities like createSpy and zone-based async helpers must be replaced with Vitest
-            equivalents."<br><br>
-
-            <b>Example:</b> vi.fn() instead of jasmine.createSpy()<br><br>
-
-            <b>Risk:</b> False positives due to incorrect async handling or missing Angular-specific setup.
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">How does Ivy + Signals improve dynamic component rendering?</div>
-          <div class="quote-box">
-            "Ivy’s incremental DOM combined with Signals enables fine-grained updates where only affected nodes
-            re-render.<br><br>
-
-            This significantly reduces reconciliation cost compared to global change detection cycles.<br><br>
-
-            Dynamic components benefit from faster instantiation and more efficient updates."<br><br>
-
-            <b>Outcome:</b> High-performance UI rendering at scale.
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div>
-          <div class="label">Describe how Signals can coexist with RxJS in Angular 21.</div>
-          <div class="quote-box">
-            "Signals and RxJS serve complementary roles.<br><br>
-
-            RxJS handles asynchronous data streams such as HTTP calls and WebSockets, while Signals manage synchronous
-            UI state.<br><br>
-
-            Observables can be bridged into Signals for seamless integration."<br><br>
-
-            <b>Best Practice:</b> Use RxJS for data flow, Signals for UI state.<br><br>
-
-            <b>Anti-pattern:</b> Replacing all RxJS with Signals.
-          </div>
-        </div>
-
-        <!-- Q9 -->
-        <div>
-          <div class="label">Explain the impact of Angular 21 on tree-shaking and bundle size.</div>
-          <div class="quote-box">
-            "Angular 21 improves tree-shaking by eliminating zone.js and reducing reliance on RxJS-heavy
-            patterns.<br><br>
-
-            Signals create explicit dependency graphs, allowing unused reactive paths to be pruned during build
-            time."<br><br>
-
-            <b>Impact:</b><br>
-            📉 Smaller bundles<br>
-            ⚡ Faster load times<br>
-            🚀 Improved runtime performance
-          </div>
-        </div>
-
-        <!-- Q10 -->
-        <div>
-          <div class="label">How would you debug a Signal Forms template error after upgrading to Angular 21?</div>
-          <div class="quote-box">
-            "Most issues arise from incorrect signal access or missing reactive tracking.<br><br>
-
-            Signals must be invoked as functions in templates to establish dependencies."<br><br>
-
-            <b>Example:</b> form().name instead of form.name<br><br>
-
-            <b>Debug Strategy:</b><br>
-            - Verify signal reads in template<br>
-            - Inspect effect() dependencies<br>
-            - Check TypeScript inference<br><br>
-
-            <b>Common Pitfall:</b> Silent UI failures due to missed dependency tracking.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Rxjs and Operators -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">⚡</div>
-        <span class="card-title">RxJS & Angular 21 — Upgrade + Operators</span>
-        <span class="card-tag">Upgrade + Operators</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">After Angular 21 upgrade, multiple API calls are executing out of order. Which RxJS
-            operator ensures sequential execution?</div>
-          <div class="quote-box">
-            "Use <b>concatMap</b> to ensure sequential execution.<br><br>
-
-            It queues inner observables and executes them one after another, preserving order — critical for dependent
-            API workflows.<br><br>
-
-            <b>Why not mergeMap?</b> It runs in parallel → order not guaranteed.<br><br>
-
-            <b> Insight:</b> Use concatMap when order matters (payments, transactions), otherwise prefer
-            switchMap/mergeMap for performance."
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">toPromise() is deprecated in RxJS 7+. How do you handle promise-based HTTP calls now?
-          </div>
-          <div class="quote-box">
-            "Use <b>firstValueFrom()</b> or <b>lastValueFrom()</b> depending on the use case.<br><br>
-
-            firstValueFrom → resolves on first emission (common for HTTP)<br>
-            lastValueFrom → waits for completion<br><br>
-
-            <b>Example:</b><br>
-            firstValueFrom(this.http.get('/api'))<br><br>
-
-            <b> Insight:</b> Avoid converting to promises unless integrating with async/await boundaries."
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">How would you cancel previous API calls in a search box using RxJS 7+?</div>
-          <div class="quote-box">
-            "Use <b>switchMap</b> — it cancels previous inner observables automatically.<br><br>
-
-            Ideal for search/autocomplete where only latest input matters.<br><br>
-
-            <b>Pattern:</b><br>
-            input$.pipe(debounceTime(300), switchMap(query => http.get(...)))<br><br>
-
-            <b> Insight:</b> switchMap is the default safe choice for user-driven async flows."
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How do you replace catch() for error handling in RxJS 7+?</div>
-          <div class="quote-box">
-            "Use <b>catchError</b> operator inside pipe().<br><br>
-
-            It allows graceful fallback or transformation of errors.<br><br>
-
-            <b>Example:</b><br>
-            catchError(err => of([]))<br><br>
-
-            <b> Insight:</b> Always return a new observable → never break the stream."
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">An HTTP observable triggers multiple calls across components. How do you use shareReplay
-            safely?</div>
-          <div class="quote-box">
-            "Use <b>shareReplay({ bufferSize: 1, refCount: true })</b>.<br><br>
-
-            This caches the latest value and avoids duplicate API calls while preventing memory leaks.<br><br>
-
-            <b>Risk:</b> Without refCount → memory leak (hot observable never completes).<br><br>
-
-            <b> Insight:</b> Use in shared services, not components."
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">Why does tap() sometimes trigger multiple API calls, and how do you fix it?</div>
-          <div class="quote-box">
-            "tap() does not cause API calls — multiple subscriptions do.<br><br>
-
-            Each subscription re-executes the source observable (cold behavior).<br><br>
-
-            <b>Fix:</b> Use shareReplay() to share execution.<br><br>
-
-            <b> Insight:</b> Always identify cold vs hot observables during debugging."
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">How do you fix TypeScript type errors in mergeMap after Angular 21/RxJS upgrade?</div>
-          <div class="quote-box">
-            "Explicitly type the return observable in mergeMap.<br><br>
-
-            RxJS 7 has stricter typings requiring clear generics.<br><br>
-
-            <b>Example:</b><br>
-            mergeMap((res): Observable<User> => this.http.get(...))<br><br>
-
-              <b> Insight:</b> Strong typing improves maintainability at scale."
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div>
-          <div class="label">Combine user and orders API calls in RxJS 7+ safely and clearly.</div>
-          <div class="quote-box">
-            "Use <b>forkJoin</b> for parallel execution when both results are required.<br><br>
-
-            <b>Example:</b><br>
-            forkJoin({ user: user$, orders: orders$ })<br><br>
-
-            <b>Behavior:</b> Executes in parallel, emits once when all complete.<br><br>
-
-            <b> Insight:</b> Use forkJoin for dashboard/load screens."
-          </div>
-        </div>
-
-        <!-- Q9 -->
-        <div>
-          <div class="label">How do you prevent memory leaks using takeUntilDestroyed() in Angular 16+ / 21?</div>
-          <div class="quote-box">
-            "Use <b>takeUntilDestroyed()</b> to auto-unsubscribe when component is destroyed.<br><br>
-
-            <b>Example:</b><br>
-            this.api$.pipe(takeUntilDestroyed()).subscribe()<br><br>
-
-            <b> Insight:</b> Prefer this over manual Subject cleanup — reduces boilerplate and bugs."
-          </div>
-        </div>
-
-        <!-- Q10 -->
-        <div>
-          <div class="label">Explain operator choices (concatMap, mergeMap, switchMap, forkJoin) in real-world
-            scenarios.</div>
-          <div class="quote-box">
-            "concatMap → sequential (payments)<br>
-            mergeMap → parallel (bulk APIs)<br>
-            switchMap → cancel previous (search)<br>
-            forkJoin → wait for all (dashboard)<br><br>
-
-            <b> Insight:</b> Choosing wrong operator leads to race conditions or performance issues."
-          </div>
-        </div>
-
-        <!-- Q11 -->
-        <div>
-          <div class="label">Conditional RxJS streams behave differently after upgrade. How do you fix it?</div>
-          <div class="quote-box">
-            "Use <b>iif()</b> or conditional logic inside switchMap.<br><br>
-
-            Avoid branching outside stream — keep logic declarative.<br><br>
-
-            <b> Insight:</b> Streams should remain composable and predictable."
-          </div>
-        </div>
-
-        <!-- Q12 -->
-        <div>
-          <div class="label">How do you prevent repeated emissions in upgraded RxJS observables?</div>
-          <div class="quote-box">
-            "Use <b>distinctUntilChanged()</b> or <b>distinctUntilKeyChanged()</b>.<br><br>
-
-            Prevents unnecessary re-renders and API calls.<br><br>
-
-            <b> Insight:</b> Critical for performance in large apps."
-          </div>
-        </div>
-
-        <!-- Q13 -->
-        <div>
-          <div class="label">How do you cancel nested observables properly in Angular 21?</div>
-          <div class="quote-box">
-            "Use <b>switchMap</b> instead of nested subscriptions.<br><br>
-
-            This ensures previous inner observables are cancelled automatically.<br><br>
-
-            <b>Anti-pattern:</b> subscribe inside subscribe<br><br>
-
-            <b> Insight:</b> Flat streams = maintainable code."
-          </div>
-        </div>
-
-        <!-- Q14 -->
-        <div>
-          <div class="label">How would you combine debounceTime, distinctUntilChanged, and switchMap for live
-            validation forms?</div>
-          <div class="quote-box">
-            "Use pipeline:<br><br>
-
-            debounceTime → reduce API calls<br>
-            distinctUntilChanged → ignore duplicates<br>
-            switchMap → cancel stale requests<br><br>
-
-            <b> Insight:</b> This pattern is standard for scalable UX."
-          </div>
-        </div>
-
-        <!-- Q15 -->
-        <div>
-          <div class="label">Rewrite forkJoin for clarity and safety after Angular 21 upgrade.</div>
-          <div class="quote-box">
-            "Use object-based forkJoin instead of array for clarity.<br><br>
-
-            <b>Example:</b><br>
-            forkJoin({ user: user$, orders: orders$ })<br><br>
-
-            Improves readability and type safety.<br><br>
-
-            <b> Insight:</b> Prefer self-documenting code in large teams."
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Ivy AOT JIT -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">⚙️</div>
-        <span class="card-title">Ivy, AOT & JIT — Compiler + Runtime</span>
-        <span class="card-tag">Compiler + Runtime</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">What is Ivy, and how does it differ from View Engine?</div>
-          <div class="quote-box">
-            "Ivy is Angular’s next-generation rendering and compilation engine that replaces View Engine with a more
-            efficient, instruction-based runtime.<br><br>
-
-            Instead of generating large factory files, Ivy compiles components into small, tree-shakable instructions
-            embedded directly in the component.<br><br>
-
-            <b>Key Difference:</b><br>
-            View Engine → metadata + factories<br>
-            Ivy → local, component-level compilation<br><br>
-
-            <b> Insight:</b> Ivy reduces framework overhead and enables fine-grained optimization similar to modern
-            frameworks."
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">How does Ivy improve bundle size, performance, and tree-shaking?</div>
-          <div class="quote-box">
-            "Ivy improves bundle size by compiling only the code that is actually used, thanks to its locality
-            principle.<br><br>
-
-            Tree-shaking becomes more effective because unused components and instructions are eliminated at build
-            time.<br><br>
-
-            Performance improves due to smaller bundles and faster runtime execution with direct DOM
-            instructions.<br><br>
-
-            <b> Insight:</b> Smaller JS footprint directly impacts Core Web Vitals and large-scale app performance."
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">Describe partial compilation in Ivy.</div>
-          <div class="quote-box">
-            "Partial compilation means libraries are compiled into an intermediate format that can be fully compiled
-            later during application build.<br><br>
-
-            This allows better compatibility across Angular versions and enables faster incremental builds.<br><br>
-
-            <b> Insight:</b> Critical for large monorepos and shared library ecosystems."
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How does Ivy affect ComponentFactoryResolver and dynamic component loading?</div>
-          <div class="quote-box">
-            "With Ivy, ComponentFactoryResolver is no longer required because components can be instantiated
-            directly.<br><br>
-
-            <b>Example:</b> createComponent(Component)<br><br>
-
-            This simplifies dynamic component loading and reduces boilerplate.<br><br>
-
-            <b> Insight:</b> Improves developer ergonomics and runtime performance."
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">Explain the difference between AOT and JIT compilation.</div>
-          <div class="quote-box">
-            "AOT (Ahead-of-Time) compiles templates during build time, while JIT (Just-in-Time) compiles them in the
-            browser at runtime.<br><br>
-
-            AOT → faster startup, smaller bundle, early error detection<br>
-            JIT → faster development, more flexible debugging<br><br>
-
-            <b> Insight:</b> AOT is the default for production systems."
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">How does AOT improve runtime performance and error detection?</div>
-          <div class="quote-box">
-            "AOT eliminates runtime compilation, reducing CPU usage and improving initial load time.<br><br>
-
-            It also performs static analysis, catching template and type errors at build time instead of
-            runtime.<br><br>
-
-            <b> Insight:</b> Shifts failure detection left → critical for reliability in large systems."
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">Why might an app work in JIT but fail in AOT? How do you debug?</div>
-          <div class="quote-box">
-            "JIT is more permissive and allows dynamic patterns that AOT cannot statically analyze.<br><br>
-
-            Common issues include missing decorators, dynamic imports, or incorrect typings.<br><br>
-
-            <b>Debug Strategy:</b><br>
-            - Enable strict templates<br>
-            - Check Angular compiler errors<br>
-            - Avoid dynamic code patterns<br><br>
-
-            <b> Insight:</b> AOT failures often reveal hidden architectural issues."
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div>
-          <div class="label">How does AOT affect lazy-loaded modules?</div>
-          <div class="quote-box">
-            "AOT compiles lazy-loaded modules into separate chunks during build time.<br><br>
-
-            This improves load performance and ensures type safety even for lazy modules.<br><br>
-
-            <b> Insight:</b> Enables scalable microfrontend-like architecture."
-          </div>
-        </div>
-
-        <!-- Q9 -->
-        <div>
-          <div class="label">When would you prefer JIT over AOT in modern Angular apps?</div>
-          <div class="quote-box">
-            "JIT is preferred during development for faster rebuilds and debugging flexibility.<br><br>
-
-            It may also be useful in highly dynamic plugin-based systems.<br><br>
-
-            <b> Insight:</b> Rarely used in production due to performance and security concerns."
-          </div>
-        </div>
-
-        <!-- Q10 -->
-        <div>
-          <div class="label">Can JIT and Ivy coexist in Angular 21? Explain benefits/risks.</div>
-          <div class="quote-box">
-            "Yes, Ivy is the rendering engine while JIT/AOT are compilation strategies — they can coexist.<br><br>
-
-            <b>Benefit:</b> Flexible development + optimized production builds<br>
-            <b>Risk:</b> Behavioral inconsistencies if relying on JIT-only patterns<br><br>
-
-            <b> Insight:</b> Always validate with AOT to ensure production stability."
-          </div>
-        </div>
-
-        <!-- Q11 -->
-        <div>
-          <div class="label">How do Angular decorators (@Injectable, @Component) interact differently with Ivy?</div>
-          <div class="quote-box">
-            "In Ivy, decorators are compiled into static fields on the class instead of external metadata
-            files.<br><br>
-
-            This enables better tree-shaking and faster compilation.<br><br>
-
-            <b> Insight:</b> Reduces reflection usage and improves runtime efficiency."
-          </div>
-        </div>
-
-        <!-- Q12 -->
-        <div>
-          <div class="label">Explain how Ivy + AOT affects dynamic imports.</div>
-          <div class="quote-box">
-            "Ivy + AOT ensures dynamic imports are statically analyzable and optimized into separate chunks.<br><br>
-
-            This improves lazy loading performance and avoids runtime compilation overhead.<br><br>
-
-            <b> Insight:</b> Critical for scalable code-splitting strategies."
-          </div>
-        </div>
-
-        <!-- Q13 -->
-        <div>
-          <div class="label">Compare Ivy + AOT vs View Engine + JIT in memory, initial load, runtime errors.</div>
-          <div class="quote-box">
-            "Ivy + AOT → smaller memory footprint, faster initial load, fewer runtime errors<br>
-            View Engine + JIT → larger bundles, slower startup, more runtime failures<br><br>
-
-            <b> Insight:</b> Modern Angular eliminates most runtime surprises through compile-time guarantees."
-          </div>
-        </div>
-
-        <!-- Q14 -->
-        <div>
-          <div class="label">How do you optimize build times with Ivy, AOT, and incremental compilation?</div>
-          <div class="quote-box">
-            "Use incremental builds, enable caching, and leverage partial compilation for libraries.<br><br>
-
-            Split large modules and reduce unnecessary dependencies.<br><br>
-
-            <b> Insight:</b> Build performance is critical in large monorepos and CI pipelines."
-          </div>
-        </div>
-
-        <!-- Q15 -->
-        <div>
-          <div class="label">After upgrade, a library fails AOT build but works in JIT. How do you fix it?</div>
-          <div class="quote-box">
-            "Identify non-AOT-compatible patterns such as dynamic code, missing decorators, or improper
-            typings.<br><br>
-
-            Ensure the library is compiled with partial compilation and compatible Angular version.<br><br>
-
-            <b>Steps:</b><br>
-            - Enable strict mode<br>
-            - Fix metadata errors<br>
-            - Rebuild library with ng-packagr<br><br>
-
-            <b> Insight:</b> Treat AOT failures as design issues, not just build errors."
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Performance Optimization and Debugging -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">🚀</div>
-        <span class="card-title">Performance Optimization + MFE — Interview Answers</span>
-        <span class="card-tag">Debugging + Architecture</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- PERFORMANCE SECTION -->
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">How would you debug slow initial load in an Angular 21 app?</div>
-          <div class="quote-box">
-            "I would start with bundle analysis and runtime profiling.<br><br>
-
-            <b>Steps:</b><br>
-            - Analyze bundle using source-map-explorer<br>
-            - Check large dependencies and unused code<br>
-            - Measure TTI, FCP via Lighthouse<br>
-            - Inspect network waterfalls<br><br>
-
-            Then optimize via lazy loading, removing zone.js (zoneless), and reducing RxJS overhead.<br><br>
-
-            <b> Insight:</b> Always separate network, CPU, and rendering bottlenecks."
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">How does Signals + OnPush improve change detection performance?</div>
-          <div class="quote-box">
-            "Signals provide fine-grained reactivity, while OnPush limits change detection to explicit
-            triggers.<br><br>
-
-            Combined, they eliminate global change detection cycles and update only affected components.<br><br>
-
-            <b>Result:</b><br>
-            🚀 Minimal re-renders<br>
-            🚀 Predictable updates<br><br>
-
-            <b> Insight:</b> This aligns Angular with React/Solid’s reactive model."
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">What strategies would you use to lazy-load feature modules effectively?</div>
-          <div class="quote-box">
-            "Use route-based lazy loading with dynamic imports and split by business domains.<br><br>
-
-            Preload critical modules and defer non-essential ones.<br><br>
-
-            <b>Advanced:</b><br>
-            - Predictive preloading<br>
-            - Microfrontend-based loading<br><br>
-
-            <b> Insight:</b> Align module boundaries with user journeys, not technical layers."
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How do you measure bundle size impact after upgrading to Angular 21?</div>
-          <div class="quote-box">
-            "Compare pre/post build artifacts using bundle analyzers.<br><br>
-
-            Track gzip/brotli sizes and identify changes due to Signals, Ivy, and zoneless mode.<br><br>
-
-            <b>Metrics:</b> Bundle size, TTI, FCP<br><br>
-
-            <b> Insight:</b> Always validate performance improvements with real metrics, not assumptions."
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">How would you optimize large RxJS pipelines for performance?</div>
-          <div class="quote-box">
-            "Avoid unnecessary operators and reduce emissions early using debounceTime and
-            distinctUntilChanged.<br><br>
-
-            Use switchMap for cancellation and shareReplay for caching.<br><br>
-
-            <b> Insight:</b> Optimize upstream — fewer emissions = better performance."
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">What are the best practices to avoid memory leaks in Angular 21?</div>
-          <div class="quote-box">
-            "Use takeUntilDestroyed(), avoid manual subscriptions, and clean up side effects.<br><br>
-
-            Prefer Signals over subscriptions where possible.<br><br>
-
-            <b> Insight:</b> Memory leaks in frontend apps degrade long-session performance significantly."
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">How do you optimize dynamic forms for performance?</div>
-          <div class="quote-box">
-            "Use OnPush, trackBy in ngFor, and Signals for state management.<br><br>
-
-            Avoid unnecessary re-renders by isolating form sections.<br><br>
-
-            <b> Insight:</b> Treat forms as high-frequency update systems — optimize granularity."
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div>
-          <div class="label">Explain tree-shaking pitfalls when using third-party libraries with Ivy.</div>
-          <div class="quote-box">
-            "Libraries that are not Ivy-compatible or use side effects can block tree-shaking.<br><br>
-
-            Large utility imports (e.g., full lodash) increase bundle size.<br><br>
-
-            <b>Fix:</b> Use ES modules and selective imports.<br><br>
-
-            <b> Insight:</b> Third-party code is often the biggest hidden performance cost."
-          </div>
-        </div>
-
-        <!-- Q9 -->
-        <div>
-          <div class="label">How do you handle performance regression after migration?</div>
-          <div class="quote-box">
-            "Identify regressions via profiling and compare baseline metrics.<br><br>
-
-            Roll back problematic changes and isolate root causes (signals misuse, improper RxJS usage).<br><br>
-
-            <b> Insight:</b> Always use feature flags and gradual rollout during migration."
-          </div>
-        </div>
-
-        <!-- Q10 -->
-        <div>
-          <div class="label">Explain hot module replacement (HMR) in Angular 21 and its benefits.</div>
-          <div class="quote-box">
-            "HMR updates modules in real-time without full reload, preserving app state.<br><br>
-
-            Improves developer productivity and reduces feedback loop time.<br><br>
-
-            <b> Insight:</b> Critical for large teams to iterate faster."
-          </div>
-        </div>
-
-        <!-- MFE SECTION -->
-
-        <!-- Q11 -->
-        <div>
-          <div class="label">How would you architect an Angular 21 app for future MFE adoption?</div>
-          <div class="quote-box">
-            "Design with domain-driven modules, independent deployments, and clear boundaries.<br><br>
-
-            Use module federation or similar approaches for runtime integration.<br><br>
-
-            <b> Insight:</b> Optimize for team autonomy and independent scaling."
-          </div>
-        </div>
-
-        <!-- Q12 -->
-        <div>
-          <div class="label">What patterns ensure loose coupling between features?</div>
-          <div class="quote-box">
-            "Use event-driven communication, shared contracts, and dependency inversion.<br><br>
-
-            Avoid direct imports between features.<br><br>
-
-            <b> Insight:</b> Loose coupling enables parallel team development."
-          </div>
-        </div>
-
-        <!-- Q13 -->
-        <div>
-          <div class="label">How do MFEs communicate securely (same-domain vs cross-domain)?</div>
-          <div class="quote-box">
-            "Same-domain → shared services or global event bus<br>
-            Cross-domain → postMessage with strict origin validation<br><br>
-
-            <b> Insight:</b> Security boundaries are critical in distributed frontend systems."
-          </div>
-        </div>
-
-        <!-- Q14 -->
-        <div>
-          <div class="label">How do you manage global state across MFEs?</div>
-          <div class="quote-box">
-            "Use shared state services, event buses, or backend-driven state.<br><br>
-
-            Avoid tight coupling via centralized stores unless necessary.<br><br>
-
-            <b> Insight:</b> Prefer eventual consistency over tight synchronization."
-          </div>
-        </div>
-
-        <!-- Q15 -->
-        <div>
-          <div class="label">How does Signals help MFE state management?</div>
-          <div class="quote-box">
-            "Signals provide localized, fine-grained state management within each MFE.<br><br>
-
-            They reduce dependency on global stores and improve performance.<br><br>
-
-            <b> Insight:</b> Ideal for isolating state boundaries."
-          </div>
-        </div>
-
-        <!-- Q16 -->
-        <div>
-          <div class="label">How do you handle shared libraries and version conflicts in MFEs?</div>
-          <div class="quote-box">
-            "Use strict versioning and shared dependency configuration (e.g., module federation shared scope).<br><br>
-
-            Avoid duplicate framework instances.<br><br>
-
-            <b> Insight:</b> Version conflicts can break runtime — enforce governance."
-          </div>
-        </div>
-
-        <!-- Q17 -->
-        <div>
-          <div class="label">Explain lazy-loading MFEs with Angular 21.</div>
-          <div class="quote-box">
-            "Load MFEs dynamically via module federation or remote entry points.<br><br>
-
-            Combine with Angular routing for seamless navigation.<br><br>
-
-            <b> Insight:</b> Enables independent deployment and scaling of frontend systems."
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Micro-Frontend (MFE) & Modular Architecture -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">🧩</div>
-        <span class="card-title">Micro-Frontend (MFE) — Architecture + Scale</span>
-        <span class="card-tag">Architecture + Scale</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">How would you architect an Angular 21 app for future MFE adoption?</div>
-          <div class="quote-box">
-            "I would design the system using domain-driven boundaries, where each feature module represents a business
-            capability (e.g., checkout, search, profile).<br><br>
-
-            The core shell app would handle routing, authentication, and shared infrastructure, while feature modules
-            remain independently deployable.<br><br>
-
-            I would use runtime integration strategies like module federation to dynamically load MFEs.<br><br>
-
-            <b>Key Principles:</b><br>
-            - Independent deployability<br>
-            - Clear API contracts<br>
-            - Isolation of dependencies<br><br>
-
-            <b> Insight:</b> Optimize for team autonomy and parallel development, not just code organization.<br><br>
-
-            <b>Trade-off:</b> Increased complexity in orchestration and debugging.
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">What patterns ensure loose coupling between features?</div>
-          <div class="quote-box">
-            "Loose coupling is achieved through clear contracts and indirect communication.<br><br>
-
-            <b>Patterns:</b><br>
-            - Event-driven architecture (pub/sub)<br>
-            - Dependency inversion via interfaces<br>
-            - API-based communication instead of direct imports<br><br>
-
-            Avoid sharing internal implementation details between MFEs.<br><br>
-
-            <b> Insight:</b> Loose coupling enables independent team velocity and reduces cross-team
-            dependencies.<br><br>
-
-            <b>Anti-pattern:</b> Direct module imports across MFEs.
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">How do MFEs communicate securely (same-domain vs cross-domain)?</div>
-          <div class="quote-box">
-            "Communication depends on deployment model:<br><br>
-
-            <b>Same-domain:</b><br>
-            - Shared services<br>
-            - In-memory event bus<br><br>
-
-            <b>Cross-domain:</b><br>
-            - window.postMessage with strict origin validation<br>
-            - Backend APIs as a secure intermediary<br><br>
-
-            <b>Security Considerations:</b><br>
-            - Validate message origin<br>
-            - Avoid exposing sensitive data in client communication<br><br>
-
-            <b> Insight:</b> Treat MFEs as distributed systems — enforce zero-trust boundaries."
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How do you manage global state across MFEs?</div>
-          <div class="quote-box">
-            "Global state should be minimized and carefully controlled.<br><br>
-
-            <b>Approaches:</b><br>
-            - Shared state service (for same-domain MFEs)<br>
-            - Event-driven updates (pub/sub)<br>
-            - Backend-driven state (source of truth)<br><br>
-
-            Avoid tightly coupled global stores unless absolutely necessary.<br><br>
-
-            <b> Insight:</b> Prefer eventual consistency over strict synchronization to improve scalability.<br><br>
-
-            <b>Trade-off:</b> More complexity in handling state synchronization.
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">How does Signals help MFE state management?</div>
-          <div class="quote-box">
-            "Signals provide localized, fine-grained reactivity within each MFE.<br><br>
-
-            They reduce dependency on global stores and allow each microfrontend to manage its own state
-            independently.<br><br>
-
-            Signals can also expose reactive state via controlled APIs when cross-MFE sharing is needed.<br><br>
-
-            <b> Insight:</b> Signals align well with MFE isolation principles by minimizing shared mutable
-            state.<br><br>
-
-            <b>Benefit:</b> Improved performance and reduced coupling.
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">How do you handle shared libraries and version conflicts in MFEs?</div>
-          <div class="quote-box">
-            "Use shared dependency management strategies such as module federation shared scopes.<br><br>
-
-            <b>Best Practices:</b><br>
-            - Enforce strict version compatibility<br>
-            - Share critical dependencies (e.g., Angular core) as singletons<br>
-            - Avoid duplicating large libraries<br><br>
-
-            <b> Insight:</b> Version conflicts can cause runtime failures — governance is essential.<br><br>
-
-            <b>Trade-off:</b> Tight version constraints vs flexibility for teams.
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">Explain lazy-loading MFEs with Angular 21.</div>
-          <div class="quote-box">
-            "MFEs are loaded dynamically at runtime using module federation or remote entry points.<br><br>
-
-            Angular routing can be configured to lazy-load these remote modules seamlessly.<br><br>
-
-            <b>Flow:</b><br>
-            - User navigates to route<br>
-            - Remote bundle is fetched<br>
-            - Module is bootstrapped dynamically<br><br>
-
-            <b> Insight:</b> Enables independent deployment and reduces initial bundle size.<br><br>
-
-            <b>Trade-off:</b> Network latency and runtime dependency management complexity.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Upgrade, Migration & Strategy -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">🔄</div>
-        <span class="card-title">Upgrade, Migration & Strategy — Scalability + Risk</span>
-        <span class="card-tag">Scalability + Risk</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">What are the key considerations when upgrading from Angular 17–20 to Angular 21?</div>
-          <div class="quote-box">
-            "The upgrade should be treated as a controlled migration, not just a version bump.<br><br>
-
-            <b>Key Considerations:</b><br>
-            - Signals adoption strategy (where to introduce vs keep RxJS)<br>
-            - Zoneless readiness (removal of implicit change detection)<br>
-            - RxJS 7+ compatibility and deprecated APIs<br>
-            - Test migration (Karma/Jasmine → Vitest)<br>
-            - Third-party library compatibility with Ivy/AOT<br><br>
-
-            <b>Approach:</b><br>
-            - Incremental upgrade (module-by-module)<br>
-            - Feature flags for risky changes<br>
-            - Benchmark before/after performance<br><br>
-
-            <b> Insight:</b> Large-scale upgrades are risk management problems — prioritize stability over speed."
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">How do you migrate RxJS-heavy logic to Signals without breaking observables?</div>
-          <div class="quote-box">
-            "Migration should be hybrid, not replacement.<br><br>
-
-            <b>Strategy:</b><br>
-            - Keep RxJS for async streams (HTTP, websockets)<br>
-            - Convert final UI state into Signals<br>
-            - Bridge using subscriptions or adapters<br><br>
-
-            <b>Example Pattern:</b><br>
-            Observable → subscribe → signal.set()<br><br>
-
-            Avoid rewriting complex RxJS pipelines unless necessary.<br><br>
-
-            <b> Insight:</b> Signals complement RxJS — they don’t replace it.<br><br>
-
-            <b>Risk:</b> Breaking reactive chains or duplicating state.
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">How do you handle legacy template errors after Angular 21 upgrade?</div>
-          <div class="quote-box">
-            "Angular 21 introduces stricter template type checking, exposing hidden issues.<br><br>
-
-            <b>Fix Strategy:</b><br>
-            - Enable strictTemplates and resolve errors incrementally<br>
-            - Replace unsafe bindings (null/undefined issues)<br>
-            - Ensure correct signal access (call as function)<br><br>
-
-            <b>Debugging:</b><br>
-            - Use compiler error logs<br>
-            - Isolate problematic components<br><br>
-
-            <b> Insight:</b> Treat these errors as improvements in code quality, not regressions.<br><br>
-
-            <b>Anti-pattern:</b> Disabling strict mode to bypass errors.
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How would you plan CI/CD for Angular 21 apps (Vitest, zoneless mode, build pipeline)?
-          </div>
-          <div class="quote-box">
-            "CI/CD should ensure fast feedback, stability, and reproducibility.<br><br>
-
-            <b>Pipeline Design:</b><br>
-            - Use Vitest for fast unit testing<br>
-            - Enforce AOT builds in CI<br>
-            - Add bundle size and performance checks<br>
-            - Run zoneless mode tests to catch missing updates<br><br>
-
-            <b>Advanced:</b><br>
-            - Parallel test execution<br>
-            - Incremental builds with caching<br>
-            - Canary releases for risky changes<br><br>
-
-            <b> Insight:</b> CI/CD is a performance and reliability gate, not just automation.<br><br>
-
-            <b>Risk:</b> Inconsistent behavior between local and CI environments.
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">What are the risks of adopting experimental APIs like Signal Forms in production?</div>
-          <div class="quote-box">
-            "Experimental APIs introduce uncertainty in stability and long-term support.<br><br>
-
-            <b>Risks:</b><br>
-            - Breaking changes in future versions<br>
-            - Limited ecosystem/tooling support<br>
-            - Incomplete feature set (e.g., validators)<br><br>
-
-            <b>Mitigation:</b><br>
-            - Use behind feature flags<br>
-            - Limit to non-critical flows<br>
-            - Abstract usage behind internal APIs<br><br>
-
-            <b> Insight:</b> Adopt innovation carefully — balance early advantage with operational risk.<br><br>
-
-            <b>Trade-off:</b> Faster adoption vs long-term maintainability.
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Java/ Springboot Core -->
-    <div class="card c-green full">
-      <div class="card-header">
-        <div class="card-icon">☕</div>
-        <span class="card-title">Java + Spring Boot Core</span>
-        <span class="card-tag">Backend Deep Dive</span>
-      </div>
-
-      <div class="card-body" style="display:flex;flex-direction:column;gap:1rem">
-
-        <!-- FLOW -->
-        <div>
-          <div class="label">How does Spring Boot fit in a Microfrontend (Angular Sales App) architecture?</div>
-          <div class="quote-box">
-            "In a microfrontend architecture, Angular applications act as UI layers that communicate with backend
-            services via REST APIs.<br><br>
-
-            The typical request flow is:<br><br>
-
-            <b>Angular Microfrontend (UI)</b> → <b>Controller (REST API)</b> → <b>Service (Business Logic)</b> →
-            <b>Repository (Data Access)</b> → <b>Database</b><br><br>
-
-            Each layer has a clear responsibility:<br>
-            - Controller: Handles HTTP requests/responses<br>
-            - Service: Implements business rules<br>
-            - Repository: Interacts with database using JPA (Java Persistence API)<br>
-            - Database: Stores persistent data<br><br>
-
-            <b>Example:</b> Sales dashboard fetching orders → Angular calls <code>/api/orders</code> → Spring
-            processes → DB returns data → UI renders table.<br><br>
-
-            <b>Key Insight:</b> Spring Boot is the engine powering your microfrontend UI."
-          </div>
-        </div>
-
-        <!-- Q1 -->
-        <div>
-          <div class="label">How do Virtual Threads (Project Loom - Java 21) improve scalability in Spring Boot
-            applications?</div>
-          <div class="quote-box">
-            "Virtual Threads (from Project Loom) are lightweight threads managed by the JVM instead of the OS.<br><br>
-
-            Traditional model: 1 thread = ~1MB memory → limited scalability.<br>
-            Virtual threads: Millions of threads with minimal memory overhead.<br><br>
-
-            This allows handling massive concurrent I/O operations (like API calls, DB calls) without blocking system
-            resources.<br><br>
-
-            <b>Impact on Spring Boot:</b><br>
-            - Simplifies concurrency (no need for complex async/reactive code)<br>
-            - Improves throughput for I/O-bound applications<br><br>
-
-            <b>Use Case:</b> High-traffic sales APIs handling thousands of concurrent users.<br><br>
-
-            <b>Key Benefit:</b> Write simple synchronous code with massive scalability."
-          </div>
-        </div>
-
-        <!-- Q2 -->
-        <div>
-          <div class="label">When is parallelStream() a bad choice in Java Streams API (Application Programming
-            Interface)?</div>
-          <div class="quote-box">
-            "parallelStream() uses ForkJoinPool (shared thread pool based on CPU cores).<br><br>
-
-            It becomes inefficient when:<br>
-            - Performing blocking I/O (database/API calls)<br>
-            - Working with shared mutable state (synchronization overhead)<br>
-            - Small datasets (<1000 elements)<br><br>
-
-              <b>Bad Example:</b> Fetching users from DB inside parallel stream (threads get blocked).<br><br>
-
-              <b>Good Example:</b> CPU-intensive tasks like mathematical computations.<br><br>
-
-              <b>Risk:</b> Thread starvation and degraded performance.<br><br>
-
-              <b>Rule:</b> Use parallelStream ONLY for CPU-bound, stateless operations."
-          </div>
-        </div>
-
-        <!-- Q3 -->
-        <div>
-          <div class="label">How does @Transactional (Transaction Management) work internally in Spring?</div>
-          <div class="quote-box">
-            "@Transactional enables declarative transaction management using AOP (Aspect-Oriented
-            Programming).<br><br>
-
-            Spring creates a proxy (CGLIB or JDK dynamic proxy) around the service bean.<br><br>
-
-            Flow:<br>
-            Client → Proxy → Transaction शुरू → Method execution → Commit/Rollback<br><br>
-
-            <b>Critical Limitation:</b><br>
-            Internal method calls within the same class bypass the proxy → NO transaction applied.<br><br>
-
-            <b>Rollback Rule:</b><br>
-            - Rolls back on RuntimeException<br>
-            - Does NOT rollback on checked exceptions by default<br><br>
-
-            <b>Best Practice:</b> Keep transactional methods in separate service classes.<br><br>
-
-            <b>Common Bug:</b> Transactions silently not working due to self-invocation."
-          </div>
-        </div>
-
-        <!-- Q4 -->
-        <div>
-          <div class="label">How do you troubleshoot a 100% CPU spike in a Java Spring Boot application?</div>
-          <div class="quote-box">
-            "Step-by-step debugging approach:<br><br>
-
-            1. Identify high CPU threads → <code>top -H</code><br>
-            2. Convert thread ID to hex<br>
-            3. Take thread dump → <code>jcmd &lt;pid&gt; Thread.print</code><br>
-            4. Analyze stack trace<br><br>
-
-            <b>Common Causes:</b><br>
-            - Infinite loops<br>
-            - Deadlocks<br>
-            - Blocking I/O<br>
-            - Excessive parallel processing<br><br>
-
-            <b>Real Example:</b> Order processing loop stuck in retry logic.<br><br>
-
-            <b>Goal:</b> Identify the exact line of code causing CPU burn."
-          </div>
-        </div>
-
-        <!-- Q5 -->
-        <div>
-          <div class="label">What is the difference between @Fetch(FetchMode.JOIN) and @EntityGraph in JPA (Java
-            Persistence API)?</div>
-          <div class="quote-box">
-            "Both are used to solve the N+1 query problem.<br><br>
-
-            <b>@Fetch(FetchMode.JOIN):</b><br>
-            - Global strategy defined on entity<br>
-            - Always performs JOIN → can lead to over-fetching<br><br>
-
-            <b>@EntityGraph:</b><br>
-            - Query-level control<br>
-            - Fetch only required associations per use case<br><br>
-
-            <b>Recommendation:</b> Prefer @EntityGraph for flexibility and performance.<br><br>
-
-            <b>Use Case:</b> Fetch users with department only when needed.<br><br>
-
-            <b>Benefit:</b> Avoid unnecessary database load."
-          </div>
-        </div>
-
-        <!-- Q6 -->
-        <div>
-          <div class="label">How do you design pagination and filtering in REST APIs while avoiding N+1 problem?</div>
-          <div class="quote-box">
-            "Design REST endpoint:<br>
-            <code>GET /api/users?page=0&size=20&role=ADMIN&status=ACTIVE</code><br><br>
-
-            <b>Approach:</b><br>
-            - Use Specification (dynamic query building)<br>
-            - Use PageRequest for pagination<br>
-            - Use @EntityGraph to fetch related entities<br>
-            - Convert results to DTO (Data Transfer Object) at query level<br><br>
-
-            <b>Avoid:</b> In-memory filtering or mapping<br><br>
-
-            <b>Frontend Mapping:</b> Angular tables with filters and pagination controls.<br><br>
-
-            <b>Goal:</b> Efficient, scalable API responses."
-          </div>
-        </div>
-
-        <!-- Q7 -->
-        <div>
-          <div class="label">What is HATEOAS (Hypermedia As The Engine Of Application State) and when should you use
-            it?</div>
-          <div class="quote-box">
-            "HATEOAS is a REST constraint where API responses include links to related actions.<br><br>
-
-            Example:<br>
-            Order response includes link to payment endpoint.<br><br>
-
-            <b>Use When:</b><br>
-            - Complex workflows (order → payment → shipment)<br>
-            - Public APIs or mobile apps<br><br>
-
-            <b>Avoid When:</b><br>
-            - Simple CRUD APIs<br>
-            - Internal microservices<br><br>
-
-            <b>Insight:</b> Adds flexibility but increases response complexity."
-          </div>
-        </div>
-
-        <!-- Q8 -->
-        <div>
-          <div class="label">Explain ACID properties in databases with a real-world example.</div>
-          <div class="quote-box">
-            "ACID ensures reliable database transactions:<br><br>
-
-            <b>A - Atomicity:</b> All operations succeed or none (money transfer)<br>
-            <b>C - Consistency:</b> Data remains valid (constraints maintained)<br>
-            <b>I - Isolation:</b> Transactions don’t interfere<br>
-            <b>D - Durability:</b> Data persists after commit<br><br>
-
-            <b>Example:</b> Payment processing in sales system.<br><br>
-
-            <b>Importance:</b> Prevents data corruption and ensures reliability."
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- UI LLD: Data Table (Sorting, Filtering, Pagination) -->
-    <div class="card c-yellow full">
-      <div class="card-header">
-        <div class="card-icon">📊</div>
-        <span class="card-title">UI LLD: Data Table (Sorting, Filtering, Pagination)</span>
-        <span class="card-tag">Advanced</span>
-      </div>
-
-      <div class="card-body">
-
-        <ul class="rule-list">
-          <li><strong>Goal</strong> → Display large datasets efficiently</li>
-          <li><strong>Features</strong> → sorting, filtering, pagination</li>
-          <li><strong>Customization</strong> → dynamic columns (show/hide)</li>
-          <li><strong>State</strong> → data, sort, filters, page, columns</li>
-          <li><strong>Memoization</strong> → avoid recomputation</li>
-          <li><strong>Virtualization</strong> → render only visible rows</li>
-          <li><strong>Change Detection</strong> → OnPush for performance</li>
-        </ul>
-
-        <pre><span class="cm">// 🔹 State (Component)</span>
+          <pre><span class="cm">// 🔹 State (Component)</span>
 data$ = signal&lt;User[]&gt;([]);
 sort = signal({ key: 'name', dir: 'asc' });
 filter = signal('');
@@ -5793,7 +5964,7 @@ paginatedData = computed(() => {
 });
 </pre>
 
-        <pre><span class="cm">// 🔹 Template</span>
+          <pre><span class="cm">// 🔹 Template</span>
 &lt;input (input)="filter.set($event.target.value)" placeholder="Search" /&gt;
 
 &lt;table&gt;
@@ -5810,7 +5981,7 @@ paginatedData = computed(() => {
 &lt;button (click)="page.set(page()+1)"&gt;Next&lt;/button&gt;
 </pre>
 
-        <pre><span class="cm">// 🔹 Virtualization (CDK)</span>
+          <pre><span class="cm">// 🔹 Virtualization (CDK)</span>
 &lt;cdk-virtual-scroll-viewport itemSize="50" class="viewport"&gt;
   &lt;div *cdkVirtualFor="let row of sortedData()"&gt;
     {{row.name}}
@@ -5818,22 +5989,42 @@ paginatedData = computed(() => {
 &lt;/cdk-virtual-scroll-viewport&gt;
 </pre>
 
-        <div class="tip-box">
-          💡 <strong>Memoization Flow:</strong> data → filter → sort → paginate (computed signals avoid
-          recomputation)<br /><br />
-          💡 <strong>Virtualization:</strong> Only visible rows rendered → huge performance boost for 10k+
-          rows<br /><br />
-          💡 <strong>Best Practice:</strong> Use <strong>OnPush + trackBy</strong> to minimize DOM updates
-        </div>
+          <div class="tip-box">
+            💡 <strong>Memoization Flow:</strong> data → filter → sort → paginate (computed signals avoid
+            recomputation)<br /><br />
+            💡 <strong>Virtualization:</strong> Only visible rows rendered → huge performance boost for 10k+
+            rows<br /><br />
+            💡 <strong>Best Practice:</strong> Use <strong>OnPush + trackBy</strong> to minimize DOM updates
+          </div>
 
+        </div>
       </div>
+
     </div>
-  </div>
   </div>
 
   <footer>Master Cheatsheet · TypeScript + Angular 19–21 · Last-Min Interview Prep</footer>
 
   <script>
+    const accordionItems = document.querySelectorAll(".accordion-item");
+
+    accordionItems.forEach((item) => {
+      const header = item.querySelector(".accordion-header");
+
+      header.addEventListener("click", () => {
+
+        // close all
+        accordionItems.forEach((card) => {
+          if (card !== item) {
+            card.classList.remove("active");
+          }
+        });
+
+        // toggle current
+        item.classList.toggle("active");
+      });
+    });
+
     function show(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -5844,6 +6035,7 @@ paginatedData = computed(() => {
       });
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+
   </script>
 </body>
 
