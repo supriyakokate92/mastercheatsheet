@@ -749,7 +749,7 @@
     }
 
     .accordion-item.active .accordion-content {
-      max-height: 2000px;
+      max-height: 10000px;
       padding-top: 16px;
     }
   </style>
@@ -811,8 +811,11 @@
       <button class="nav-btn java-tab" onclick="show('java-spring')">
         <span class="nav-dot java-dot"></span> Java Spring
       </button>
+      <button class="nav-btn java-tab" onclick="show('lld')">
+        <span class="nav-dot java-dot"></span> LLD UI
+      </button>
       <button class="nav-btn" onclick="show('summary')" style="border-left:1px solid var(--border)">
-        🎯 TL;DR All
+        All
       </button>
     </nav>
   </div>
@@ -1541,100 +1544,1273 @@ Browser → Shell
   <div id="ng-di" class="section">
     <div class="section-label">💉 Dependency Injection &amp; Routing</div>
     <div class="grid">
+      <!-- ============= DEPENDENCY INJECTION ============= -->
 
-      <div class="card c-sky">
+      <div class="card c-green">
         <div class="card-header">
-          <div class="card-icon">💉</div><span class="card-title">Dependency Injection</span><span
-            class="card-tag">Core</span>
+          <div class="card-icon">💉</div>
+          <span class="card-title">DI Fundamentals</span>
+          <span class="card-tag">Core Concept</span>
         </div>
         <div class="card-body">
           <ul class="rule-list">
-            <li><strong>DI</strong> = Angular supplies objects (services) instead of you creating them</li>
-            <li><strong>Provider</strong> = recipe telling Angular how to create a dependency</li>
-            <li><strong>Factory Provider</strong> = custom logic to choose implementation at runtime</li>
-            <li>Injector tree: <strong>Root → Platform → Component</strong></li>
+            <li><strong>DI</strong> = Framework provides dependencies instead of creating them</li>
+            <li><strong>Injector</strong> = Creates instances based on providers</li>
+            <li><strong>Token</strong> = Key to identify a dependency (class, string, symbol)</li>
+            <li><strong>Provider</strong> = Instructions on how to create a dependency</li>
           </ul>
-          <pre><span class="de">@Injectable</span>({ providedIn: <span class="st">'root'</span> })
-<span class="kw">export class</span> <span class="ty">AuthService</span> { isLoggedIn = <span class="kw">false</span>; }
 
-<span class="de">@Injectable</span>()
-<span class="kw">export class</span> <span class="ty">AuthGuard</span> <span class="kw">implements</span> <span class="ty">CanActivate</span> {
-  <span class="kw">constructor</span>(<span class="kw">private</span> auth: <span class="ty">AuthService</span>) {}
-  <span class="fn">canActivate</span>() { <span class="kw">return this</span>.auth.isLoggedIn; }
+          <div class="label">Basic Dependency Injection</div>
+          <pre><span class="kw">import</span> { Injectable } <span class="kw">from</span> <span class="st">'@angular/core'</span>;
+
+@<span class="st">Injectable</span>({ providedIn: <span class="st">'root'</span> })
+<span class="kw">export class</span> <span class="st">UserService</span> {
+<span class="fn">getUser</span>() { <span class="kw">return</span> { id: <span class="nu">1</span>, name: <span class="st">'John'</span> }; }
+}
+
+@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">UserComponent</span> {
+<span class="cm">// Constructor Injection</span>
+<span class="kw">constructor</span>(<span class="kw">private</span> userService: <span class="st">UserService</span>) {}
+
+<span class="cm">// Property Injection (Angular 14+)</span>
+userService = <span class="fn">inject</span>(<span class="st">UserService</span>);
 }</pre>
-          <ul class="rule-list">
-            <li>Auth Layer → <span class="chip">AuthService</span>, Guards</li>
-            <li>API Layer → <span class="chip">HttpService</span></li>
-            <li>Shared → <span class="chip">ConfigService</span>, Logger</li>
-          </ul>
+
+          <div class="label">Injector Hierarchy</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num" style="background:rgba(16,185,129,.2);color:#10b981">1</div>
+              <div><strong>Root Injector</strong> = providedIn: 'root' (Singleton)</div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:rgba(16,185,129,.2);color:#10b981">2</div>
+              <div><strong>Module Injector</strong> = Declared in @NgModule providers</div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:rgba(16,185,129,.2);color:#10b981">3</div>
+              <div><strong>Component Injector</strong> = Component-level scope</div>
+            </div>
+          </div>
+
+          <div class="info-box blue">
+            💡 <strong>Key:</strong> Angular searches up the injector tree: Component → Module → Root
+          </div>
         </div>
       </div>
 
       <div class="card c-green">
         <div class="card-header">
-          <div class="card-icon">🛣️</div><span class="card-title">Routing + Guards + Lazy Load</span><span
-            class="card-tag">Performance</span>
+          <div class="card-icon">🔧</div>
+          <span class="card-title">Provider Types & Patterns</span>
+          <span class="card-tag">Advanced</span>
         </div>
         <div class="card-body">
-          <div class="label">Standalone (Modern)</div>
-          <pre><span class="kw">export const</span> routes: <span class="ty">Routes</span> = [{
-  path: <span class="st">'sales'</span>,
-  <span class="fn">loadComponent</span>: () => <span class="kw">import</span>(<span class="st">'./sales.component'</span>),
-  canActivate: [<span class="ty">AuthGuard</span>],
-  providers: [<span class="fn">provideState</span>(<span class="st">'sales'</span>, salesReducer)]
-}];</pre>
-          <div class="label">NgModules (Legacy)</div>
-          <pre><span class="kw">{ path: 'dashboard'</span>, component: <span class="ty">DashboardComponent</span>,
-  canActivate: [<span class="ty">AuthGuard</span>] }</pre>
           <ul class="rule-list">
-            <li>Guards: <span class="chip">CanActivate</span> <span class="chip">CanLoad</span> <span
-                class="chip">CanMatch</span></li>
-            <li>Lazy load → scalability &amp; better testability</li>
-            <li>Standalone = leaner, MFE-friendly</li>
+            <li><strong>Class Provider</strong> = Direct instantiation</li>
+            <li><strong>Value Provider</strong> = Constant/config</li>
+            <li><strong>Factory Provider</strong> = Function creates instance</li>
+            <li><strong>Alias Provider</strong> = Reference another token</li>
           </ul>
+
+          <div class="label">1️⃣ Class Provider (Most Common)</div>
+          <pre><span class="cm">// Long form</span>
+providers: [
+{
+provide: <span class="st">UserService</span>,
+useClass: <span class="st">UserService</span>
+}
+]
+
+<span class="cm">// Short form (equivalent)</span>
+providers: [<span class="st">UserService</span>]
+
+<span class="cm">// Different implementation</span>
+providers: [
+{
+provide: <span class="st">UserService</span>,
+useClass: <span class="st">MockUserService</span> <span class="cm">// Test implementation</span>
+}
+]</pre>
+
+          <div class="label">2️⃣ Value Provider (Config, Constants)</div>
+          <pre><span class="cm">// String token</span>
+providers: [
+{
+provide: <span class="st">'API_BASE_URL'</span>,
+useValue: <span class="st">'https://api.example.com'</span>
+}
+]
+
+<span class="cm">// Usage in component</span>
+@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">DataComponent</span> {
+@<span class="st">Inject</span>(<span class="st">'API_BASE_URL'</span>) apiUrl: <span class="st">string</span>
+}</pre>
+
+          <div class="label">3️⃣ Factory Provider (Complex Logic)</div>
+          <pre><span class="cm">// Factory function</span>
+<span class="kw">export function</span> <span class="fn">createUserService</span>(
+http: HttpClient,
+config: <span class="st">Config</span>
+): <span class="st">UserService</span> {
+<span class="kw">return new</span> <span class="st">UserService</span>(http, config.apiUrl);
+}
+
+<span class="cm">// Register factory</span>
+providers: [
+{
+provide: <span class="st">UserService</span>,
+useFactory: <span class="fn">createUserService</span>,
+deps: [HttpClient, <span class="st">Config</span>]
+}
+]</pre>
+
+          <div class="label">4️⃣ Alias Provider (Alternative Name)</div>
+          <pre><span class="cm">// Multiple names for same service</span>
+providers: [
+<span class="st">UserService</span>,
+{
+provide: <span class="st">UserRepository</span>,
+useExisting: <span class="st">UserService</span>
+}
+]
+
+<span class="cm">// Both names work</span>
+<span class="kw">constructor</span>(
+service1: <span class="st">UserService</span>,
+service2: <span class="st">UserRepository</span> <span class="cm">// Same instance</span>
+) {}</pre>
+
+          <div class="info-box yellow">
+            ⚡ <strong>Common Pattern:</strong> Use factories for APIs with environment-based
+            configuration.
+          </div>
         </div>
       </div>
 
-      <div class="card c-yellow">
+      <div class="card c-green">
         <div class="card-header">
-          <div class="card-icon">🧩</div><span class="card-title">Microfrontend (MFE)</span><span
-            class="card-tag">Scale</span>
+          <div class="card-icon">🏷️</div>
+          <span class="card-title">Injection Tokens & Custom Tokens</span>
+          <span class="card-tag">Advanced</span>
         </div>
         <div class="card-body">
           <ul class="rule-list">
-            <li>Each feature = <strong>independent MFE</strong></li>
-            <li>MFEs must not depend directly on each other</li>
-            <li>Comms via Store, events, or APIs only</li>
+            <li><strong>InjectionToken</strong> = Type-safe token instead of strings</li>
+            <li><strong>Custom Tokens</strong> = Create reusable, named dependencies</li>
+            <li>Prevents string typos and improves refactoring</li>
           </ul>
-          <table class="cmp-table">
+
+          <div class="label">InjectionToken (Type-Safe)</div>
+          <pre><span class="kw">import</span> { InjectionToken } <span class="kw">from</span> <span class="st">'@angular/core'</span>;
+
+<span class="cm">// Define token with type</span>
+<span class="kw">export const</span> API_BASE_URL = <span class="kw">new</span> <span class="fn">InjectionToken</span>&lt;<span class="st">string</span>&gt;(
+<span class="st">'API_BASE_URL'</span>
+);
+
+<span class="cm">// Provide value</span>
+providers: [
+{
+provide: API_BASE_URL,
+useValue: <span class="st">'https://api.example.com'</span>
+}
+]
+
+<span class="cm">// Inject safely (type checked)</span>
+<span class="kw">constructor</span>(@<span class="st">Inject</span>(API_BASE_URL) baseUrl: <span class="st">string</span>) {}</pre>
+
+          <div class="label">Configuration Object Token</div>
+          <pre><span class="kw">export interface</span> <span class="st">AppConfig</span> {
+apiUrl: <span class="st">string</span>;
+apiKey: <span class="st">string</span>;
+timeout: <span class="nu">number</span>;
+}
+
+<span class="kw">export const</span> APP_CONFIG = <span class="kw">new</span> <span class="fn">InjectionToken</span>&lt;<span class="st">AppConfig</span>&gt;(
+<span class="st">'AppConfig'</span>
+);
+
+<span class="cm">// Provide config</span>
+providers: [
+{
+provide: APP_CONFIG,
+useValue: {
+  apiUrl: <span class="st">'https://api.example.com'</span>,
+  apiKey: <span class="st">'secret'</span>,
+  timeout: <span class="nu">5000</span>
+}
+}
+]
+
+<span class="cm">// Use config</span>
+<span class="kw">export class</span> <span class="st">ApiService</span> {
+<span class="kw">constructor</span>(@<span class="st">Inject</span>(APP_CONFIG) <span class="kw">private</span> config: <span class="st">AppConfig</span>) {}
+
+<span class="fn">getUrl</span>() { <span class="kw">return</span> <span class="kw">this</span>.config.apiUrl; }
+}</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Best Practice:</strong> Always use <code>InjectionToken</code> for configs, not
+            strings.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-green">
+        <div class="card-header">
+          <div class="card-icon">🔄</div>
+          <span class="card-title">Scope & Lifetimes (Singleton vs Transient)</span>
+          <span class="card-tag">Important</span>
+        </div>
+        <div class="card-body">
+          <table class="comparison-table">
             <thead>
               <tr>
-                <th></th>
-                <th>NgModules</th>
-                <th>Standalone</th>
+                <th>Scope</th>
+                <th>Lifetime</th>
+                <th>Use Case</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Store slices</td>
-                <td><code>forFeature</code></td>
-                <td><code>provideState</code></td>
+                <td><strong>Singleton</strong></td>
+                <td>Entire app lifetime</td>
+                <td>Services, configs, cache</td>
               </tr>
               <tr>
-                <td>Boilerplate</td>
-                <td class="no">Heavy</td>
-                <td class="yes">Minimal</td>
+                <td><strong>Transient</strong></td>
+                <td>Created each time</td>
+                <td>Form handlers, temp data</td>
               </tr>
               <tr>
-                <td>Future-proof</td>
-                <td>Stable</td>
-                <td class="yes">✅</td>
+                <td><strong>Lazy Scoped</strong></td>
+                <td>Per lazy-loaded module</td>
+                <td>Feature module services</td>
               </tr>
             </tbody>
           </table>
-          <div class="info-box green">✅ Global store for Auth/Filters. Local store slices per MFE feature.</div>
+
+          <div class="label">Singleton (Default)</div>
+          <pre><span class="cm">// Singleton - one instance for entire app</span>
+@<span class="st">Injectable</span>({ providedIn: <span class="st">'root'</span> })
+<span class="kw">export class</span> <span class="st">UserService</span> {}
+
+<span class="cm">// Both get same instance</span>
+<span class="fn">comp1</span>.userService === <span class="fn">comp2</span>.userService <span class="ok">// true</span></pre>
+
+          <div class="label">Per-Component Instance</div>
+          <pre><span class="cm">// Transient - new instance per component</span>
+@<span class="st">Component</span>({
+providers: [<span class="st">FormService</span>] <span class="cm">// Component-level</span>
+})
+<span class="kw">export class</span> <span class="st">MyComponent</span> {}
+
+<span class="cm">// Each component gets new instance</span>
+<span class="fn">comp1</span>.formService !== <span class="fn">comp2</span>.formService <span class="ok">// true</span></pre>
+
+          <div class="info-box blue">
+            💡 <strong>Rule:</strong> Prefer root singleton. Use component-level only if truly needed
+            per-instance.
+          </div>
         </div>
       </div>
+
+      <!-- ============= AUTHENTICATION ============= -->
+
+      <div class="card c-purple">
+        <div class="card-header">
+          <div class="card-icon">🔐</div>
+          <span class="card-title">Auth Service Architecture</span>
+          <span class="card-tag">Patterns</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Token Storage</strong> = Save JWT in memory (secure) or localStorage
+              (persistent)</li>
+            <li><strong>Auth State</strong> = Use signals or store for global auth state</li>
+            <li><strong>HTTP Interceptor</strong> = Automatically add token to requests</li>
+            <li><strong>Refresh Logic</strong> = Handle token expiration gracefully</li>
+          </ul>
+
+          <div class="label">Auth Service (Signal-based)</div>
+          <pre><span class="kw">export interface</span> <span class="st">AuthState</span> {
+token: <span class="st">string</span> | <span class="kw">null</span>;
+user: <span class="st">User</span> | <span class="kw">null</span>;
+isAuthenticated: <span class="kw">boolean</span>;
+loading: <span class="kw">boolean</span>;
+}
+
+@<span class="st">Injectable</span>({ providedIn: <span class="st">'root'</span> })
+<span class="kw">export class</span> <span class="st">AuthService</span> {
+<span class="kw">private</span> http = <span class="fn">inject</span>(HttpClient);
+
+<span class="cm">// State signals</span>
+<span class="kw">private</span> authState = signal&lt;<span class="st">AuthState</span>&gt;({
+token: <span class="kw">null</span>,
+user: <span class="kw">null</span>,
+isAuthenticated: <span class="kw">false</span>,
+loading: <span class="kw">false</span>
+});
+
+<span class="cm">// Public read-only signals</span>
+isAuthenticated = <span class="fn">computed</span>(() => 
+<span class="kw">this</span>.authState().isAuthenticated
+);
+currentUser = <span class="fn">computed</span>(() => 
+<span class="kw">this</span>.authState().user
+);
+token = <span class="fn">computed</span>(() => 
+<span class="kw">this</span>.authState().token
+);
+
+<span class="fn">login</span>(email: <span class="st">string</span>, password: <span class="st">string</span>) {
+<span class="kw">this</span>.authState.<span class="fn">mutate</span>(s => s.loading = <span class="kw">true</span>);
+
+<span class="kw">return this</span>.http
+  .<span class="fn">post</span>&lt;{ token: <span class="st">string</span>; user: <span class="st">User</span> }&gt;(
+    <span class="st">'/api/login'</span>,
+    { email, password }
+  )
+  .<span class="fn">pipe</span>(
+    <span class="fn">tap</span>(({ token, user }) => {
+      <span class="kw">this</span>.authState.<span class="fn">mutate</span>(s => {
+        s.token = token;
+        s.user = user;
+        s.isAuthenticated = <span class="kw">true</span>;
+        s.loading = <span class="kw">false</span>;
+      });
+      localStorage.<span class="fn">setItem</span>(<span class="st">'token'</span>, token);
+    }),
+    <span class="fn">catchError</span>(err => {
+      <span class="kw">this</span>.authState.<span class="fn">mutate</span>(s => s.loading = <span class="kw">false</span>);
+      <span class="kw">throw</span> err;
+    })
+  );
+}
+
+<span class="fn">logout</span>() {
+<span class="kw">this</span>.authState.<span class="fn">set</span>({
+  token: <span class="kw">null</span>,
+  user: <span class="kw">null</span>,
+  isAuthenticated: <span class="kw">false</span>,
+  loading: <span class="kw">false</span>
+});
+localStorage.<span class="fn">removeItem</span>(<span class="st">'token'</span>);
+}
+
+<span class="fn">initializeAuth</span>() {
+<span class="kw">const</span> token = localStorage.<span class="fn">getItem</span>(<span class="st">'token'</span>);
+<span class="kw">if</span> (token) {
+  <span class="kw">this</span>.validateToken(token);
+}
+}
+
+<span class="kw">private</span> <span class="fn">validateToken</span>(token: <span class="st">string</span>) {
+<span class="kw">this</span>.http
+  .<span class="fn">post</span>&lt;{ user: <span class="st">User</span> }&gt;(<span class="st">'/api/validate'</span>, { token })
+  .<span class="fn">subscribe</span>(({ user }) => {
+    <span class="kw">this</span>.authState.<span class="fn">mutate</span>(s => {
+      s.token = token;
+      s.user = user;
+      s.isAuthenticated = <span class="kw">true</span>;
+    });
+  });
+}
+}</pre>
+
+          <div class="info-box blue">
+            💡 <strong>Best Practice:</strong> Keep token in memory (sessionStorage), not localStorage
+            for security.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-purple">
+        <div class="card-header">
+          <div class="card-icon">🔒</div>
+          <span class="card-title">HTTP Interceptor for Auth</span>
+          <span class="card-tag">Angular 15+</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Automatically add token to all requests</li>
+            <li>Handle 401 (unauthorized) response</li>
+            <li>Refresh expired tokens</li>
+          </ul>
+
+          <div class="label">Auth Interceptor (Functional)</div>
+          <pre><span class="kw">export const</span> authInterceptor: HttpInterceptorFn = 
+(req, next) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> token = authService.<span class="fn">token</span>();
+
+<span class="cm">// Add token to request</span>
+<span class="kw">if</span> (token) {
+  req = req.<span class="fn">clone</span>({
+    setHeaders: {
+      Authorization: <span class="st">`Bearer </span>${token}<span class="st">`</span>
+    }
+  });
+}
+
+<span class="kw">return</span> <span class="fn">next</span>(req).<span class="fn">pipe</span>(
+  <span class="fn">catchError</span>((error: HttpErrorResponse) => {
+    <span class="cm">// Handle 401 - redirect to login</span>
+    <span class="kw">if</span> (error.status === <span class="nu">401</span>) {
+      authService.<span class="fn">logout</span>();
+      <span class="cm">// Redirect to login</span>
+    }
+    <span class="kw">return</span> <span class="fn">throwError</span>(() => error);
+  })
+);
+};
+
+<span class="cm">// Register in app.config.ts</span>
+<span class="kw">export const</span> appConfig: ApplicationConfig = {
+providers: [
+provideHttpClient(
+  withInterceptors([authInterceptor])
+)
+]
+};</pre>
+
+          <div class="label">Handle Token Refresh</div>
+          <pre><span class="kw">export const</span> authInterceptor: HttpInterceptorFn = 
+(req, next) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> router = <span class="fn">inject</span>(Router);
+
+<span class="kw">return</span> <span class="fn">next</span>(req).<span class="fn">pipe</span>(
+  <span class="fn">catchError</span>((error: HttpErrorResponse) => {
+    <span class="kw">if</span> (error.status === <span class="nu">401</span>) {
+      <span class="cm">// Try to refresh token</span>
+      <span class="kw">return</span> authService.<span class="fn">refreshToken</span>().<span class="fn">pipe</span>(
+        <span class="fn">switchMap</span>(() => {
+          <span class="cm">// Retry with new token</span>
+          <span class="kw">const</span> newToken = authService.<span class="fn">token</span>();
+          <span class="kw">return</span> <span class="fn">next</span>(
+            req.<span class="fn">clone</span>({
+              setHeaders: {
+                Authorization: <span class="st">`Bearer </span>${newToken}<span class="st">`</span>
+              }
+            })
+          );
+        }),
+        <span class="fn">catchError</span>(() => {
+          <span class="cm">// Refresh failed - redirect to login</span>
+          authService.<span class="fn">logout</span>();
+          router.<span class="fn">navigate</span>([<span class="st">'/login'</span>]);
+          <span class="kw">return</span> <span class="fn">throwError</span>(() => error);
+        })
+      );
+    }
+    <span class="kw">return</span> <span class="fn">throwError</span>(() => error);
+  })
+);
+};</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Modern Approach:</strong> Use functional interceptors (Angular 15+) instead of
+            class-based.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-purple">
+        <div class="card-header">
+          <div class="card-icon">👤</div>
+          <span class="card-title">Role-Based Access Control (RBAC)</span>
+          <span class="card-tag">Authorization</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Roles</strong> = Admin, User, Guest, Editor</li>
+            <li><strong>Permissions</strong> = Can read, write, delete</li>
+            <li>Check on both UI (hide buttons) and backend (validate)</li>
+          </ul>
+
+          <div class="label">Extend AuthService with Roles</div>
+          <pre><span class="kw">export interface</span> <span class="st">User</span> {
+id: <span class="nu">number</span>;
+name: <span class="st">string</span>;
+email: <span class="st">string</span>;
+roles: <span class="st">string</span>[]; <span class="cm">// ['admin', 'user']</span>
+permissions: <span class="st">string</span>[]; <span class="cm">// ['read', 'write']</span>
+}
+
+@<span class="st">Injectable</span>({ providedIn: <span class="st">'root'</span> })
+<span class="kw">export class</span> <span class="st">AuthService</span> {
+currentUser = <span class="fn">computed</span>(() => 
+<span class="kw">this</span>.authState().user
+);
+
+<span class="fn">hasRole</span>(role: <span class="st">string</span>): <span class="kw">boolean</span> {
+<span class="kw">const</span> user = <span class="kw">this</span>.currentUser();
+<span class="kw">return</span> user?.roles.<span class="fn">includes</span>(role) ?? <span class="kw">false</span>;
+}
+
+<span class="fn">hasPermission</span>(permission: <span class="st">string</span>): <span class="kw">boolean</span> {
+<span class="kw">const</span> user = <span class="kw">this</span>.currentUser();
+<span class="kw">return</span> user?.permissions.<span class="fn">includes</span>(permission) ?? <span class="kw">false</span>;
+}
+
+<span class="fn">hasAnyRole</span>(roles: <span class="st">string</span>[]): <span class="kw">boolean</span> {
+<span class="kw">return</span> roles.<span class="fn">some</span>(role => <span class="kw">this</span>.<span class="fn">hasRole</span>(role));
+}
+}</pre>
+
+          <div class="label">Using Roles in Template</div>
+          <pre><span class="cm">&lt;!-- Hide/show based on role --&gt;</span>
+&lt;button *ngIf="authService.<span class="fn">hasRole</span>(<span class="st">'admin'</span>)"&gt;
+Delete User
+&lt;/button&gt;
+
+&lt;button *ngIf="authService.<span class="fn">hasPermission</span>(<span class="st">'write'</span>)"&gt;
+Edit Post
+&lt;/button&gt;</pre>
+
+          <div class="info-box yellow">
+            ⚡ <strong>Security:</strong> Always validate permissions on backend, never trust frontend
+            checks alone.
+          </div>
+        </div>
+      </div>
+
+      <!-- ============= ROUTE GUARDS (COMPLETE) ============= -->
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🛡️</div>
+          <span class="card-title">Route Guards Overview</span>
+          <span class="card-tag">Security</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>CanActivate</strong> = Allow/deny entering a route</li>
+            <li><strong>CanActivateChild</strong> = Protect child routes</li>
+            <li><strong>CanDeactivate</strong> = Ask before leaving (unsaved data)</li>
+            <li><strong>CanMatch</strong> = Route matching condition</li>
+            <li><strong>Resolve</strong> = Pre-load data before activation</li>
+          </ul>
+
+          <div class="label">Guard Types & Use Cases</div>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Guard</th>
+                <th>Purpose</th>
+                <th>Returns</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>CanActivate</code></td>
+                <td>Auth check before entering route</td>
+                <td>boolean | UrlTree</td>
+              </tr>
+              <tr>
+                <td><code>CanActivateChild</code></td>
+                <td>Protect all child routes</td>
+                <td>boolean | UrlTree</td>
+              </tr>
+              <tr>
+                <td><code>CanDeactivate</code></td>
+                <td>Warn before leaving (unsaved)</td>
+                <td>boolean | Promise</td>
+              </tr>
+              <tr>
+                <td><code>CanMatch</code></td>
+                <td>Conditional route matching</td>
+                <td>boolean</td>
+              </tr>
+              <tr>
+                <td><code>Resolve</code></td>
+                <td>Pre-load data before activation</td>
+                <td>Data object</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box blue">
+            💡 <strong>Angular 15+ Syntax:</strong> Use functional guards instead of class-based
+            (RxJS-friendly).
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🔑</div>
+          <span class="card-title">CanActivate Guard (Auth Protection)</span>
+          <span class="card-tag">Most Common</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Protect routes from unauthorized access</li>
+            <li>Return <code>true</code> to allow, <code>false</code> to deny</li>
+            <li>Return <code>UrlTree</code> to redirect</li>
+          </ul>
+
+          <div class="label">Functional CanActivate Guard (Angular 15+)</div>
+          <pre><span class="kw">import</span> { CanActivateFn } <span class="kw">from</span> <span class="st">'@angular/router'</span>;
+
+<span class="cm">// Simple auth guard</span>
+<span class="kw">export const</span> authGuard: CanActivateFn = (route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> router = <span class="fn">inject</span>(Router);
+
+<span class="cm">// Check if authenticated</span>
+<span class="kw">if</span> (authService.<span class="fn">isAuthenticated</span>()) {
+<span class="kw">return</span> <span class="kw">true</span>; <span class="ok">// ✅ Allow access</span>
+}
+
+<span class="cm">// Redirect to login if not authenticated</span>
+<span class="kw">return</span> router.<span class="fn">createUrlTree</span>([<span class="st">'/login'</span>], {
+queryParams: { returnUrl: state.url }
+});
+};
+
+<span class="cm">// Role-based guard</span>
+<span class="kw">export const</span> adminGuard: CanActivateFn = (route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> router = <span class="fn">inject</span>(Router);
+
+<span class="kw">if</span> (!authService.<span class="fn">isAuthenticated</span>()) {
+<span class="kw">return</span> router.<span class="fn">createUrlTree</span>([<span class="st">'/login'</span>]);
+}
+
+<span class="kw">if</span> (!authService.<span class="fn">hasRole</span>(<span class="st">'admin'</span>)) {
+<span class="kw">return</span> router.<span class="fn">createUrlTree</span>([<span class="st">'/unauthorized'</span>]);
+}
+
+<span class="kw">return</span> <span class="kw">true</span>;
+};</pre>
+
+          <div class="label">Using Guards in Routes</div>
+          <pre><span class="kw">export const</span> routes: Routes = [
+{
+path: <span class="st">'login'</span>,
+component: LoginComponent
+},
+{
+path: <span class="st">'dashboard'</span>,
+component: DashboardComponent,
+canActivate: [authGuard] <span class="ok">// ✅ Protected</span>
+},
+{
+path: <span class="st">'admin'</span>,
+component: AdminComponent,
+canActivate: [authGuard, adminGuard] <span class="ok">// ✅ Multiple guards</span>
+},
+{
+path: <span class="st">''</span>,
+redirectTo: <span class="st">'/dashboard'</span>,
+pathMatch: <span class="st">'full'</span>
+}
+];</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Best Practice:</strong> Combine multiple guards for layered protection (auth +
+            role).
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">👶</div>
+          <span class="card-title">CanActivateChild Guard</span>
+          <span class="card-tag">Nested Routes</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Protect ALL child routes at once</li>
+            <li>More efficient than repeating guard on each child</li>
+            <li>Useful for feature modules with shared auth</li>
+          </ul>
+
+          <div class="label">CanActivateChild Guard</div>
+          <pre><span class="kw">export const</span> canActivateChildGuard: CanActivateChildFn = 
+(route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> router = <span class="fn">inject</span>(Router);
+
+<span class="kw">if</span> (!authService.<span class="fn">isAuthenticated</span>()) {
+  <span class="kw">return</span> router.<span class="fn">createUrlTree</span>([<span class="st">'/login'</span>]);
+}
+
+<span class="kw">return</span> <span class="kw">true</span>;
+};</pre>
+
+          <div class="label">Route Configuration with Child Routes</div>
+          <pre><span class="kw">export const</span> routes: Routes = [
+{
+path: <span class="st">'admin'</span>,
+component: AdminLayoutComponent,
+canActivateChild: [canActivateChildGuard], <span class="ok">// ✅ Protects all children</span>
+children: [
+  { path: <span class="st">'users'</span>, component: UsersComponent },
+  { path: <span class="st">'settings'</span>, component: SettingsComponent },
+  { path: <span class="st">'reports'</span>, component: ReportsComponent }
+  <span class="cm">// All protected by canActivateChild</span>
+]
+}
+];</pre>
+
+          <div class="info-box yellow">
+            ⚡ <strong>vs CanActivate:</strong> Use <code>CanActivateChild</code> when protecting
+            multiple nested routes.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">⚠️</div>
+          <span class="card-title">CanDeactivate Guard (Unsaved Changes)</span>
+          <span class="card-tag">UX Safety</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Ask before leaving route with unsaved changes</li>
+            <li>Prevents accidental data loss</li>
+            <li>Returns boolean or Promise/Observable</li>
+          </ul>
+
+          <div class="label">Implement Deactivate Interface</div>
+          <pre><span class="kw">export interface</span> <span class="st">CanComponentDeactivate</span> {
+<span class="fn">canDeactivate</span>(): <span class="kw">boolean</span> | Promise&lt;<span class="kw">boolean</span>&gt;;
+}
+
+@<span class="st">Component</span>({
+selector: <span class="st">'app-form-edit'</span>,
+template: `
+&lt;form [formGroup]="form"&gt;
+  &lt;input formControlName="name" /&gt;
+  &lt;button (click)="save()"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+`
+})
+<span class="kw">export class</span> <span class="st">FormEditComponent</span> 
+<span class="kw">implements</span> <span class="st">CanComponentDeactivate</span> {
+
+form: FormGroup;
+originalValue: <span class="st">any</span>;
+
+<span class="fn">canDeactivate</span>(): <span class="kw">boolean</span> {
+<span class="cm">// Allow navigation if form not dirty</span>
+<span class="kw">if</span> (!<span class="kw">this</span>.form.<span class="fn">dirty</span>) {
+  <span class="kw">return</span> <span class="kw">true</span>;
+}
+
+<span class="cm">// Ask user if they want to leave</span>
+<span class="kw">return</span> <span class="fn">confirm</span>(
+  <span class="st">'You have unsaved changes. Leave anyway?'</span>
+);
+}
+
+<span class="fn">save</span>() {
+<span class="cm">// Save logic</span>
+<span class="kw">this</span>.form.<span class="fn">markAsPristine</span>();
+}
+}</pre>
+
+          <div class="label">CanDeactivate Guard Function</div>
+          <pre><span class="kw">export const</span> unsavedChangesGuard: CanDeactivateFn&lt;
+<span class="st">CanComponentDeactivate</span>
+&gt; = (component) => {
+<span class="kw">if</span> (!component) {
+<span class="kw">return</span> <span class="kw">true</span>;
+}
+
+<span class="kw">return</span> component.<span class="fn">canDeactivate</span>();
+};
+
+<span class="cm">// In routes</span>
+{
+path: <span class="st">'edit/:id'</span>,
+component: FormEditComponent,
+canDeactivate: [unsavedChangesGuard]
+}</pre>
+
+          <div class="info-box blue">
+            💡 <strong>Pattern:</strong> Use with <code>FormGroup.dirty</code> to track changes.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🔀</div>
+          <span class="card-title">Resolve Guard (Pre-load Data)</span>
+          <span class="card-tag">Performance</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Pre-load data before component activates</li>
+            <li>Component receives data via route data</li>
+            <li>Prevents component from rendering until data ready</li>
+          </ul>
+
+          <div class="label">Resolve Guard Function</div>
+          <pre><span class="kw">export const</span> userResolver: ResolveFn&lt;<span class="st">User</span>&gt; = 
+(route, state) => {
+<span class="kw">const</span> http = <span class="fn">inject</span>(HttpClient);
+<span class="kw">const</span> userId = route.<span class="fn">paramMap</span>.<span class="fn">get</span>(<span class="st">'id'</span>)!;
+
+<span class="kw">return</span> http.<span class="fn">get</span>&lt;<span class="st">User</span>&gt;(
+  <span class="st">`/api/users/</span>${userId}<span class="st">`</span>
+).<span class="fn">pipe</span>(
+  <span class="fn">catchError</span>((error) => {
+    <span class="cm">// Handle error - prevent navigation</span>
+    <span class="fn">throwError</span>(() => 
+      <span class="kw">new</span> <span class="st">Error</span>(<span class="st">'User not found'</span>)
+    );
+  })
+);
+};
+
+<span class="cm">// In routes</span>
+{
+path: <span class="st">'user/:id'</span>,
+component: UserDetailComponent,
+resolve: {
+user: userResolver <span class="ok">// Data loaded before activation</span>
+}
+}</pre>
+
+          <div class="label">Access Resolved Data in Component</div>
+          <pre>@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">UserDetailComponent</span> {
+<span class="kw">private</span> route = <span class="fn">inject</span>(ActivatedRoute);
+
+user = this.route.data.<span class="fn">pipe</span>(
+map(data => data[<span class="st">'user'</span>])
+);
+
+<span class="cm">// Or with signals (Angular 16+)</span>
+user = <span class="fn">toSignal</span>(
+<span class="kw">this</span>.route.data.<span class="fn">pipe</span>(
+  map(data => data[<span class="st">'user'</span>])
+)
+);
+}</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Benefit:</strong> No loading spinner needed - data ready before render.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🎯</div>
+          <span class="card-title">CanMatch Guard (Conditional Routes)</span>
+          <span class="card-tag">Advanced</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Conditionally match/hide entire routes</li>
+            <li>Feature flags, A/B testing, role-based routes</li>
+            <li>Route doesn't appear if guard returns false</li>
+          </ul>
+
+          <div class="label">CanMatch for Feature Flags</div>
+          <pre><span class="kw">export const</span> betaFeatureGuard: CanMatchFn = () => {
+<span class="kw">const</span> featureService = <span class="fn">inject</span>(FeatureService);
+<span class="kw">return</span> featureService.<span class="fn">isBetaEnabled</span>();
+};
+
+<span class="kw">export const</span> adminRouteGuard: CanMatchFn = () => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">return</span> authService.<span class="fn">hasRole</span>(<span class="st">'admin'</span>);
+};
+
+<span class="cm">// In routes</span>
+<span class="kw">export const</span> routes: Routes = [
+{
+path: <span class="st">'dashboard'</span>,
+component: DashboardComponent
+},
+{
+path: <span class="st">'beta-feature'</span>,
+component: BetaComponent,
+canMatch: [betaFeatureGuard] <span class="ok">// Only if enabled</span>
+},
+{
+path: <span class="st">'admin'</span>,
+component: AdminComponent,
+canMatch: [adminRouteGuard] <span class="ok">// Only for admins</span>
+}
+];</pre>
+
+          <div class="label">Practical: Hide Admin Routes Unless Admin</div>
+          <pre><span class="cm">// Users: route doesn't exist</span>
+<span class="cm">// Admins: route is available</span>
+
+@<span class="st">Component</span>({
+template: `
+&lt;nav&gt;
+  &lt;a routerLink="/dashboard"&gt;Dashboard&lt;/a&gt;
+  &lt;a *ngIf="auth.hasRole('admin')" routerLink="/admin"&gt;
+    Admin
+  &lt;/a&gt;
+&lt;/nav&gt;
+`
+})
+<span class="kw">export class</span> <span class="st">NavComponent</span> {
+auth = <span class="fn">inject</span>(AuthService);
+}</pre>
+
+          <div class="info-box yellow">
+            ⚡ <strong>Use Case:</strong> Show/hide entire feature sections based on roles or feature
+            flags.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🔗</div>
+          <span class="card-title">Combining Multiple Guards</span>
+          <span class="card-tag">Patterns</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li>Stack guards for layered protection</li>
+            <li>All guards must pass (AND logic)</li>
+            <li>Order matters - check auth before role</li>
+          </ul>
+
+          <div class="label">Multiple Guards with Order</div>
+          <pre><span class="cm">// Guard 1: Check authentication</span>
+<span class="kw">export const</span> authGuard: CanActivateFn = (route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">return</span> authService.<span class="fn">isAuthenticated</span>() 
+? <span class="kw">true</span> 
+: <span class="fn">inject</span>(Router).<span class="fn">createUrlTree</span>([<span class="st">'/login'</span>]);
+};
+
+<span class="cm">// Guard 2: Check role</span>
+<span class="kw">export const</span> roleGuard: CanActivateFn = (route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> requiredRole = route.<span class="fn">data</span>[<span class="st">'role'</span>];
+
+<span class="kw">return</span> authService.<span class="fn">hasRole</span>(requiredRole)
+? <span class="kw">true</span>
+: <span class="fn">inject</span>(Router).<span class="fn">createUrlTree</span>([<span class="st">'/unauthorized'</span>]);
+};
+
+<span class="cm">// Guard 3: Check permissions</span>
+<span class="kw">export const</span> permissionGuard: CanActivateFn = (route, state) => {
+<span class="kw">const</span> authService = <span class="fn">inject</span>(AuthService);
+<span class="kw">const</span> requiredPermission = route.<span class="fn">data</span>[<span class="st">'permission'</span>];
+
+<span class="kw">return</span> authService.<span class="fn">hasPermission</span>(requiredPermission)
+? <span class="kw">true</span>
+: <span class="fn">inject</span>(Router).<span class="fn">createUrlTree</span>([<span class="st">'/forbidden'</span>]);
+};
+
+<span class="cm">// Use all guards in order</span>
+{
+path: <span class="st">'admin/users/delete'</span>,
+component: DeleteUsersComponent,
+canActivate: [authGuard, roleGuard, permissionGuard],
+data: { 
+role: <span class="st">'admin'</span>,
+permission: <span class="st">'delete:users'</span>
+}
+}</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Order:</strong> Cheapest checks first (auth) → Most expensive (API permissions).
+          </div>
+        </div>
+      </div>
+      <div class="card c-rose">
+        <div class="card-header">
+          <div class="card-icon">🧼</div>
+          <span class="card-title">ngOnDestroy & Cleanup</span>
+          <span class="card-tag">Memory Management</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>ngOnDestroy</strong> = Called when component is destroyed</li>
+            <li>Unsubscribe from observables to prevent memory leaks</li>
+            <li>Clear timers, close connections, remove event listeners</li>
+            <li>Critical for preventing memory leaks in SPAs</li>
+          </ul>
+
+          <div class="label">Cleanup in ngOnDestroy (Classic Approach)</div>
+          <pre>@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">DataComponent</span> 
+  <span class="kw">implements</span> <span class="st">OnInit</span>, <span class="st">OnDestroy</span> {
+  
+  <span class="kw">private</span> http = <span class="fn">inject</span>(HttpClient);
+  <span class="kw">private</span> destroy$ = <span class="kw">new</span> <span class="st">Subject</span>&lt;<span class="kw">void</span>&gt;();
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="cm">// Unsubscribe when destroyed</span>
+    <span class="kw">this</span>.http.<span class="fn">get</span>(<span class="st">'/api/data'</span>)
+      .<span class="fn">pipe</span>(
+        <span class="fn">takeUntil</span>(<span class="kw">this</span>.destroy$)
+      )
+      .<span class="fn">subscribe</span>(data => console.<span class="fn">log</span>(data));
+  }
+
+  <span class="fn">ngOnDestroy</span>() {
+    <span class="cm">// Emit destroy signal to all subscriptions</span>
+    <span class="kw">this</span>.destroy$.<span class="fn">next</span>();
+    <span class="kw">this</span>.destroy$.<span class="fn">complete</span>();
+  }
+}</pre>
+
+          <div class="label">Multiple Subscriptions Cleanup</div>
+          <pre>@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">ComplexComponent</span> 
+  <span class="kw">implements</span> <span class="st">OnInit</span>, <span class="st">OnDestroy</span> {
+  
+  <span class="kw">private</span> http = <span class="fn">inject</span>(HttpClient);
+  <span class="kw">private</span> subscriptions = <span class="kw">new</span> <span class="st">Subscription</span>();
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="cm">// Add multiple subscriptions to single subscription</span>
+    <span class="kw">this</span>.subscriptions.<span class="fn">add</span>(
+      <span class="kw">this</span>.http.<span class="fn">get</span>(<span class="st">'/api/users'</span>)
+        .<span class="fn">subscribe</span>(data => console.<span class="fn">log</span>(data))
+    );
+
+    <span class="kw">this</span>.subscriptions.<span class="fn">add</span>(
+      <span class="kw">this</span>.http.<span class="fn">get</span>(<span class="st">'/api/posts'</span>)
+        .<span class="fn">subscribe</span>(data => console.<span class="fn">log</span>(data))
+    );
+  }
+
+  <span class="fn">ngOnDestroy</span>() {
+    <span class="cm">// Unsubscribe from all at once</span>
+    <span class="kw">this</span>.subscriptions.<span class="fn">unsubscribe</span>();
+  }
+}</pre>
+
+          <div class="label">Cleanup: Timers & Event Listeners</div>
+          <pre>@<span class="st">Component</span>({
+  template: `&lt;p&gt;{{ count() }}&lt;/p&gt;`
+})
+<span class="kw">export class</span> <span class="st">TimerComponent</span> 
+  <span class="kw">implements</span> <span class="st">OnInit</span>, <span class="st">OnDestroy</span> {
+  
+  count = signal(<span class="nu">0</span>);
+  <span class="kw">private</span> intervalId?: <span class="nu">number</span>;
+  <span class="kw">private</span> resizeListener?: () => <span class="kw">void</span>;
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="cm">// Start interval</span>
+    <span class="kw">this</span>.intervalId = window.<span class="fn">setInterval</span>(() => {
+      <span class="kw">this</span>.count.<span class="fn">update</span>(c => c + <span class="nu">1</span>);
+    }, <span class="nu">1000</span>);
+
+    <span class="cm">// Add event listener</span>
+    <span class="kw">this</span>.resizeListener = () => {
+      console.<span class="fn">log</span>(<span class="st">'Window resized'</span>);
+    };
+    window.<span class="fn">addEventListener</span>(<span class="st">'resize'</span>, 
+      <span class="kw">this</span>.resizeListener);
+  }
+
+  <span class="fn">ngOnDestroy</span>() {
+    <span class="cm">// Clear interval</span>
+    <span class="kw">if</span> (<span class="kw">this</span>.intervalId) {
+      window.<span class="fn">clearInterval</span>(<span class="kw">this</span>.intervalId);
+    }
+
+    <span class="cm">// Remove event listener</span>
+    <span class="kw">if</span> (<span class="kw">this</span>.resizeListener) {
+      window.<span class="fn">removeEventListener</span>(<span class="st">'resize'</span>, 
+        <span class="kw">this</span>.resizeListener);
+    }
+  }
+}</pre>
+
+          <div class="label">Modern Approach: Effect Cleanup (Angular 16+)</div>
+          <pre><span class="cm">// Signals + effects handle cleanup automatically</span>
+
+@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">DataComponent</span> {
+  <span class="kw">private</span> http = <span class="fn">inject</span>(HttpClient);
+  userId = <span class="fn">input</span>&lt;<span class="nu">number</span>&gt;();
+  data = signal&lt;<span class="st">any</span>&gt;(<span class="kw">null</span>);
+  <span class="kw">private</span> intervalId?: <span class="nu">number</span>;
+
+  <span class="kw">constructor</span>() {
+    <span class="cm">// Effect with cleanup - auto runs on dependency change</span>
+    <span class="fn">effect</span>((onCleanup) => {
+      <span class="kw">const</span> id = <span class="kw">this</span>.<span class="fn">userId</span>();
+      
+      <span class="cm">// Subscribe to API</span>
+      <span class="kw">const</span> subscription = <span class="kw">this</span>.http
+        .<span class="fn">get</span>(<span class="st">`/api/user/</span>${id}<span class="st">`</span>)
+        .<span class="fn">subscribe</span>(data => <span class="kw">this</span>.data.<span class="fn">set</span>(data));
+
+      <span class="cm">// Start polling</span>
+      <span class="kw">this</span>.intervalId = window.<span class="fn">setInterval</span>(() => {
+        console.<span class="fn">log</span>(<span class="st">'Polling...'</span>);
+      }, <span class="nu">5000</span>);
+
+      <span class="cm">// Cleanup: called on destroy OR when userId changes</span>
+      <span class="fn">onCleanup</span>(() => {
+        subscription.<span class="fn">unsubscribe</span>();
+        <span class="kw">if</span> (<span class="kw">this</span>.intervalId) {
+          window.<span class="fn">clearInterval</span>(<span class="kw">this</span>.intervalId);
+        }
+      });
+    });
+  }
+}</pre>
+
+          <div class="label">DestroyRef Injection (Best Modern Way - Angular 16+)</div>
+          <pre><span class="cm">// Angular 16+ - inject DestroyRef</span>
+<span class="kw">import</span> { DestroyRef, <span class="fn">takeUntilDestroyed</span> } 
+  <span class="kw">from</span> <span class="st">'@angular/core'</span>;
+
+@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">DataComponent</span> {
+  <span class="kw">private</span> http = <span class="fn">inject</span>(HttpClient);
+  <span class="kw">private</span> destroyRef = <span class="fn">inject</span>(DestroyRef);
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="cm">// Automatically unsubscribe on destroy</span>
+    <span class="kw">this</span>.http.<span class="fn">get</span>(<span class="st">'/api/data'</span>)
+      .<span class="fn">pipe</span>(
+        <span class="fn">takeUntilDestroyed</span>(<span class="kw">this</span>.destroyRef)
+      )
+      .<span class="fn">subscribe</span>(data => console.<span class="fn">log</span>(data));
+  }
+
+  <span class="cm">// No need to implement OnDestroy!</span>
+}</pre>
+
+          <div class="label">DestroyRef with Custom Logic</div>
+          <pre>@<span class="st">Component</span>({})
+<span class="kw">export class</span> <span class="st">ComponentWithCleanup</span> {
+  <span class="kw">private</span> destroyRef = <span class="fn">inject</span>(DestroyRef);
+  <span class="kw">private</span> intervalId?: <span class="nu">number</span>;
+
+  <span class="fn">ngOnInit</span>() {
+    <span class="kw">this</span>.intervalId = window.<span class="fn">setInterval</span>(() => {
+      console.<span class="fn">log</span>(<span class="st">'Polling'</span>);
+    }, <span class="nu">1000</span>);
+
+    <span class="cm">// Register cleanup callback</span>
+    <span class="kw">this</span>.destroyRef.<span class="fn">onDestroy</span>(() => {
+      <span class="kw">if</span> (<span class="kw">this</span>.intervalId) {
+        window.<span class="fn">clearInterval</span>(<span class="kw">this</span>.intervalId);
+      }
+    });
+  }
+}</pre>
+
+          <div class="label">Cleanup Methods Comparison</div>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Approach</th>
+                <th>Angular 16+</th>
+                <th>Best For</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>takeUntil(destroy$)</code></td>
+                <td>RxJS + Subject</td>
+                <td>Classic</td>
+                <td>Multiple subscriptions</td>
+              </tr>
+              <tr>
+                <td><code>Subscription.add()</code></td>
+                <td>Subscription pool</td>
+                <td>Classic</td>
+                <td>Managing groups</td>
+              </tr>
+              <tr>
+                <td><code>effect(onCleanup)</code></td>
+                <td>Signal effects</td>
+                <td><span class="yes">✅ Modern</span></td>
+                <td>Reactive patterns</td>
+              </tr>
+              <tr>
+                <td><code>takeUntilDestroyed()</code></td>
+                <td>DestroyRef</td>
+                <td><span class="yes">✅ Modern</span></td>
+                <td>Simple subscriptions</td>
+              </tr>
+              <tr>
+                <td><code>destroyRef.onDestroy()</code></td>
+                <td>DestroyRef callback</td>
+                <td><span class="yes">✅ Modern</span></td>
+                <td>Custom cleanup</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="label">Common Cleanup Scenarios</div>
+          <pre><span class="cm">// Scenario 1: Close WebSocket connection</span>
+<span class="kw">private</span> ws?: WebSocket;
+
+<span class="fn">ngOnInit</span>() {
+  <span class="kw">this</span>.ws = <span class="kw">new</span> <span class="st">WebSocket</span>(<span class="st">'ws://localhost:8080'</span>);
+}
+
+<span class="fn">ngOnDestroy</span>() {
+  <span class="kw">if</span> (<span class="kw">this</span>.<span class="fn">ws</span>) {
+    <span class="kw">this</span>.ws.<span class="fn">close</span>();
+  }
+}
+
+<span class="cm">// Scenario 2: Unsubscribe from observable stream</span>
+<span class="kw">private</span> destroy$ = <span class="kw">new</span> <span class="st">Subject</span>&lt;<span class="kw">void</span>&gt;();
+
+<span class="fn">ngOnInit</span>() {
+  <span class="kw">this</span>.observable$.<span class="fn">pipe</span>(
+    <span class="fn">takeUntil</span>(<span class="kw">this</span>.destroy$)
+  ).<span class="fn">subscribe</span>(...)
+}
+
+<span class="fn">ngOnDestroy</span>() {
+  <span class="kw">this</span>.destroy$.<span class="fn">next</span>();
+}
+
+<span class="cm">// Scenario 3: Remove DOM references</span>
+<span class="kw">private</span> element?: HTMLElement;
+
+<span class="fn">ngAfterViewInit</span>() {
+  <span class="kw">this</span>.element = document.<span class="fn">getElementById</span>(<span class="st">'chart'</span>);
+}
+
+<span class="fn">ngOnDestroy</span>() {
+  <span class="cm">// Clean up to help garbage collection</span>
+  <span class="kw">this</span>.element = <span class="kw">undefined</span>;
+}</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Best Practice:</strong> Prefer <code>takeUntilDestroyed()</code> (Angular 16+) for simplicity,
+            <code>effect(onCleanup)</code> for reactive patterns.
+          </div>
+
+          <div class="info-box blue">
+            💡 <strong>Rule of Thumb:</strong> Every <code>.subscribe()</code> needs cleanup. Use <code>async</code>
+            pipe in templates to avoid subscriptions entirely.
+          </div>
+
+          <div class="info-box yellow">
+            ⚡ <strong>Memory Leak Prevention:</strong> Unsubscribe → Clear intervals → Remove listeners → Close
+            connections → Clear DOM references.
+          </div>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -1646,63 +2822,374 @@ Browser → Shell
     <div class="section-label">🔁 Change Detection, NgZone &amp; Store</div>
     <div class="grid">
 
+      <!-- ============= CHANGE DETECTION & NGZONE ============= -->
+
       <div class="card c-orange">
         <div class="card-header">
-          <div class="card-icon">🔁</div><span class="card-title">Change Detection &amp; NgZone</span><span
-            class="card-tag">Performance</span>
+          <div class="card-icon">🔁</div>
+          <span class="card-title">Change Detection Basics</span>
+          <span class="card-tag">Performance</span>
         </div>
         <div class="card-body">
           <ul class="rule-list">
-            <li><strong>Change Detection</strong> = Angular updates DOM when data changes</li>
-            <li><strong>NgZone</strong> = controls <em>when</em> Angular runs detection</li>
-            <li>Parent→Child: Inputs | Child→Parent: Outputs | Siblings: Store</li>
+            <li><strong>Change Detection</strong> = Angular checks if data changed and updates DOM</li>
+            <li><strong>Zone.js</strong> = patches async operations (setTimeout, events, promises)</li>
+            <li><strong>Default Strategy</strong> = Check component + all children on ANY async event
+            </li>
+            <li><strong>OnPush</strong> = Only check when inputs change or events fire</li>
           </ul>
-          <div class="label">Skip Detection — Heavy Ops</div>
-          <pre><span class="kw">this</span>.ngZone.<span class="fn">runOutsideAngular</span>(() => {
-  <span class="fn">heavyComputation</span>(); <span class="cm">// ML, charts, WebSocket poll</span>
-});</pre>
-          <div class="label">Re-enter Detection</div>
-          <pre><span class="kw">this</span>.ngZone.<span class="fn">run</span>(() => {
-  <span class="kw">this</span>.progress = <span class="nu">100</span>; <span class="ok">// Angular updates UI ✅</span>
-});</pre>
-          <div class="info-box yellow">⚡ Use <code>runOutsideAngular</code> for high-frequency ops: ML inference,
-            animation frames, chart rendering.</div>
+
+          <div class="label">Change Detection Flow</div>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num" style="background:rgba(249,115,22,.2);color:#f97316">1</div>
+              <div>Zone.js patches async operation</div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:rgba(249,115,22,.2);color:#f97316">2</div>
+              <div>Zone emits onMicrotaskEmpty</div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:rgba(249,115,22,.2);color:#f97316">3</div>
+              <div>Angular runs change detection</div>
+            </div>
+            <div class="step">
+              <div class="step-num" style="background:rgba(249,115,22,.2);color:#f97316">4</div>
+              <div>DOM updates</div>
+            </div>
+          </div>
+
+          <div class="label">Change Detection Strategies</div>
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Strategy</th>
+                <th>Behavior</th>
+                <th>Use Case</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>Default</code></td>
+                <td>Check always on any async</td>
+                <td>Simple apps</td>
+              </tr>
+              <tr>
+                <td><code>OnPush</code></td>
+                <td>Check only when inputs change</td>
+                <td>Performance critical</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="info-box yellow">
+            ⚡ <strong>Pro Tip:</strong> Always use <code>OnPush</code> with immutable data + signals for
+            best performance.
+          </div>
         </div>
       </div>
 
-      <div class="card c-rose">
+      <div class="card c-orange">
         <div class="card-header">
-          <div class="card-icon">🗄️</div><span class="card-title">NgRx Store Pattern</span><span
-            class="card-tag">State</span>
+          <div class="card-icon">⚙️</div>
+          <span class="card-title">NgZone Performance Optimization</span>
+          <span class="card-tag">Advanced</span>
         </div>
         <div class="card-body">
           <ul class="rule-list">
-            <li><strong>Store</strong> = single source of truth</li>
-            <li>Components dispatch actions → Store updates → Selectors push to UI</li>
-            <li>Decouples siblings &amp; MFE communication</li>
+            <li><strong>runOutsideAngular()</strong> = Skip change detection for heavy operations</li>
+            <li><strong>run()</strong> = Re-enter Angular zone and trigger detection</li>
+            <li>Use for: ML inference, charts, WebSocket polling, animations</li>
           </ul>
-          <div class="label">Flow</div>
-          <div class="steps">
-            <div class="step">
-              <div class="step-num" style="background:rgba(244,114,182,.12);color:#f472b6">1</div>
-              <div>Filters dispatch <span class="chip">updateFilter</span> action</div>
-            </div>
-            <div class="step">
-              <div class="step-num" style="background:rgba(244,114,182,.12);color:#f472b6">2</div>
-              <div>Store updates state slice</div>
-            </div>
-            <div class="step">
-              <div class="step-num" style="background:rgba(244,114,182,.12);color:#f472b6">3</div>
-              <div>Table &amp; Chart auto-update via selectors</div>
-            </div>
+
+          <div class="label">Skip Change Detection (Heavy Ops)</div>
+          <pre><span class="kw">constructor</span>(<span class="kw">private</span> ngZone: NgZone) {}
+
+<span class="fn">startHeavyComputation</span>() {
+<span class="kw">this</span>.ngZone.<span class="fn">runOutsideAngular</span>(() => {
+<span class="cm">// ML inference, chart rendering, WebSocket poll</span>
+<span class="kw">this</span>.<span class="fn">mlModel</span>.<span class="fn">predict</span>(data);
+requestAnimationFrame(() => {
+  <span class="kw">this</span>.ngZone.<span class="fn">run</span>(() => {
+    <span class="kw">this</span>.progress = <span class="nu">100</span>; <span class="ok">// Angular updates ✅</span>
+  });
+});
+});
+}</pre>
+
+          <div class="label">Real-World Example: Chart Rendering</div>
+          <pre><span class="kw">class</span> <span class="st">ChartComponent</span> {
+<span class="kw">constructor</span>(<span class="kw">private</span> ngZone: NgZone) {}
+
+<span class="fn">renderChart</span>(data: <span class="st">Data</span>[]) {
+<span class="cm">// Skip CD for rendering (1000ms chart animation)</span>
+<span class="kw">this</span>.ngZone.<span class="fn">runOutsideAngular</span>(() => {
+  chart.<span class="fn">setData</span>(data);
+  chart.<span class="fn">render</span>(); <span class="cm">// No CD triggers</span>
+});
+
+<span class="cm">// Update UI when done</span>
+setTimeout(() => {
+  <span class="kw">this</span>.ngZone.<span class="fn">run</span>(() => {
+    <span class="kw">this</span>.chartReady = <span class="kw">true</span>; <span class="ok">// 1 CD check ✅</span>
+  });
+}, 1000);
+}
+}</pre>
+
+          <div class="info-box blue">
+            💡 <strong>Impact:</strong> Can reduce change detection time by 70-90% for heavy operations.
           </div>
-          <div class="label">Key RxJS Operators</div>
+        </div>
+      </div>
+      <!-- ============= SIGNALS & SIGNAL STORE ============= -->
+
+      <div class="card c-blue">
+        <div class="card-header">
+          <div class="card-icon">📡</div>
+          <span class="card-title">Signals Fundamentals</span>
+          <span class="card-tag">New in 16</span>
+        </div>
+        <div class="card-body">
           <ul class="rule-list">
-            <li><span class="chip">map</span> transform · <span class="chip">filter</span> remove · <span
-                class="chip">reduce</span> aggregate · <span class="chip">pipe</span> chain</li>
-            <li><span class="chip">switchMap</span> cancel prev + switch to new stream</li>
-            <li><span class="chip">debounceTime</span> wait before emit (search inputs)</li>
+            <li><strong>Signal</strong> = Reactive primitive with synchronous reads</li>
+            <li><strong>Computed</strong> = Auto-updating derived value</li>
+            <li><strong>Effect</strong> = Side effect that runs on dependency change</li>
+            <li>No manual subscriptions = <span class="highlight">No memory leaks</span></li>
           </ul>
+
+          <div class="label">Creating & Updating Signals</div>
+          <pre><span class="kw">import</span> { signal, computed, effect } <span class="kw">from</span> <span class="st">'@angular/core'</span>;
+
+<span class="cm">// Create signal</span>
+count = signal(<span class="nu">0</span>);
+
+<span class="cm">// Read signal (must call as function)</span>
+console.<span class="fn">log</span>(<span class="kw">this</span>.count()); <span class="ok">// 0</span>
+
+<span class="cm">// Update: set entire value</span>
+<span class="kw">this</span>.count.<span class="fn">set</span>(<span class="nu">10</span>);
+
+<span class="cm">// Update: transform current value</span>
+<span class="kw">this</span>.count.<span class="fn">update</span>(val => val + <span class="nu">1</span>); <span class="ok">// 11</span>
+
+<span class="cm">// Computed: auto-updates on dependency change</span>
+doubled = computed(() => <span class="kw">this</span>.count() * <span class="nu">2</span>); <span class="ok">// 22</span>
+
+<span class="cm">// Effect: side effect (logging, storage)</span>
+<span class="fn">effect</span>(() => {
+console.<span class="fn">log</span>(<span class="st">'Count changed:'</span>, <span class="kw">this</span>.count());
+});</pre>
+
+          <div class="label">Mutating Objects (Angular 17+)</div>
+          <pre><span class="kw">interface</span> <span class="st">User</span> { name: <span class="st">string</span>; age: <span class="nu">number</span>; }
+
+user = signal&lt;<span class="st">User</span>&gt;({ name: <span class="st">'John'</span>, age: <span class="nu">25</span> });
+
+<span class="cm">// Efficient: mutate in-place</span>
+<span class="kw">this</span>.user.<span class="fn">mutate</span>(u => {
+u.age = <span class="nu">26</span>;
+u.name = <span class="st">'Jane'</span>;
+});</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Best Practice:</strong> Use <code>mutate()</code> for objects (more efficient),
+            <code>set()</code> for primitives.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-blue">
+        <div class="card-header">
+          <div class="card-icon">🏪</div>
+          <span class="card-title">Signal Inputs & Effects</span>
+          <span class="card-tag">Angular 17+</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Signal Inputs</strong> = Replace <code>@Input</code> with signals</li>
+            <li><strong>Effect Cleanup</strong> = Handle subscriptions automatically</li>
+            <li>Eliminates <code>OnChanges</code> boilerplate</li>
+          </ul>
+
+          <div class="label">Signal Inputs in Components</div>
+          <pre><span class="kw">import</span> { input, computed } <span class="kw">from</span> <span class="st">'@angular/core'</span>;
+
+@<span class="st">Component</span>({
+selector: <span class="st">'app-user'</span>,
+template: `
+&lt;p&gt;{{ username() }} - {{ age() }}&lt;/p&gt;
+&lt;p *ngIf="isAdult()"&gt;Verified Adult&lt;/p&gt;
+`
+})
+<span class="kw">export class</span> <span class="st">UserComponent</span> {
+<span class="cm">// Signal inputs (replaces @Input)</span>
+username = input&lt;<span class="st">string</span>&gt;(<span class="st">'Guest'</span>);
+age = input&lt;<span class="nu">number</span>&gt;(<span class="nu">0</span>);
+
+<span class="cm">// Computed on inputs (replaces ngOnChanges)</span>
+isAdult = computed(() => <span class="kw">this</span>.age() >= <span class="nu">18</span>);
+}</pre>
+
+          <div class="label">Effect with Cleanup (Subscriptions)</div>
+          <pre><span class="kw">export class</span> <span class="st">DataComponent</span> {
+userId = signal(<span class="nu">1</span>);
+
+<span class="fn">constructor</span>(<span class="kw">private</span> http: HttpClient) {
+<span class="fn">effect</span>((onCleanup) => {
+  <span class="cm">// Re-run when userId changes</span>
+  <span class="kw">const</span> subscription = <span class="kw">this</span>.http
+    .<span class="fn">get</span>(<span class="st">`/api/user/</span>${<span class="kw">this</span>.userId()}<span class="st">`</span>)
+    .<span class="fn">subscribe</span>(data => <span class="kw">this</span>.data = data);
+
+  <span class="cm">// Cleanup: unsubscribe on effect cleanup</span>
+  <span class="fn">onCleanup</span>(() => subscription.<span class="fn">unsubscribe</span>());
+});
+}
+}</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Advantage:</strong> No need for <code>OnDestroy</code>, auto cleanup on dependency
+            change.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-teal">
+        <div class="card-header">
+          <div class="card-icon">🏪</div>
+          <span class="card-title">Signal Store (NgRx Signals)</span>
+          <span class="card-tag">State Management</span>
+        </div>
+        <div class="card-body">
+          <ul class="rule-list">
+            <li><strong>Signal Store</strong> = Global state using signals (NgRx alternative)</li>
+            <li>Better than plain signals for global/feature state</li>
+            <li>Typed state, methods, computed values</li>
+          </ul>
+
+          <div class="label">Basic Signal Store</div>
+          <pre><span class="kw">import</span> { signalStore, withState, withMethods } <span class="kw">from</span> <span class="st">'@ngrx/signals'</span>;
+
+<span class="kw">interface</span> <span class="st">TodosState</span> {
+todos: <span class="st">Todo</span>[];
+loading: <span class="kw">boolean</span>;
+}
+
+@<span class="st">Injectable</span>({ providedIn: <span class="st">'root'</span> })
+<span class="kw">export const</span> TodosStore = <span class="fn">signalStore</span>(
+<span class="fn">withState</span>&lt;<span class="st">TodosState</span>&gt;({
+todos: [],
+loading: <span class="kw">false</span>
+})
+);</pre>
+
+          <div class="label">Store with Methods & Computed</div>
+          <pre><span class="kw">export const</span> TodosStore = <span class="fn">signalStore</span>(
+<span class="fn">withState</span>({ todos: [] <span class="kw">as</span> <span class="st">Todo</span>[] }),
+
+<span class="fn">withMethods</span>((store) => ({
+<span class="fn">addTodo</span>(todo: <span class="st">Todo</span>) {
+  store.todos.<span class="fn">mutate</span>(t => t.<span class="fn">push</span>(todo));
+}
+})),
+
+<span class="fn">withComputed</span>((store) => ({
+count: <span class="fn">computed</span>(() => store.todos().<span class="fn">length</span>)
+}))
+);</pre>
+
+          <div class="label">Using Store in Component</div>
+          <pre>@<span class="st">Component</span>({
+template: `
+&lt;p&gt;Total: {{ store.count() }}&lt;/p&gt;
+&lt;div *ngFor="let todo of store.todos()"&gt;{{ todo.title }}&lt;/div&gt;
+`
+})
+<span class="kw">export class</span> <span class="st">TodosComponent</span> {
+store = <span class="fn">inject</span>(TodosStore);
+}</pre>
+
+          <div class="info-box blue">
+            💡 <strong>When to use:</strong> Global state, shared between many components, complex
+            state.
+          </div>
+        </div>
+      </div>
+
+      <div class="card c-cyan">
+        <div class="card-header">
+          <div class="card-icon">⚖️</div>
+          <span class="card-title">Signals vs Observables</span>
+          <span class="card-tag">Comparison</span>
+        </div>
+        <div class="card-body">
+          <table class="comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>Signals</th>
+                <th>Observables</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Synchronous</td>
+                <td class="yes">✅ Yes</td>
+                <td class="no">❌ No</td>
+              </tr>
+              <tr>
+                <td>Subscription needed</td>
+                <td class="yes">✅ No</td>
+                <td class="no">❌ Yes</td>
+              </tr>
+              <tr>
+                <td>Memory leaks</td>
+                <td class="yes">✅ Hard</td>
+                <td class="no">❌ Easy</td>
+              </tr>
+              <tr>
+                <td>Async operations</td>
+                <td class="no">❌ Need toSignal()</td>
+                <td class="yes">✅ Native</td>
+              </tr>
+              <tr>
+                <td>RxJS operators</td>
+                <td class="no">❌ Limited</td>
+                <td class="yes">✅ Rich</td>
+              </tr>
+              <tr>
+                <td>Learning curve</td>
+                <td class="yes">✅ Low</td>
+                <td class="no">❌ Steep</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="label">When to Use</div>
+          <div class="example-box">
+            <div class="example-title">✅ Use Signals</div>
+            Local state • Derived values • Form state • Inputs/Outputs
+          </div>
+
+          <div class="example-box">
+            <div class="example-title">✅ Use Observables</div>
+            HTTP • WebSocket • Debounce/Throttle • Event streams
+          </div>
+
+          <div class="label">Convert Observable → Signal</div>
+          <pre><span class="kw">import</span> { toSignal } <span class="kw">from</span> <span class="st">'@angular/core/rxjs-interop'</span>;
+
+<span class="cm">// Convert HTTP observable to signal</span>
+users = <span class="fn">toSignal</span>(
+<span class="kw">this</span>.http.<span class="fn">get</span>&lt;<span class="st">User</span>[]&gt;(<span class="st">'/api/users'</span>),
+{ initialValue: [] }
+);</pre>
+
+          <div class="info-box green">
+            ✅ <strong>Best Practice:</strong> Use both! Signals for state, Observables for async
+            streams.
+          </div>
         </div>
       </div>
 
@@ -4004,8 +5491,1601 @@ Single JOIN query
       </div>
     </div>
   </div>
+  <!-- Tab 14 - LLD -->
+  <div id="lld" class="section">
+    <div class="section-label">LLD UI</div>
+    <div class="grid">
+      <!-- ACCORDION CARD -->
+      <div class="accordion full">
+        <!-- UI LLD: Data Table (Sorting, Filtering, Pagination) -->
+        <div class="card c-yellow full  accordion-item active">
+          <div class="card-header accordion-header">
+            <div class="card-icon">📊</div>
+            <span class="card-title">UI LLD: Data Table (Sorting, Filtering, Pagination)</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Display large datasets efficiently</li>
+              <li><strong>Features</strong> → Sorting, Filtering, Pagination, Dynamic Columns</li>
+              <li><strong>Architecture</strong> → Smart Container + Presentational Table</li>
+              <li><strong>State</strong> → Signals (data, sort, filters, page, columns)</li>
+              <li><strong>Memoization</strong> → computed() for derived state</li>
+              <li><strong>Performance</strong> → OnPush + trackBy + Virtual Scroll</li>
+              <li><strong>Server-side</strong> → Prefer API sorting/filtering for large datasets</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 State (Angular 20+ Signals)</span>
+
+users = signal&lt;User[]&gt;([]);
+
+sort = signal({
+  key: 'name',
+  direction: 'asc'
+});
+
+filter = signal('');
+
+page = signal(1);
+pageSize = signal(20);
+
+columns = signal([
+ {key:'name',visible:true},
+ {key:'email',visible:true},
+ {key:'role',visible:false}
+]);
+</pre>
+
+            <pre><span class="cm">// 🔹 Memoized Data Flow</span>
+
+filteredUsers = computed(() =>
+  this.users().filter(u =>
+    u.name.toLowerCase()
+      .includes(this.filter().toLowerCase())
+  )
+);
+
+sortedUsers = computed(() => {
+  const {key,direction} = this.sort();
+
+  return [...this.filteredUsers()].sort((a,b)=>{
+    const result = String(a[key]).localeCompare(String(b[key]));
+    return direction==='asc' ? result : -result;
+  });
+});
+
+pagedUsers = computed(() => {
+  const start =
+    (this.page()-1) * this.pageSize();
+
+  return this.sortedUsers()
+    .slice(start,start+this.pageSize());
+});
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+
+&lt;input
+  placeholder="Search..."
+  (input)="filter.set($any($event.target).value)"
+/&gt;
+
+&lt;table&gt;
+
+&lt;thead&gt;
+  &lt;th
+    (click)="changeSort('name')"&gt;
+      Name
+  &lt;/th&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+
+@for(user of pagedUsers(); track user.id){
+
+&lt;tr&gt;
+
+@if(columns()[0].visible){
+&lt;td&gt;{{user.name}}&lt;/td&gt;
+}
+
+@if(columns()[1].visible){
+&lt;td&gt;{{user.email}}&lt;/td&gt;
+}
+
+&lt;/tr&gt;
+
+}
+
+&lt;/tbody&gt;
+
+&lt;/table&gt;
+
+&lt;button (click)="page.update(p=>p-1)"&gt;
+Prev
+&lt;/button&gt;
+
+&lt;button (click)="page.update(p=>p+1)"&gt;
+Next
+&lt;/button&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Virtualization (10k+ rows)</span>
+
+&lt;cdk-virtual-scroll-viewport
+  itemSize="48"
+  class="viewport"&gt;
+
+&lt;div
+ *cdkVirtualFor="
+ let row of sortedUsers();
+ trackBy: trackById
+ "&gt;
+
+ {{row.name}}
+
+&lt;/div&gt;
+
+&lt;/cdk-virtual-scroll-viewport&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Component Design</span>
+
+DataTableContainer
+ ├── DataTableComponent
+ ├── FilterComponent
+ ├── PaginationComponent
+ ├── ColumnSelectorComponent
+ └── TableService (API)
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture Flow</strong><br>
+              API → Signal → Filter → Sort → Pagination → UI
+
+              <br><br>
+
+              💡 <strong>Tradeoffs</strong>
+
+              <ul>
+                <li><strong>Client-side</strong> → Fast UX, good for ≤5k rows, higher memory usage.</li>
+
+                <li><strong>Server-side</strong> → Best for huge datasets, less memory, extra API calls.</li>
+
+                <li><strong>Pagination</strong> → Easy implementation but users can't search entire dataset without
+                  backend support.</li>
+
+                <li><strong>Virtual Scroll</strong> → Best for 10k+ rows, but not ideal with classic pagination.</li>
+
+                <li><strong>Computed Signals</strong> → Automatic memoization; recalculates only when dependencies
+                  change.</li>
+              </ul>
+
+              💡 <strong>Performance Checklist</strong>
+
+              <ul>
+                <li>✅ ChangeDetectionStrategy.OnPush</li>
+                <li>✅ Signals + computed()</li>
+                <li>✅ trackBy()</li>
+                <li>✅ Lazy load data</li>
+                <li>✅ CDK Virtual Scroll</li>
+                <li>✅ Debounce filter input</li>
+                <li>✅ Server-side sort/filter for large data</li>
+              </ul>
+
+              💡 <strong>Architect Answer (Interview)</strong><br>
+
+              Small datasets (<strong>&lt;5k rows</strong>) → Client-side sorting/filtering using <strong>computed
+                signals</strong>.<br>
+
+              Large enterprise datasets (<strong>50k+ rows</strong>) → Backend pagination, sorting & filtering with
+              cursor/offset APIs, while Angular handles only rendering. Combine <strong>OnPush + trackBy + CDK Virtual
+                Scroll</strong> for optimal performance and scalability.
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Todo List -->
+        <div class="card c-green full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">✅</div>
+            <span class="card-title">UI LLD: To-Do List App (Angular 20+)</span>
+            <span class="card-tag">Medium</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Add, Edit, Delete, Complete tasks</li>
+              <li><strong>Features</strong> → Filter (All / Pending / Completed)</li>
+              <li><strong>Persistence</strong> → localStorage (replace with REST API later)</li>
+              <li><strong>State</strong> → Angular Signals (No RxJS for local UI state)</li>
+              <li><strong>Architecture</strong> → Smart Container + Dumb Presentational Components</li>
+              <li><strong>Performance</strong> → OnPush + trackBy + computed signals</li>
+              <li><strong>Scalability</strong> → Service owns state, Components only render</li>
+            </ul>
+
+            <pre><span class="cm">// 📂 Folder Structure</span>
+
+todo/
+ ├── components/
+ │     ├── todo-list
+ │     ├── todo-item
+ │     ├── todo-form
+ │     └── filter-bar
+ │
+ ├── services/
+ │     └── todo.store.ts
+ │
+ ├── models/
+ │     └── todo.model.ts
+ │
+ └── pages/
+       └── todo-page
+</pre>
+
+            <pre><span class="cm">// 📌 State (Signal Store)</span>
+
+todos = signal&lt;Todo[]&gt;([]);
+filter = signal&lt;'all'|'completed'|'pending'&gt;('all');
+
+filteredTodos = computed(() => {
+ switch(this.filter()){
+   case 'completed':
+      return this.todos().filter(t=>t.completed);
+
+   case 'pending':
+      return this.todos().filter(t=>!t.completed);
+
+   default:
+      return this.todos();
+ }
+});
+
+add(todo){...}
+update(todo){...}
+delete(id){...}
+toggle(id){...}
+
+effect(() =>
+ localStorage.setItem(
+   'todos',
+   JSON.stringify(this.todos())
+ )
+);
+</pre>
+
+            <pre><span class="cm">// 📌 Template</span>
+
+&lt;app-todo-form
+ (save)="store.add($event)" /&gt;
+
+&lt;app-filter-bar
+ (change)="store.filter.set($event)" /&gt;
+
+&lt;app-todo-item
+ *ngFor="let todo of store.filteredTodos(); trackBy: trackById"
+ [todo]="todo"
+ (toggle)="store.toggle(todo.id)"
+ (edit)="store.update($event)"
+ (delete)="store.delete(todo.id)">
+&lt;/app-todo-item&gt;
+</pre>
+
+            <pre><span class="cm">// 📌 API Layer (Future Ready)</span>
+
+TodoStore
+      │
+      ▼
+ TodoService
+      │
+      ▼
+ HttpClient
+      │
+      ▼
+ Backend API
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Recommended Architecture</strong><br>
+              Container Component → manages page only<br>
+              Presentational Components → Input/Output only<br>
+              Store(Service) → Single Source of Truth<br><br>
+
+              💡 <strong>State Choice</strong><br>
+              Signals → Local UI state (best for Angular 17-20)<br>
+              NgRx → Only when app has complex/global shared state<br><br>
+
+              💡 <strong>Persistence Tradeoff</strong><br>
+              localStorage → Fast, offline, no backend<br>
+              REST API → Sync across devices, authentication, scalability<br><br>
+
+              💡 <strong>Interviewer Tradeoffs</strong><br>
+              ✔ Signals over BehaviorSubject (simpler, automatic memoization)<br>
+              ✔ computed() for filtered list (avoids recalculation)<br>
+              ✔ effect() for persistence (reactive side effects)<br>
+              ✔ Service owns business logic (SRP)<br>
+              ✔ Components remain reusable and testable<br>
+              ✔ OnPush + trackBy minimize DOM updates
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Autocomplete Search Bar -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🔍</div>
+            <span class="card-title">UI LLD: Autocomplete Search Bar</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Fast, responsive search suggestions</li>
+              <li><strong>Features</strong> → Debounce, API calls, Keyboard Navigation, Loading</li>
+              <li><strong>State</strong> → query, suggestions, highlightedIndex, loading, error</li>
+              <li><strong>Architecture</strong> → Smart Component + SearchService + Signals</li>
+              <li><strong>API Handling</strong> → switchMap() cancels previous requests</li>
+              <li><strong>Accessibility</strong> → ARIA roles (combobox, listbox, option)</li>
+              <li><strong>Performance</strong> → OnPush + trackBy + minimum query length</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 State (Angular 20 Signals)</span>
+
+query = signal('');
+suggestions = signal&lt;SearchItem[]&gt;([]);
+loading = signal(false);
+selectedIndex = signal(-1);
+error = signal('');
+
+constructor(private searchService: SearchService){}
+
+toObservable(this.query).pipe(
+  debounceTime(300),
+  distinctUntilChanged(),
+  filter(q => q.length >= 2),
+
+  <span class="cm">// Cancels previous API request</span>
+  switchMap(q => {
+      this.loading.set(true);
+      return this.searchService.search(q);
+  })
+)
+.subscribe({
+  next: result => {
+      this.suggestions.set(result);
+      this.selectedIndex.set(-1);
+      this.loading.set(false);
+  },
+  error: () => {
+      this.loading.set(false);
+      this.error.set('Search failed');
+  }
+});
+</pre>
+
+            <pre><span class="cm">// 🔹 Keyboard Navigation</span>
+
+onKeyDown(event: KeyboardEvent){
+
+ switch(event.key){
+
+   case 'ArrowDown':
+      this.selectedIndex.update(i =>
+         Math.min(i + 1, this.suggestions().length - 1));
+      break;
+
+   case 'ArrowUp':
+      this.selectedIndex.update(i =>
+         Math.max(i - 1, 0));
+      break;
+
+   case 'Enter':
+      this.select(this.suggestions()[this.selectedIndex()]);
+      break;
+
+   case 'Escape':
+      this.suggestions.set([]);
+      break;
+ }
+
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+
+&lt;input
+  [value]="query()"
+  (input)="query.set($any($event.target).value)"
+  (keydown)="onKeyDown($event)"
+
+  role="combobox"
+  aria-autocomplete="list"
+  aria-expanded="true"
+  aria-controls="suggestions"
+/&gt;
+
+&lt;ul id="suggestions" role="listbox"&gt;
+
+  &lt;li
+    *ngFor="let item of suggestions(); trackBy: trackById; let i=index"
+    role="option"
+    [class.active]="i===selectedIndex()"
+    (click)="select(item)"
+  &gt;
+      {{item.name}}
+  &lt;/li&gt;
+
+&lt;/ul&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Search Service</span>
+
+search(query:string){
+   return this.http.get&lt;SearchItem[]&gt;(
+      '/api/search',
+      { params:{ q: query } }
+   );
+}
+</pre>
+
+            <div class="tip-box">
+
+              <b>🏗 Recommended Architecture</b><br><br>
+
+              Component (UI)<br>
+              ↓<br>
+              Signals (query, suggestions, loading)<br>
+              ↓<br>
+              RxJS Pipeline (debounce → distinctUntilChanged → switchMap)<br>
+              ↓<br>
+              SearchService<br>
+              ↓<br>
+              REST API
+
+              <br><br>
+
+              💡 <strong>Debounce vs Throttle</strong>
+
+              <table>
+                <tr>
+                  <th>Debounce</th>
+                  <th>Throttle</th>
+                </tr>
+
+                <tr>
+                  <td>Waits until user stops typing</td>
+                  <td>Executes every X ms</td>
+                </tr>
+
+                <tr>
+                  <td>Only latest value emitted</td>
+                  <td>Intermediate values emitted</td>
+                </tr>
+
+                <tr>
+                  <td>Best for Search Bar ✅</td>
+                  <td>Best for Scroll / Resize / Mouse Move</td>
+                </tr>
+
+              </table>
+
+              <br>
+
+              💡 <strong>Why switchMap?</strong><br>
+              Cancels previous HTTP request automatically. Prevents stale API responses from overriding the latest
+              search.
+
+              <br><br>
+
+              💡 <strong>Accessibility (Must Mention)</strong>
+
+              <ul>
+                <li>role="combobox"</li>
+                <li>role="listbox"</li>
+                <li>role="option"</li>
+                <li>aria-expanded</li>
+                <li>aria-selected</li>
+                <li>Keyboard support (↑ ↓ Enter Esc)</li>
+                <li>Focus remains on input while navigating suggestions</li>
+              </ul>
+
+              <br>
+
+              💡 <strong>Angular Best Practices (Angular 20)</strong>
+
+              <ul>
+                <li>✅ Standalone Components</li>
+                <li>✅ Signals for UI State</li>
+                <li>✅ RxJS only for async streams</li>
+                <li>✅ OnPush Change Detection</li>
+                <li>✅ trackBy in ngFor</li>
+                <li>✅ HttpClient inside Service</li>
+                <li>✅ DestroyRef + takeUntilDestroyed() if manually subscribing</li>
+                <li>✅ Cache repeated queries when appropriate</li>
+              </ul>
+
+              <br>
+
+              <b>🎯 Architect Interview Trade-offs</b>
+
+              <table>
+                <tr>
+                  <th>Decision</th>
+                  <th>Why</th>
+                  <th>Trade-off</th>
+                </tr>
+
+                <tr>
+                  <td>Signals</td>
+                  <td>Simpler UI state</td>
+                  <td>Not ideal for async streams alone</td>
+                </tr>
+
+                <tr>
+                  <td>RxJS Pipeline</td>
+                  <td>Powerful async handling</td>
+                  <td>Higher learning curve</td>
+                </tr>
+
+                <tr>
+                  <td>switchMap</td>
+                  <td>Cancel stale requests</td>
+                  <td>Previous request result discarded</td>
+                </tr>
+
+                <tr>
+                  <td>Debounce 300ms</td>
+                  <td>Reduce API traffic</td>
+                  <td>Small delay before search</td>
+                </tr>
+
+                <tr>
+                  <td>Minimum 2-3 chars</td>
+                  <td>Fewer unnecessary API calls</td>
+                  <td>Cannot search single-character queries</td>
+                </tr>
+
+                <tr>
+                  <td>Cache Results</td>
+                  <td>Avoid duplicate API requests</td>
+                  <td>Requires cache invalidation strategy</td>
+                </tr>
+
+              </table>
+
+              <br>
+
+              ⭐ <strong>Interview Flow (30 sec)</strong><br>
+
+              <strong>User types → debounce (300ms) → distinctUntilChanged → switchMap → API → update Signals → render
+                suggestions → Arrow ↑↓ navigation → Enter selects item → ARIA-compliant → OnPush + trackBy for
+                performance.</strong>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- infinite scroll feed -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">♾️</div>
+            <span class="card-title">UI LLD: Infinite Scroll Feed</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Load large feeds seamlessly while user scrolls</li>
+              <li><strong>Features</strong> → Infinite scrolling, skeleton loader, retry on error</li>
+              <li><strong>Pagination</strong> → Prefer <strong>Cursor-based</strong> over Offset</li>
+              <li><strong>Scroll Detection</strong> → IntersectionObserver API</li>
+              <li><strong>State</strong> → items, cursor, loading, hasMore, error</li>
+              <li><strong>Performance</strong> → OnPush, Signals, trackBy, lazy images</li>
+              <li><strong>Cleanup</strong> → Disconnect observer using DestroyRef</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 Component State (Angular 20+)</span>
+
+items = signal&lt;Post[]&gt;([]);
+cursor = signal&lt;string | null&gt;(null);
+loading = signal(false);
+hasMore = signal(true);
+
+readonly feedService = inject(FeedService);
+
+loadMore() {
+  if (this.loading() || !this.hasMore()) return;
+
+  this.loading.set(true);
+
+  this.feedService.fetch(this.cursor())
+    .pipe(finalize(() => this.loading.set(false)))
+    .subscribe(res => {
+      this.items.update(i => [...i, ...res.items]);
+      this.cursor.set(res.nextCursor);
+      this.hasMore.set(!!res.nextCursor);
+    });
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Intersection Observer</span>
+
+private destroyRef = inject(DestroyRef);
+
+ngAfterViewInit() {
+  const observer = new IntersectionObserver(([entry]) => {
+    if (entry.isIntersecting) {
+      this.loadMore();
+    }
+  });
+
+  observer.observe(this.loader.nativeElement);
+
+  this.destroyRef.onDestroy(() => observer.disconnect());
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+
+&lt;div *ngFor="let post of items(); trackBy: trackById"&gt;
+  &lt;app-post [post]="post"&gt;&lt;/app-post&gt;
+&lt;/div&gt;
+
+&lt;app-feed-skeleton
+  *ngIf="loading()"&gt;
+&lt;/app-feed-skeleton&gt;
+
+&lt;div #loader&gt;&lt;/div&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 API (Cursor Pagination)</span>
+
+GET /posts?cursor=eyJpZCI6MTAwfQ==&amp;limit=20
+
+Response:
+{
+  items: [...],
+  nextCursor: "eyJpZCI6MTIwfQ=="
+}
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture</strong><br>
+              FeedComponent → FeedService → API → Signal Store → UI
+
+              <br><br>
+
+              💡 <strong>State Flow</strong><br>
+              Initial Load → Render Items → Sentinel Visible → Observer Fires → API Call → Append Items → Repeat
+
+              <br><br>
+
+              💡 <strong>Offset vs Cursor Pagination</strong>
+
+              <table>
+                <tr>
+                  <th>Offset Pagination</th>
+                  <th>Cursor Pagination ✅</th>
+                </tr>
+                <tr>
+                  <td>Simple implementation</td>
+                  <td>Best for infinite feeds</td>
+                </tr>
+                <tr>
+                  <td>Slow on huge tables</td>
+                  <td>Constant DB performance</td>
+                </tr>
+                <tr>
+                  <td>Duplicate/Missing data after inserts</td>
+                  <td>No duplicates while scrolling</td>
+                </tr>
+                <tr>
+                  <td>Page Number based</td>
+                  <td>Last Item based</td>
+                </tr>
+              </table>
+
+              <br>
+
+              💡 <strong>Why IntersectionObserver?</strong><br>
+              Better than <code>window.scroll</code> because it doesn't continuously fire scroll events, reducing CPU
+              usage and improving battery life.
+
+              <br><br>
+
+              💡 <strong>Performance Optimizations</strong>
+              <ul>
+                <li>✅ ChangeDetectionStrategy.OnPush</li>
+                <li>✅ Signals for reactive state</li>
+                <li>✅ trackBy to prevent DOM recreation</li>
+                <li>✅ Lazy-load images (<code>loading="lazy"</code>)</li>
+                <li>✅ Virtual Scroll only if item height is fixed (10k+ items)</li>
+                <li>✅ Append new items instead of replacing entire array</li>
+              </ul>
+
+              💡 <strong>Memory Cleanup</strong><br>
+              Disconnect IntersectionObserver using <code>DestroyRef</code> to prevent memory leaks.
+
+              <br><br>
+
+              💡 <strong>Architect-Level Tradeoffs</strong>
+
+              <table>
+                <tr>
+                  <th>Decision</th>
+                  <th>Reason</th>
+                </tr>
+                <tr>
+                  <td>Signals</td>
+                  <td>Fine-grained UI updates without unnecessary change detection.</td>
+                </tr>
+                <tr>
+                  <td>Cursor Pagination</td>
+                  <td>Scales well for millions of records.</td>
+                </tr>
+                <tr>
+                  <td>IntersectionObserver</td>
+                  <td>Event-driven loading instead of expensive scroll listeners.</td>
+                </tr>
+                <tr>
+                  <td>Skeleton Loader</td>
+                  <td>Better perceived performance than spinners.</td>
+                </tr>
+                <tr>
+                  <td>CDK Virtual Scroll</td>
+                  <td>Use only for fixed-height items; avoid for variable-height social feeds.</td>
+                </tr>
+              </table>
+
+              <br>
+
+              🚀 <strong>Interview One-Liner:</strong><br>
+              <strong>"I would build the feed using Signals for state management, IntersectionObserver for scroll
+                detection, cursor-based pagination for backend scalability, OnPush + trackBy for rendering efficiency,
+                skeleton loaders for UX, and DestroyRef for observer cleanup. If the feed grows to thousands of
+                fixed-height items, I'd introduce Angular CDK Virtual Scroll."</strong>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- modal System -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🪟</div>
+            <span class="card-title">UI LLD: Reusable Modal System (Angular 20+)</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Reusable modal infrastructure for entire application</li>
+              <li><strong>Features</strong> → open/close, reusable content, stacked modals, ESC, overlay click</li>
+              <li><strong>Architecture</strong> → ModalService + CDK Overlay + Signals</li>
+              <li><strong>Rendering</strong> → CDK Overlay (Angular Portal equivalent)</li>
+              <li><strong>State</strong> → signal&lt;ModalRef[]&gt; stack</li>
+              <li><strong>Accessibility</strong> → Focus trap, aria-modal, keyboard navigation</li>
+              <li><strong>Performance</strong> → OnPush + lazy component creation + cleanup</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 Modal Service</span>
+
+@Injectable({ providedIn:'root' })
+export class ModalService {
+
+  private stack = signal&lt;ModalRef[]&gt;([]);
+
+  open(component, data?) {
+    this.stack.update(s => [...s, { component, data }]);
+  }
+
+  close() {
+    this.stack.update(s => s.slice(0,-1));
+  }
+
+  modals = this.stack.asReadonly();
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Overlay Host</span>
+
+&lt;ng-template
+  cdkConnectedOverlay
+  *ngFor="let modal of modalService.modals()"&gt;
+
+    &lt;app-modal-shell
+      [component]="modal.component"
+      [data]="modal.data"&gt;
+    &lt;/app-modal-shell&gt;
+
+&lt;/ng-template&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Modal Component</span>
+
+@HostListener('document:keydown.escape')
+onEsc() {
+  modalService.close();   // closes top-most modal
+}
+
+closeOverlay(event: MouseEvent){
+  if(event.target === event.currentTarget){
+      modalService.close();
+  }
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Dynamic Content</span>
+
+&lt;ng-template
+   cdkPortalOutlet&gt;
+&lt;/ng-template&gt;
+
+// or
+
+viewContainer.createComponent(MyComponent);
+</pre>
+
+            <div class="tip-box">
+
+              <b>🏗 Architecture</b><br>
+
+              App
+              <br>↓
+              <br>ModalService (Signals)
+              <br>↓
+              <br>CDK Overlay
+              <br>↓
+              <br>Modal Shell
+              <br>↓
+              <br>Dynamic Component (Portal)
+
+              <br><br>
+
+              💡 <strong>Why CDK Overlay?</strong><br>
+              Renders outside component tree → avoids z-index issues, clipping and overflow:hidden problems.
+
+              <br><br>
+
+              💡 <strong>Stack Management</strong><br>
+              Maintain modal stack (LIFO). ESC always closes only the top-most modal.
+
+              <br><br>
+
+              💡 <strong>Event Bubbling</strong><br>
+
+              • Overlay click → Close modal<br>
+              • Modal content click → stopPropagation()<br>
+              • Prevent accidental close while interacting inside modal
+
+              <br><br>
+
+              💡 <strong>Accessibility</strong><br>
+
+              • FocusTrap<br>
+              • Restore focus on close<br>
+              • aria-modal="true"<br>
+              • role="dialog"
+
+              <br><br>
+
+              💡 <strong>Performance</strong><br>
+
+              Use <strong>OnPush + Signals + Lazy Dynamic Components</strong>.<br>
+              Destroy overlay on close to avoid memory leaks.
+
+              <br><br>
+
+              <b>🎯 Architect Tradeoffs</b>
+
+              | Approach | Pros | Cons |
+              |-----------|------|------|
+              | *ngIf Modal | Very simple | z-index & nesting issues |
+              | ViewContainerRef | Dynamic | Manual positioning |
+              | <strong>CDK Overlay ⭐</strong> | Reusable, stacked, focus trap, portals | Slight learning curve |
+              | Third-party library | Fast development | Less customization |
+
+              <br>
+
+              <b>✅ Interview Answer (30 sec)</b><br>
+
+              "I'd build a centralized <strong>ModalService</strong> using <strong>Angular Signals</strong>. All modals
+              are rendered through <strong>CDK Overlay</strong> so they live outside the normal DOM, eliminating z-index
+              and overflow issues. The service maintains a modal stack for multiple dialogs, while ESC and overlay
+              clicks
+              close only the active modal. Dynamic content is injected using Portal/ViewContainerRef, with FocusTrap,
+              OnPush, and proper cleanup to ensure accessibility and performance."
+
+            </div>
+
+          </div>
+        </div>
+        <!-- dynamic form Builder -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">📝</div>
+            <span class="card-title">UI LLD: Dynamic Form Builder (Schema Driven)</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Build forms dynamically from JSON Schema</li>
+              <li><strong>Fields</strong> → text, textarea, dropdown, checkbox, radio, date</li>
+              <li><strong>Validation</strong> → required, regex, min/max, custom validators</li>
+              <li><strong>Architecture</strong> → Schema → Renderer → Reactive Form</li>
+              <li><strong>State</strong> → Angular Reactive Forms + Signals</li>
+              <li><strong>Rendering</strong> → Dynamic component using ngComponentOutlet / switch</li>
+              <li><strong>Performance</strong> → OnPush + trackBy + Lazy field rendering</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 JSON Schema</span>
+schema = signal([
+ {
+   key:'name',
+   type:'text',
+   label:'Name',
+   validators:['required']
+ },
+ {
+   key:'role',
+   type:'select',
+   options:['Admin','User']
+ },
+ {
+   key:'active',
+   type:'checkbox'
+ }
+]);
+</pre>
+
+            <pre><span class="cm">// 🔹 Build Reactive Form</span>
+form = this.fb.group({});
+
+effect(() => {
+ this.schema().forEach(field => {
+   this.form.addControl(
+     field.key,
+     new FormControl(
+       '',
+       mapValidators(field.validators)
+     )
+   );
+ });
+});
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+&lt;form [formGroup]="form"&gt;
+
+&lt;ng-container *ngFor="let field of schema(); trackBy: trackByKey"&gt;
+
+ @switch(field.type){
+
+  @case('text'){
+   &lt;input
+      [formControlName]="field.key"
+      [placeholder]="field.label"&gt;
+  }
+
+  @case('select'){
+   &lt;select [formControlName]="field.key"&gt;
+      &lt;option *ngFor="let o of field.options"&gt;
+        {{o}}
+      &lt;/option&gt;
+   &lt;/select&gt;
+  }
+
+  @case('checkbox'){
+    &lt;input
+      type="checkbox"
+      [formControlName]="field.key"&gt;
+  }
+
+ }
+
+&lt;/ng-container&gt;
+
+&lt;/form&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Dynamic Validation</span>
+mapValidators(v:string[]){
+
+ return [
+   v.includes('required')
+      ? Validators.required : null,
+
+   v.includes('email')
+      ? Validators.email : null,
+
+   Validators.minLength(3)
+ ].filter(Boolean);
+
+}
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture:</strong><br>
+              JSON Schema → Form Factory → Reactive Form → Dynamic Renderer → Submit JSON
+              <br><br>
+
+              💡 <strong>Controlled vs Uncontrolled:</strong><br>
+              <strong>Reactive Forms = Controlled</strong> (recommended) → single source of truth, validation,
+              testing.<br>
+              <strong>Template Forms = Uncontrolled</strong> → simpler but poor for dynamic forms.
+              <br><br>
+
+              💡 <strong>Schema-driven UI:</strong><br>
+              Backend can send JSON schema → frontend renders form without code changes.
+              <br><br>
+
+              💡 <strong>Why Reactive Forms?</strong><br>
+              Dynamic controls, nested forms, FormArray, async validation, enterprise scalability.
+              <br><br>
+
+              💡 <strong>Trade-offs:</strong><br>
+              <strong>Reactive Forms</strong> → More boilerplate ✅ scalable, testable, dynamic.<br>
+              <strong>Template Forms</strong> → Less code ✅ simple forms, ❌ difficult for dynamic schemas.
+              <br><br>
+
+              💡 <strong>Angular Best Practices (v20+):</strong><br>
+              Use <strong>Standalone Components</strong>, <strong>Signals</strong> for schema/state,
+              <strong>Reactive Forms</strong>, <strong>OnPush</strong>, <strong>trackBy</strong>,
+              lazy-load heavy/custom field components, and keep rendering separate from form creation
+              using a <strong>FormFactoryService</strong>.
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Notification System -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🔔</div>
+            <span class="card-title">UI LLD: Notification System (Toast)</span>
+            <span class="card-tag">Medium</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Show global notifications from anywhere in the app</li>
+              <li><strong>Features</strong> → success, error, info, warning, auto-dismiss</li>
+              <li><strong>Queue</strong> → FIFO queue with configurable max visible toasts</li>
+              <li><strong>State</strong> → Global NotificationService using Signals</li>
+              <li><strong>Animation</strong> → Enter/Exit animations before removal</li>
+              <li><strong>Performance</strong> → OnPush + trackBy + auto cleanup</li>
+              <li><strong>Accessibility</strong> → aria-live="polite/assertive"</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 Notification Service (Global State)</span>
+
+export interface Toast{
+  id:number;
+  message:string;
+  type:'success'|'error'|'info'|'warning';
+  duration?:number;
+}
+
+toasts = signal&lt;Toast[]&gt;([]);
+
+show(toast:Toast){
+  this.toasts.update(list => [...list, toast]);
+
+  setTimeout(() => this.remove(toast.id),
+    toast.duration ?? 3000);
+}
+
+remove(id:number){
+  this.toasts.update(list =>
+    list.filter(t => t.id !== id)
+  );
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Toast Container</span>
+
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+
+toasts = inject(NotificationService).toasts;
+
+trackById = (_:number,t:Toast)=>t.id;
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+
+&lt;div class="toast-container"&gt;
+
+  &lt;app-toast
+      *ngFor="let toast of toasts();
+              trackBy:trackById"
+      [toast]="toast"&gt;
+  &lt;/app-toast&gt;
+
+&lt;/div&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Usage Anywhere</span>
+
+notification.show({
+ id: Date.now(),
+ type:'success',
+ message:'Order placed successfully',
+ duration:3000
+});
+</pre>
+
+            <pre><span class="cm">// 🔹 Queue Handling</span>
+
+MAX_VISIBLE = 3;
+
+show(toast){
+ if(this.toasts().length >= MAX_VISIBLE){
+    this.toasts.update(list => list.slice(1)); // remove oldest
+ }
+ this.toasts.update(list => [...list, toast]);
+}
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture:</strong> Component → NotificationService (Signals) → ToastContainer → Toast
+              Component
+              <br /><br />
+
+              💡 <strong>Animation Lifecycle:</strong> Add toast → play enter animation → wait duration → play exit
+              animation → remove from state
+              <br /><br />
+
+              💡 <strong>Queue Strategy:</strong> FIFO queue prevents notification flooding. Keep only 3–5 visible
+              toasts.
+              <br /><br />
+
+              💡 <strong>Trade-offs:</strong>
+              <ul>
+                <li><strong>Signals</strong> → Lightweight, automatic reactive updates (recommended in Angular 20+).
+                </li>
+                <li><strong>RxJS Subject</strong> → Better when notifications originate from streams/WebSockets, but
+                  adds
+                  complexity.</li>
+                <li><strong>Auto-dismiss</strong> → Cleaner UX; allow persistent error toasts with duration = 0.</li>
+                <li><strong>Single Global Container</strong> → Easier state management than multiple local toast
+                  components.</li>
+              </ul>
+
+              💡 <strong>Best Practices:</strong> Use <strong>OnPush</strong>, <strong>trackBy</strong>, CSS/Angular
+              animations, configurable durations, and <strong>aria-live</strong> for screen readers.
+
+            </div>
+
+          </div>
+        </div>
+        <!-- file upload system -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">📁</div>
+            <span class="card-title">UI LLD: File Upload Component (Drag & Drop, Progress, Retry)</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Upload single/multiple files reliably</li>
+              <li><strong>Features</strong> → Drag & Drop, Browse, Progress, Retry, Cancel</li>
+              <li><strong>State</strong> → files, uploadStatus, progress, errors</li>
+              <li><strong>Chunk Upload</strong> → Split large files for resumable uploads</li>
+              <li><strong>Error Handling</strong> → Retry failed chunks with exponential backoff</li>
+              <li><strong>Performance</strong> → OnPush + Signals + trackBy</li>
+              <li><strong>API</strong> → Prefer pre-signed URLs for cloud uploads</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 State (Signals)</span>
+files = signal&lt;UploadFile[]&gt;([]);
+
+interface UploadFile {
+  file: File;
+  progress: number;
+  status: 'pending' | 'uploading' | 'success' | 'failed';
+  error?: string;
+}
+
+addFiles(files: FileList) {
+  this.files.update(f => [
+    ...f,
+    ...Array.from(files).map(file => ({
+      file,
+      progress: 0,
+      status: 'pending'
+    }))
+  ]);
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Upload Service</span>
+upload(file: UploadFile) {
+  file.status = 'uploading';
+
+  this.http.post('/upload', file.file, {
+    observe: 'events',
+    reportProgress: true
+  }).subscribe(event => {
+
+    if(event.type === HttpEventType.UploadProgress){
+      file.progress =
+      Math.round(100 * event.loaded / (event.total ?? 1));
+    }
+
+    if(event.type === HttpEventType.Response){
+      file.status = 'success';
+    }
+
+  }, () => file.status = 'failed');
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+&lt;div class="drop-zone"
+     (drop)="onDrop($event)"
+     (dragover)="$event.preventDefault()"&gt;
+
+  Drag files here
+
+&lt;/div&gt;
+
+&lt;input type="file"
+       multiple
+       (change)="addFiles($event.target.files)" /&gt;
+
+&lt;div *ngFor="let file of files(); trackBy: trackByName"&gt;
+
+ {{file.file.name}}
+
+ &lt;progress [value]="file.progress" max="100"&gt;&lt;/progress&gt;
+
+ &lt;button *ngIf="file.status==='failed'"
+         (click)="upload(file)"&gt;
+    Retry
+ &lt;/button&gt;
+
+&lt;/div&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Chunk Upload (Large Files)</span>
+const CHUNK_SIZE = 5 * 1024 * 1024; //5MB
+
+for(let start=0; start&lt;file.size; start+=CHUNK_SIZE){
+
+   const chunk = file.slice(start, start+CHUNK_SIZE);
+
+   uploadChunk(chunk);
+
+}
+
+// Backend merges chunks after upload
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture:</strong> UI → UploadService → HTTP Client → Storage (S3/Azure/GCS)<br /><br />
+
+              💡 <strong>File API:</strong> Use <strong>File</strong>, <strong>Blob</strong>,
+              <strong>FileReader</strong>,
+              and <strong>slice()</strong> for chunking.<br /><br />
+
+              💡 <strong>Chunk Upload:</strong> Better for large files (>100MB), resumable uploads, and unreliable
+              networks. Small files can be uploaded in a single request.<br /><br />
+
+              💡 <strong>Retry Strategy:</strong> Retry only failed chunks using exponential backoff instead of
+              restarting
+              the whole upload.<br /><br />
+
+              💡 <strong>Cancellation:</strong> Use <strong>AbortController</strong> (Fetch) or unsubscribe/cancel
+              request
+              to stop uploads.<br /><br />
+
+              💡 <strong>Tradeoffs:</strong>
+              <ul>
+                <li><strong>Single Upload</strong> → Simple, fewer API calls, poor recovery for large files.</li>
+                <li><strong>Chunk Upload</strong> → More scalable and resumable, but requires backend chunk assembly.
+                </li>
+                <li><strong>Parallel Chunks</strong> → Faster uploads, higher bandwidth/server load.</li>
+                <li><strong>Sequential Chunks</strong> → Easier ordering and lower memory usage, but slower.</li>
+              </ul>
+
+              💡 <strong>Interview Keywords:</strong> Signals, OnPush, Drag & Drop API, File API, HttpClient Progress
+              Events, Chunk Upload, Retry, AbortController, Presigned URLs, trackBy.
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Theme Switcher -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🌗</div>
+            <span class="card-title">UI LLD: Theme Switcher (Dark / Light Mode)</span>
+            <span class="card-tag">Easy</span>
+          </div>
+
+          <div class="card-body  accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Toggle between Light & Dark themes</li>
+              <li><strong>Persist</strong> → Save user preference in localStorage</li>
+              <li><strong>System Theme</strong> → Detect using prefers-color-scheme</li>
+              <li><strong>State</strong> → theme = signal('light' | 'dark')</li>
+              <li><strong>Styling</strong> → CSS Variables (avoid duplicate CSS)</li>
+              <li><strong>Performance</strong> → Toggle single data-theme attribute</li>
+              <li><strong>Accessibility</strong> → Respect OS preference by default</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 ThemeService (Angular Signals)</span>
+@Injectable({ providedIn: 'root' })
+export class ThemeService {
+
+  theme = signal<'light' | 'dark'>('light');
+
+  constructor() {
+    const saved = localStorage.getItem('theme');
+
+    if (saved) {
+      this.theme.set(saved as any);
+    } else {
+      const prefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
+
+      this.theme.set(prefersDark ? 'dark' : 'light');
+    }
+
+    effect(() => {
+      document.documentElement.setAttribute(
+        'data-theme',
+        this.theme()
+      );
+
+      localStorage.setItem('theme', this.theme());
+    });
+  }
+
+  toggle() {
+    this.theme.update(t =>
+      t === 'light' ? 'dark' : 'light'
+    );
+  }
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Component</span>
+themeService = inject(ThemeService);
+
+&lt;button (click)="themeService.toggle()"&gt;
+ {{ themeService.theme() === 'dark'
+    ? '☀️ Light'
+    : '🌙 Dark' }}
+&lt;/button&gt;
+</pre>
+
+            <pre><span class="cm">/* 🔹 CSS Variables */</span>
+
+:root {
+  --bg: white;
+  --text: black;
+}
+
+[data-theme='dark'] {
+  --bg: #121212;
+  --text: white;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  transition: background .25s, color .25s;
+}
+</pre>
+
+            <pre><span class="cm">/* 🔹 Detect OS Theme (CSS Fallback) */</span>
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121212;
+    --text: white;
+  }
+}
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture Flow:</strong> App Start → Read localStorage → Else Detect OS Theme → Apply
+              <strong>data-theme</strong> → Persist Changes<br /><br />
+
+              💡 <strong>Why CSS Variables?</strong> One CSS file supports both themes by changing only variable values.
+              No duplicated styles.<br /><br />
+
+              💡 <strong>Trade-offs:</strong><br />
+              • <strong>CSS Variables ✅</strong> Instant theme switch, scalable, maintainable (recommended).<br />
+              • <strong>Separate CSS Files ❌</strong> Larger bundle, duplicated styles, harder maintenance.<br />
+              • <strong>Theme Classes</strong> Easy for small apps but becomes difficult with many
+              components.<br /><br />
+
+              💡 <strong>Architect-Level Discussion:</strong><br />
+              • Centralize theme logic inside a singleton <strong>ThemeService</strong>.<br />
+              • Use <strong>Signals</strong> instead of RxJS for synchronous UI state.<br />
+              • Apply theme on <strong>&lt;html&gt;</strong> to affect the whole application.<br />
+              • Listen to <strong>matchMedia('prefers-color-scheme')</strong> changes if the app should automatically
+              follow OS theme while running.<br />
+              • Store only explicit user preference; if none exists, always respect the system preference.<br /><br />
+
+              💡 <strong>Interview Keywords:</strong> Signals • CSS Variables • prefers-color-scheme • localStorage •
+              ThemeService • data-theme • Singleton Service • Accessibility • Minimal DOM Updates
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Chat UI -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">💬</div>
+            <span class="card-title">UI LLD: Real-time Chat UI</span>
+            <span class="card-tag">Advanced</span>
+          </div>
+
+          <div class="card-body accordion-body">
+
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Build low-latency real-time messaging</li>
+              <li><strong>Features</strong> → message list, typing indicator, auto-scroll, optimistic updates</li>
+              <li><strong>Transport</strong> → WebSocket (preferred) with HTTP fallback</li>
+              <li><strong>State</strong> → messages, typingUsers, connectionStatus</li>
+              <li><strong>Rendering</strong> → OnPush + Signals + trackBy</li>
+              <li><strong>UX</strong> → auto-scroll only when user is at bottom</li>
+              <li><strong>Reliability</strong> → reconnect + message acknowledgement</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 State (Signals)</span>
+messages = signal&lt;Message[]&gt;([]);
+typingUsers = signal&lt;string[]&gt;([]);
+status = signal('Connected');
+
+<span class="cm">// Optimistic Send</span>
+send(text: string) {
+  const tempMsg = {
+    id: crypto.randomUUID(),
+    text,
+    status: 'sending'
+  };
+
+  this.messages.update(m => [...m, tempMsg]);
+
+  this.chatService.send(tempMsg); // WebSocket
+}
+
+<span class="cm">// Server Ack</span>
+this.chatService.messages$
+.subscribe(msg =>
+  this.messages.update(m =>
+    [...m.filter(x => x.id !== msg.id), msg]
+  )
+);
+</pre>
+
+            <pre><span class="cm">// 🔹 WebSocket Service</span>
+private socket = webSocket&lt;Message&gt;(WS_URL);
+
+messages$ = this.socket.asObservable();
+
+send(msg: Message) {
+  this.socket.next(msg);
+}
+
+typing() {
+  this.socket.next({ type: 'typing' });
+}
+</pre>
+
+            <pre><span class="cm">// 🔹 Template</span>
+
+&lt;div class="messages" #chatContainer&gt;
+  &lt;div *ngFor="let msg of messages(); trackBy: trackById"&gt;
+      {{msg.text}}
+      &lt;small *ngIf="msg.status==='sending'"&gt;⌛&lt;/small&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div *ngIf="typingUsers().length"&gt;
+  Someone is typing...
+&lt;/div&gt;
+
+&lt;input
+  (keydown)="chatService.typing()"
+  (keyup.enter)="send(input.value)"
+/&gt;
+</pre>
+
+            <pre><span class="cm">// 🔹 Auto Scroll</span>
+
+@ViewChild('chatContainer')
+container!: ElementRef;
+
+effect(() => {
+  this.messages();
+
+  queueMicrotask(() => {
+    const el = this.container.nativeElement;
+
+    if (isNearBottom(el)) {
+      el.scrollTop = el.scrollHeight;
+    }
+  });
+});
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Architecture:</strong><br>
+              UI → ChatFacade → ChatService → WebSocket → Backend<br><br>
+
+              💡 <strong>Optimistic UI:</strong><br>
+              Show message immediately → replace/update after server acknowledgement.<br><br>
+
+              💡 <strong>Typing Indicator:</strong><br>
+              Debounce (300–500ms) typing events to avoid flooding the socket.<br><br>
+
+              💡 <strong>Auto Scroll:</strong><br>
+              Scroll only if user is already at bottom; don't interrupt reading old messages.<br><br>
+
+              💡 <strong>Angular Best Practices (v20+):</strong><br>
+              Standalone Components • Signals • OnPush • trackBy • RxJS WebSocketSubject •
+              DestroyRef/takeUntilDestroyed()
+              for cleanup.<br><br>
+
+              💡 <strong>Architect Trade-offs:</strong>
+              <ul>
+                <li><strong>WebSocket vs Polling</strong> → WebSocket provides true real-time updates with low latency;
+                  Polling is simpler but wastes network resources.</li>
+                <li><strong>Optimistic vs Server-first</strong> → Optimistic UI feels instant but requires rollback on
+                  failures; Server-first guarantees consistency but increases perceived latency.</li>
+                <li><strong>Infinite List vs Virtual Scroll</strong> → Virtual Scroll is ideal for thousands of
+                  messages,
+                  but for chat maintain a window (e.g., last 200 messages) because variable-height messages make
+                  virtualization more complex.</li>
+                <li><strong>Signal Store vs NgRx</strong> → Signals are sufficient for a chat feature; NgRx is
+                  preferable
+                  when chat is part of a large enterprise application with complex cross-feature state.</li>
+              </ul>
+
+              ⭐ <strong>Interview Keywords:</strong>
+              WebSocket • Optimistic Updates • Message ACK • Reconnection Strategy • Heartbeat/Ping • Typing Debounce •
+              Auto Scroll • Lazy Load History • OnPush • Signals • trackBy
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- ══════════════════════════════════════════════════════════════════════
-     TAB 14 — MASTER TL;DR
+     TAB 15 — MASTER TL;DR
 ══════════════════════════════════════════════════════════════════════ -->
   <div id="summary" class="section">
     <div class="section-label">🎯 Master TL;DR — Everything at a Glance</div>
@@ -4487,7 +7567,7 @@ print(f"value = {n}")
         </div>
       </div>
       <!-- ACCORDION CARD -->
-      <div class="accordion">
+      <div class="accordion full">
         <!-- 30-sec interview answers -->
         <div class="card c-purple full  accordion-item active">
           <div class="card-header  accordion-header">
@@ -5917,89 +8997,6 @@ print(f"value = {n}")
           </div>
         </div>
       </div>
-      <!-- UI LLD: Data Table (Sorting, Filtering, Pagination) -->
-      <div class="card c-yellow full">
-        <div class="card-header">
-          <div class="card-icon">📊</div>
-          <span class="card-title">UI LLD: Data Table (Sorting, Filtering, Pagination)</span>
-          <span class="card-tag">Advanced</span>
-        </div>
-
-        <div class="card-body">
-
-          <ul class="rule-list">
-            <li><strong>Goal</strong> → Display large datasets efficiently</li>
-            <li><strong>Features</strong> → sorting, filtering, pagination</li>
-            <li><strong>Customization</strong> → dynamic columns (show/hide)</li>
-            <li><strong>State</strong> → data, sort, filters, page, columns</li>
-            <li><strong>Memoization</strong> → avoid recomputation</li>
-            <li><strong>Virtualization</strong> → render only visible rows</li>
-            <li><strong>Change Detection</strong> → OnPush for performance</li>
-          </ul>
-
-          <pre><span class="cm">// 🔹 State (Component)</span>
-data$ = signal&lt;User[]&gt;([]);
-sort = signal({ key: 'name', dir: 'asc' });
-filter = signal('');
-page = signal(1);
-pageSize = 10;
-
-<span class="cm">// 🔹 Memoized Computation</span>
-filteredData = computed(() => {
-  return this.data$().filter(d =>
-    d.name.toLowerCase().includes(this.filter().toLowerCase())
-  );
-});
-
-sortedData = computed(() => {
-  const { key, dir } = this.sort();
-  return [...this.filteredData()].sort((a, b) =>
-    dir === 'asc' ? a[key].localeCompare(b[key]) : b[key].localeCompare(a[key])
-  );
-});
-
-paginatedData = computed(() => {
-  const start = (this.page() - 1) * this.pageSize;
-  return this.sortedData().slice(start, start + this.pageSize);
-});
-</pre>
-
-          <pre><span class="cm">// 🔹 Template</span>
-&lt;input (input)="filter.set($event.target.value)" placeholder="Search" /&gt;
-
-&lt;table&gt;
-  &lt;tr&gt;
-    &lt;th (click)="sort.set({key: 'name', dir: toggle()})"&gt;Name&lt;/th&gt;
-  &lt;/tr&gt;
-
-  &lt;tr *ngFor="let row of paginatedData()"&gt;
-    &lt;td&gt;{{row.name}}&lt;/td&gt;
-  &lt;/tr&gt;
-&lt;/table&gt;
-
-&lt;button (click)="page.set(page()-1)"&gt;Prev&lt;/button&gt;
-&lt;button (click)="page.set(page()+1)"&gt;Next&lt;/button&gt;
-</pre>
-
-          <pre><span class="cm">// 🔹 Virtualization (CDK)</span>
-&lt;cdk-virtual-scroll-viewport itemSize="50" class="viewport"&gt;
-  &lt;div *cdkVirtualFor="let row of sortedData()"&gt;
-    {{row.name}}
-  &lt;/div&gt;
-&lt;/cdk-virtual-scroll-viewport&gt;
-</pre>
-
-          <div class="tip-box">
-            💡 <strong>Memoization Flow:</strong> data → filter → sort → paginate (computed signals avoid
-            recomputation)<br /><br />
-            💡 <strong>Virtualization:</strong> Only visible rows rendered → huge performance boost for 10k+
-            rows<br /><br />
-            💡 <strong>Best Practice:</strong> Use <strong>OnPush + trackBy</strong> to minimize DOM updates
-          </div>
-
-        </div>
-      </div>
-
     </div>
   </div>
 
