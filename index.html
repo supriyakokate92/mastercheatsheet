@@ -10124,29 +10124,29 @@ Memberlist
           </div>
         </div>
         <!-- Cloud Computing Theory -->
-         <div class="card c-yellow full accordion-item">
-  <div class="card-header accordion-header">
-    <div class="card-icon">☁️</div>
-    <span class="card-title">Cloud Computing with Java (Interview Revision)</span>
-    <span class="card-tag">L1 → L3</span>
-  </div>
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">☁️</div>
+            <span class="card-title">Cloud Computing with Java (Interview Revision)</span>
+            <span class="card-tag">L1 → L3</span>
+          </div>
 
-  <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
 
-    <ul class="rule-list">
-      <li><strong>Goal</strong> → Build scalable, resilient, cloud-native Java applications</li>
-      <li><strong>Cloud Providers</strong> → AWS | Azure | GCP</li>
-      <li><strong>Java Stack</strong> → Spring Boot + Docker + Kubernetes + CI/CD</li>
-      <li><strong>Architecture</strong> → Stateless Microservices + Event Driven</li>
-      <li><strong>Deployment</strong> → EC2/App Service/App Engine | Containers | Lambda</li>
-      <li><strong>Scaling</strong> → Horizontal Scaling + Load Balancer + Auto Scaling</li>
-      <li><strong>Configuration</strong> → Environment Variables + ConfigMaps + Secret Managers</li>
-      <li><strong>Observability</strong> → Logs + Metrics + Tracing + Alerts</li>
-      <li><strong>Security</strong> → OAuth2, JWT, TLS, IAM, RBAC, Secret Manager</li>
-      <li><strong>Golden Rule</strong> → Cloud Native Apps must be Stateless</li>
-    </ul>
+            <ul class="rule-list">
+              <li><strong>Goal</strong> → Build scalable, resilient, cloud-native Java applications</li>
+              <li><strong>Cloud Providers</strong> → AWS | Azure | GCP</li>
+              <li><strong>Java Stack</strong> → Spring Boot + Docker + Kubernetes + CI/CD</li>
+              <li><strong>Architecture</strong> → Stateless Microservices + Event Driven</li>
+              <li><strong>Deployment</strong> → EC2/App Service/App Engine | Containers | Lambda</li>
+              <li><strong>Scaling</strong> → Horizontal Scaling + Load Balancer + Auto Scaling</li>
+              <li><strong>Configuration</strong> → Environment Variables + ConfigMaps + Secret Managers</li>
+              <li><strong>Observability</strong> → Logs + Metrics + Tracing + Alerts</li>
+              <li><strong>Security</strong> → OAuth2, JWT, TLS, IAM, RBAC, Secret Manager</li>
+              <li><strong>Golden Rule</strong> → Cloud Native Apps must be Stateless</li>
+            </ul>
 
-<pre><span class="cm">// ☁️ Cloud Native Architecture</span>
+            <pre><span class="cm">// ☁️ Cloud Native Architecture</span>
 
 Client
    │
@@ -10167,7 +10167,7 @@ Spring Boot Microservices
 Scale = Add more service instances (Horizontal Scaling)
 </pre>
 
-<pre><span class="cm">// 🚀 Typical Deployment Flow</span>
+            <pre><span class="cm">// 🚀 Typical Deployment Flow</span>
 
 Developer
       │
@@ -10190,7 +10190,7 @@ Health Checks
 Auto Scaling + Monitoring
 </pre>
 
-<pre><span class="cm">// 📦 Cloud Services Cheat Sheet</span>
+            <pre><span class="cm">// 📦 Cloud Services Cheat Sheet</span>
 
 Compute
 EC2      → Virtual Machines
@@ -10217,7 +10217,7 @@ Zipkin
 Jaeger
 </pre>
 
-<pre><span class="cm">// 🐳 Docker → Kubernetes</span>
+            <pre><span class="cm">// 🐳 Docker → Kubernetes</span>
 
 Spring Boot
       │
@@ -10236,7 +10236,7 @@ ReplicaSet
 Service + LoadBalancer
 </pre>
 
-<pre><span class="cm">// ⚡ Serverless Flow</span>
+            <pre><span class="cm">// ⚡ Serverless Flow</span>
 
 API Gateway / S3 Upload / Queue
             │
@@ -10248,114 +10248,562 @@ Business Logic
 S3 / DynamoDB / SNS
 </pre>
 
-<div class="tip-box">
+            <div class="tip-box">
 
-💡 <strong>Cloud != Hosting</strong><br>
-Cloud provides managed infrastructure (Auto Scaling, Load Balancing, Monitoring, HA).
+              💡 <strong>Cloud != Hosting</strong><br>
+              Cloud provides managed infrastructure (Auto Scaling, Load Balancing, Monitoring, HA).
 
-<br><br>
+              <br><br>
 
-💡 <strong>Stateless Services</strong><br>
-Never store session/files locally.<br>
-Store Files → S3<br>
-Cache → Redis<br>
-Session → Database/Redis
+              💡 <strong>Stateless Services</strong><br>
+              Never store session/files locally.<br>
+              Store Files → S3<br>
+              Cache → Redis<br>
+              Session → Database/Redis
 
-<br><br>
+              <br><br>
 
-💡 <strong>12-Factor App (Must Remember)</strong><br>
-✔ Config via Environment Variables<br>
-✔ Stateless Processes<br>
-✔ Logs as Event Streams<br>
-✔ One Codebase, Multiple Deployments<br>
-✔ Fast Startup & Shutdown
+              💡 <strong>12-Factor App (Must Remember)</strong><br>
+              ✔ Config via Environment Variables<br>
+              ✔ Stateless Processes<br>
+              ✔ Logs as Event Streams<br>
+              ✔ One Codebase, Multiple Deployments<br>
+              ✔ Fast Startup & Shutdown
 
-<br><br>
+              <br><br>
 
-💡 <strong>Horizontal > Vertical Scaling</strong><br>
-❌ Bigger Server<br>
-✅ More Service Instances behind Load Balancer
+              💡 <strong>Horizontal > Vertical Scaling</strong><br>
+              ❌ Bigger Server<br>
+              ✅ More Service Instances behind Load Balancer
 
-<br><br>
+              <br><br>
 
-💡 <strong>Configuration Best Practice</strong><br>
-Never hardcode passwords/API Keys.<br>
-Use:
-<ul>
-<li>Environment Variables</li>
-<li>Kubernetes ConfigMaps</li>
-<li>AWS Secrets Manager</li>
-<li>Azure Key Vault</li>
-<li>GCP Secret Manager</li>
-</ul>
+              💡 <strong>Configuration Best Practice</strong><br>
+              Never hardcode passwords/API Keys.<br>
+              Use:
+              <ul>
+                <li>Environment Variables</li>
+                <li>Kubernetes ConfigMaps</li>
+                <li>AWS Secrets Manager</li>
+                <li>Azure Key Vault</li>
+                <li>GCP Secret Manager</li>
+              </ul>
 
-💡 <strong>Cloud Logging</strong><br>
-Application → stdout → CloudWatch / ELK / Grafana<br>
-Never write logs to local files.
+              💡 <strong>Cloud Logging</strong><br>
+              Application → stdout → CloudWatch / ELK / Grafana<br>
+              Never write logs to local files.
 
-<br><br>
+              <br><br>
 
-💡 <strong>Observability = 3 Pillars</strong><br>
-📄 Logs → What happened?<br>
-📈 Metrics → Is system healthy?<br>
-🔍 Traces → Where is request slow?
+              💡 <strong>Observability = 3 Pillars</strong><br>
+              📄 Logs → What happened?<br>
+              📈 Metrics → Is system healthy?<br>
+              🔍 Traces → Where is request slow?
 
-<br><br>
+              <br><br>
 
-💡 <strong>Cloud Security Checklist</strong><br>
-✔ HTTPS/TLS<br>
-✔ OAuth2/JWT<br>
-✔ RBAC<br>
-✔ IAM Roles<br>
-✔ Secret Manager<br>
-✔ Encryption at Rest & Transit
+              💡 <strong>Cloud Security Checklist</strong><br>
+              ✔ HTTPS/TLS<br>
+              ✔ OAuth2/JWT<br>
+              ✔ RBAC<br>
+              ✔ IAM Roles<br>
+              ✔ Secret Manager<br>
+              ✔ Encryption at Rest & Transit
 
-<br><br>
+              <br><br>
 
-💡 <strong>Cloud Resilience Patterns</strong><br>
-Circuit Breaker → Prevent cascading failures<br>
-Retry + Exponential Backoff → Handle transient failures<br>
-Bulkhead → Isolate failures<br>
-Rate Limiting → Prevent abuse
+              💡 <strong>Cloud Resilience Patterns</strong><br>
+              Circuit Breaker → Prevent cascading failures<br>
+              Retry + Exponential Backoff → Handle transient failures<br>
+              Bulkhead → Isolate failures<br>
+              Rate Limiting → Prevent abuse
 
-<br><br>
+              <br><br>
 
-💡 <strong>Container vs Kubernetes</strong><br>
-Docker → Package Application<br>
-Kubernetes → Deploy, Scale & Heal Containers
+              💡 <strong>Container vs Kubernetes</strong><br>
+              Docker → Package Application<br>
+              Kubernetes → Deploy, Scale & Heal Containers
 
-<br><br>
+              <br><br>
 
-💡 <strong>When to Use Lambda?</strong><br>
-✔ Image Processing<br>
-✔ File Upload Events<br>
-✔ Notifications<br>
-✔ Background Jobs<br>
-❌ Long-running Stateful Applications
+              💡 <strong>When to Use Lambda?</strong><br>
+              ✔ Image Processing<br>
+              ✔ File Upload Events<br>
+              ✔ Notifications<br>
+              ✔ Background Jobs<br>
+              ❌ Long-running Stateful Applications
 
-<br><br>
+              <br><br>
 
-💡 <strong>Interview Architecture Flow</strong><br>
+              💡 <strong>Interview Architecture Flow</strong><br>
 
-Client<br>
-→ API Gateway<br>
-→ Load Balancer<br>
-→ Spring Boot Microservices<br>
-→ Kafka/SQS<br>
-→ Database + Redis<br>
-→ Monitoring (Prometheus/Grafana)<br>
-→ Kubernetes Auto Scaling
+              Client<br>
+              → API Gateway<br>
+              → Load Balancer<br>
+              → Spring Boot Microservices<br>
+              → Kafka/SQS<br>
+              → Database + Redis<br>
+              → Monitoring (Prometheus/Grafana)<br>
+              → Kubernetes Auto Scaling
 
-<br><br>
+              <br><br>
 
-💡 <strong>Architect-Level Keywords</strong><br>
+              💡 <strong>Architect-Level Keywords</strong><br>
 
-Cloud Native • Stateless • Microservices • Docker • Kubernetes • CI/CD • Auto Scaling • High Availability • Fault Tolerance • Service Discovery • API Gateway • Distributed Tracing • Observability • Infrastructure as Code • Serverless • Event Driven • Secrets Management • Multi-Region • Blue-Green • Canary • GitOps
+              Cloud Native • Stateless • Microservices • Docker • Kubernetes • CI/CD • Auto Scaling • High Availability
+              • Fault Tolerance • Service Discovery • API Gateway • Distributed Tracing • Observability • Infrastructure
+              as Code • Serverless • Event Driven • Secrets Management • Multi-Region • Blue-Green • Canary • GitOps
 
-</div>
+            </div>
 
-  </div>
-</div>
+          </div>
+        </div>
+        <!-- React Context -->
+        <div class="card c-purple full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">⚛️</div>
+            <span class="card-title">React Deep Dive (Interview Mental Model)</span>
+            <span class="card-tag">Architect</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>Core Mental Model</strong> → React = Reconciliation (Render) + DOM Updates (Commit)</li>
+              <li><strong>Fiber</strong> → Linked-list based reconciler enabling interruptible rendering</li>
+              <li><strong>Concurrent Rendering</strong> → Prioritized scheduling, not multi-threading</li>
+              <li><strong>SSR</strong> → Faster first paint, Hydration adds interactivity</li>
+              <li><strong>Architecture</strong> → Separate Server State from Client State</li>
+              <li><strong>Performance</strong> → Memoization, Virtualization, Batching, Transitions</li>
+              <li><strong>Security</strong> → Prevent XSS, safe token storage</li>
+              <li><strong>Interview Tip</strong> → Every advanced React feature exists because of Fiber</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 React Rendering Pipeline</span>
+
+State/Props Change
+        │
+        ▼
+Render Phase (Reconciliation)
+✔ Compare Virtual DOM
+✔ Build Work-In-Progress Tree
+✔ Interruptible (Fiber)
+
+        │
+        ▼
+
+Commit Phase
+✔ Apply DOM changes
+✔ Run Effects
+✔ Never interrupted
+
+Mental Model:
+Render = Decide
+Commit = Apply
+</pre>
+
+            <pre><span class="cm">// 🔹 Fiber Architecture</span>
+
+Old React
+JS Call Stack
+❌ Cannot pause rendering
+
+React Fiber
+Each component → Fiber Node
+
+Fiber
+ ├─ child
+ ├─ sibling
+ ├─ parent(return)
+ ├─ state/hooks
+ └─ alternate (other tree)
+
+Benefits
+✔ Pause
+✔ Resume
+✔ Prioritize
+✔ Cancel work
+
+Current Tree
+      ⇅
+Work-In-Progress Tree
+
+Commit = Swap Trees
+</pre>
+
+            <pre><span class="cm">// 🔹 Reconciliation (Diffing)</span>
+
+React avoids O(n³) diff using:
+
+1. Different element type
+→ Replace subtree
+
+2. Same type + Same key
+→ Reuse component
+→ Preserve state
+
+Bad Keys
+❌ index
+
+Good Keys
+✔ unique id
+
+Rule:
+Same Position + Same Key
+= Same Component Instance
+</pre>
+
+            <pre><span class="cm">// 🔹 Concurrent Rendering (React 18)</span>
+
+Concurrent ≠ Multi-threading
+
+Still Single JS Thread
+
+Enabled by:
+createRoot()
+
+Scheduler assigns priorities:
+
+Sync
+→ User input
+
+Default
+→ Normal updates
+
+Transition
+→ startTransition()
+
+Idle
+→ Background work
+
+Render can be:
+✔ paused
+✔ resumed
+✔ discarded
+</pre>
+
+            <pre><span class="cm">// 🔹 Automatic Batching</span>
+
+React 17
+
+click()
+setTimeout()
+Promise()
+
+Only event handlers batched
+
+React 18
+
+Everything batched
+
+Result:
+Multiple setState()
+        ↓
+Single Re-render
+
+Need immediate update?
+
+flushSync()
+</pre>
+
+            <pre><span class="cm">// 🔹 startTransition()</span>
+
+Urgent Update
+✔ Typing
+✔ Button click
+
+Transition Update
+✔ Large lists
+✔ Search results
+✔ Expensive UI
+
+Typing
+      │
+Immediate
+
+Filtering
+      │
+Deferred
+
+Keeps UI responsive
+</pre>
+
+            <pre><span class="cm">// 🔹 SSR + Hydration</span>
+
+Server
+↓
+
+HTML generated
+
+↓
+
+Browser shows UI
+(FCP improves)
+
+↓
+
+Hydration
+
+Attach:
+✔ Events
+✔ State
+✔ React Tree
+
+Important
+
+SSR improves
+✔ SEO
+✔ FCP
+✔ LCP
+
+SSR DOES NOT improve
+❌ TTI
+
+Hydration mismatch causes:
+❌ Full client re-render
+</pre>
+
+            <pre><span class="cm">// 🔹 Streaming SSR</span>
+
+Traditional
+
+Fetch ALL
+↓
+Render ALL
+↓
+Hydrate ALL
+
+Streaming
+
+Shell
+↓
+Stream chunks
+↓
+Hydrate independently
+
+Benefits
+
+✔ Faster page load
+✔ Earlier interaction
+✔ Suspense support
+</pre>
+
+            <pre><span class="cm">// 🔹 React Server Components</span>
+
+SSR
+Runs Server + Client
+
+RSC
+Runs ONLY Server
+
+Advantages
+
+✔ Smaller JS bundle
+✔ Direct DB access
+✔ Better performance
+
+Cannot use
+
+❌ useState
+❌ useEffect
+❌ Browser APIs
+</pre>
+
+            <pre><span class="cm">// 🔹 Architecture</span>
+
+Client State
+
+Theme
+Modal
+Tabs
+Forms
+
+Tools
+useState
+Context
+Zustand
+
+----------------------
+
+Server State
+
+API Data
+Users
+Orders
+
+Tools
+
+React Query
+RTK Query
+SWR
+
+Rule
+
+Never store
+Server State
+inside Redux unnecessarily
+</pre>
+
+            <pre><span class="cm">// 🔹 Common Design Patterns</span>
+
+✔ Compound Components
+Tabs
+Accordion
+
+✔ Controlled Components
+value + onChange
+
+✔ Uncontrolled Components
+defaultValue
+
+✔ Feature Sliced Design
+/features
+/shared
+
+✔ Micro-frontends
+Module Federation
+React Singleton
+</pre>
+
+            <pre><span class="cm">// 🔹 Performance Toolkit</span>
+
+Memoization
+useMemo
+useCallback
+
+Virtualization
+react-window
+
+IntersectionObserver
+Infinite Scroll
+
+Automatic Batching
+
+Transitions
+
+Stable Keys
+
+React.memo
+
+Avoid unnecessary renders
+</pre>
+
+            <pre><span class="cm">// 🔹 Testing Philosophy</span>
+
+React Testing Library
+
+Test like user
+
+Prefer
+
+getByRole()
+
+Then
+
+getByLabelText()
+
+Avoid
+
+getByTestId()
+
+Need async?
+
+findBy*
+
+Need API mocking?
+
+MSW
+</pre>
+
+            <pre><span class="cm">// 🔹 Security</span>
+
+React escapes JSX
+✔ Prevents XSS
+
+dangerouslySetInnerHTML
+❌ Unsafe
+
+Use DOMPurify
+
+Token Storage
+
+Access Token
+→ Memory
+
+Refresh Token
+→ HttpOnly Cookie
+
+Best Practice
+
+Memory + HttpOnly Cookie
+</pre>
+
+            <pre><span class="cm">// 🔹 TypeScript Essentials</span>
+
+Generics
+
+List&lt;T&gt;
+
+Discriminated Union
+
+status
+
+idle
+loading
+success
+error
+
+Utility Types
+
+Partial
+Omit
+ReturnType
+ComponentProps
+
+Avoid "any"
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Golden Interview Flow</strong><br>
+              State Change → Render → Fiber → Scheduler → Commit → DOM Update
+
+              <br><br>
+
+              💡 <strong>Remember the Chain</strong><br>
+              Fiber → Concurrent Rendering → Transitions → Streaming SSR → Server Components
+
+              <br><br>
+
+              💡 <strong>Performance Checklist</strong><br>
+              OnPush/React.memo • Stable Keys • Memoization • Virtualization • Automatic Batching • Lazy Loading
+
+              <br><br>
+
+              💡 <strong>Architecture Checklist</strong><br>
+              Separate Server State & Client State • Feature-based folders • Compound Components • Controlled APIs
+
+              <br><br>
+
+              💡 <strong>Top Interview One-Liners</strong>
+
+              <ul class="rule-list">
+                <li><strong>Fiber</strong> → Linked-list reconciler enabling interruptible rendering.</li>
+                <li><strong>Concurrent Rendering</strong> → Scheduling, not parallel execution.</li>
+                <li><strong>Render Phase</strong> → Calculates changes only.</li>
+                <li><strong>Commit Phase</strong> → Applies DOM updates synchronously.</li>
+                <li><strong>SSR</strong> → Improves FCP/LCP, not TTI.</li>
+                <li><strong>Hydration</strong> → Attaches events to server-rendered HTML.</li>
+                <li><strong>React Query</strong> → Server-state manager, not global state.</li>
+                <li><strong>Keys</strong> → Preserve component identity and state.</li>
+                <li><strong>startTransition()</strong> → Defers expensive UI updates.</li>
+                <li><strong>Virtualization</strong> → Render only visible items for massive lists.</li>
+              </ul>
+
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   </div>
