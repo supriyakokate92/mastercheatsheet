@@ -749,7 +749,7 @@
     }
 
     .accordion-item.active .accordion-content {
-      max-height: 10000px;
+      max-height: 15000px;
       padding-top: 16px;
     }
   </style>
@@ -7198,374 +7198,7 @@ effect(() => {
           </div>
         </div>
       </div>
-      <!-- TYPESCRIPT CARD -->
-      <div class="card c-blue full">
-        <div class="card-header">
-          <div class="card-icon">🟦</div>
-          <span class="card-title">TypeScript — DSA Syntax</span>
-          <span class="card-tag">Interview Cheat Sheet</span>
-        </div>
 
-        <div class="card-body master-grid">
-
-          <div>
-            <div class="label">Variables</div>
-            <ul class="rule-list">
-              <li><span class="chip">let / const</span></li>
-              <li><span class="chip">number / string / boolean</span></li>
-              <li>Array → <span class="chip">number[]</span></li>
-              <li>
-                Example:
-                <pre class="chip">let n: number = 10;</pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Set (Remove duplicates)</div>
-            <ul class="rule-list">
-              <li><span class="chip">new Set()</span></li>
-              <li>Add → <span class="chip">set.add(x)</span></li>
-              <li>Check → <span class="chip">set.has(x)</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-const s = new Set<number>();
-s.add(1);
-s.add(2);
-console.log(s.has(2));
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Map (Frequency / lookup)</div>
-            <ul class="rule-list">
-              <li><span class="chip">new Map()</span></li>
-              <li>Set → <span class="chip">map.set(k,v)</span></li>
-              <li>Get → <span class="chip">map.get(k)</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-const mp = new Map<string, number>();
-mp.set("a", 1);
-console.log(mp.get("a"));
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Conditionals</div>
-            <ul class="rule-list">
-              <li><span class="chip">if / else</span></li>
-              <li><span class="chip">switch</span></li>
-              <li>Ternary → <span class="chip">a ? b : c</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-if (n > 0) console.log("pos");
-else console.log("neg");
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Loops (Most used in DSA)</div>
-            <ul class="rule-list">
-              <li><span class="chip">for</span></li>
-              <li><span class="chip">for...of</span></li>
-              <li><span class="chip">while</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
-}
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Array Ops (VERY IMPORTANT)</div>
-            <ul class="rule-list">
-              <li><span class="chip">push / pop</span></li>
-              <li><span class="chip">shift / unshift</span></li>
-              <li><span class="chip">slice / splice</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-arr.push(10);
-arr.pop();
-arr.sort((a,b)=>a-b);
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Logs (Debugging)</div>
-            <ul class="rule-list">
-              <li><span class="chip">console.log(x)</span></li>
-              <li>Array → <span class="chip">console.log([...arr])</span></li>
-              <li>Map → <span class="chip">console.log(Array.from(mp))</span></li>
-              <li>
-                Template:
-                <pre class="chip">console.log(`val=${x}`);</pre>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-      <!-- JAVA CARD -->
-      <div class="card c-pink full">
-        <div class="card-header">
-          <div class="card-icon">☕</div>
-          <span class="card-title">Java — DSA Syntax</span>
-          <span class="card-tag">Interview Cheat Sheet</span>
-        </div>
-
-        <div class="card-body master-grid">
-
-          <div>
-            <div class="label">Variables</div>
-            <ul class="rule-list">
-              <li><span class="chip">int, String, boolean</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-int n = 10;
-String s = "hello";
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">HashSet (Unique values)</div>
-            <ul class="rule-list">
-              <li><span class="chip">HashSet&lt;&gt;</span></li>
-              <li>Add → <span class="chip">add()</span></li>
-              <li>Check → <span class="chip">contains()</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-Set<Integer> set = new HashSet<>();
-set.add(1);
-System.out.println(set.contains(1));
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">HashMap (Frequency / lookup)</div>
-            <ul class="rule-list">
-              <li><span class="chip">HashMap&lt;&gt;</span></li>
-              <li>Put → <span class="chip">put(k,v)</span></li>
-              <li>Get → <span class="chip">get(k)</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-Map<String,Integer> mp = new HashMap<>();
-mp.put("a",1);
-System.out.println(mp.get("a"));
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Conditionals</div>
-            <ul class="rule-list">
-              <li><span class="chip">if / else</span></li>
-              <li><span class="chip">switch</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-if(n > 0) System.out.println("pos");
-else System.out.println("neg");
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Loops</div>
-            <ul class="rule-list">
-              <li><span class="chip">for</span></li>
-              <li><span class="chip">for-each</span></li>
-              <li><span class="chip">while</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-for(int i=0;i<n;i++){
-  System.out.println(i);
-}
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Collections (DSA core)</div>
-            <ul class="rule-list">
-              <li><span class="chip">Arrays.sort()</span></li>
-              <li><span class="chip">Collections.sort()</span></li>
-              <li><span class="chip">Queue / Stack</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-Arrays.sort(arr);
-Stack<Integer> st = new Stack<>();
-st.push(10);
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Logs (Debugging)</div>
-            <ul class="rule-list">
-              <li><span class="chip">System.out.println()</span></li>
-              <li>Array → <span class="chip">Arrays.toString()</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-System.out.println(Arrays.toString(arr));
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-      <!-- PYTHON CARD -->
-      <div class="card c-green full">
-        <div class="card-header">
-          <div class="card-icon">🐍</div>
-          <span class="card-title">Python — DSA Syntax</span>
-          <span class="card-tag">Interview Cheat Sheet</span>
-        </div>
-
-        <div class="card-body master-grid">
-
-          <div>
-            <div class="label">Variables</div>
-            <ul class="rule-list">
-              <li><span class="chip">int / str / bool</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-n = 10
-s = "hello"
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Set (Unique values)</div>
-            <ul class="rule-list">
-              <li><span class="chip">set()</span></li>
-              <li>Add → <span class="chip">add()</span></li>
-              <li>Check → <span class="chip">in</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-s = set()
-s.add(1)
-print(1 in s)
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Dict (Frequency / lookup)</div>
-            <ul class="rule-list">
-              <li><span class="chip">{}</span></li>
-              <li>Insert → <span class="chip">mp[k]=v</span></li>
-              <li>Get → <span class="chip">mp.get(k)</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-mp = {}
-mp["a"] = 1
-print(mp.get("a"))
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Conditionals</div>
-            <ul class="rule-list">
-              <li><span class="chip">if / elif / else</span></li>
-              <li><span class="chip">match-case</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-if n > 0:
-    print("pos")
-else:
-    print("neg")
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Loops</div>
-            <ul class="rule-list">
-              <li><span class="chip">for in range</span></li>
-              <li><span class="chip">for x in arr</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-for i in range(n):
-    print(i)
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Collections (DSA core)</div>
-            <ul class="rule-list">
-              <li><span class="chip">list</span></li>
-              <li><span class="chip">deque</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-from collections import deque
-q = deque()
-q.append(1)
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <div class="label">Logs (Debugging)</div>
-            <ul class="rule-list">
-              <li><span class="chip">print()</span></li>
-              <li>List → <span class="chip">print(arr)</span></li>
-              <li>
-                Example:
-                <pre class="chip">
-print(f"value = {n}")
-          </pre>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </div>
       <!-- ACCORDION CARD -->
       <div class="accordion full">
         <!-- 30-sec interview answers -->
@@ -8996,6 +8629,1733 @@ print(f"value = {n}")
 
           </div>
         </div>
+        <!-- Database Last minute -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🗄️</div>
+            <span class="card-title">System Design: Databases & Storage (Last Minute Revision)</span>
+            <span class="card-tag">Architecture</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>DB</strong> → Stores structured/unstructured data</li>
+              <li><strong>DBMS</strong> → CRUD + Security + Backup + Recovery + Optimization</li>
+              <li><strong>RDBMS</strong> → Tables, PK/FK, SQL, ACID, joins</li>
+              <li><strong>NoSQL</strong> → Flexible schema, horizontal scaling, BASE</li>
+              <li><strong>Index</strong> → Faster reads ⚡ but slower writes & extra storage</li>
+              <li><strong>Normalization</strong> → Remove redundancy ✔ Consistency</li>
+              <li><strong>Denormalization</strong> → Duplicate data ✔ Faster reads</li>
+              <li><strong>Replication</strong> → High Availability</li>
+              <li><strong>Sharding</strong> → Horizontal Scaling</li>
+              <li><strong>Caching</strong> → RAM layer before DB → Reduce latency</li>
+            </ul>
+
+            <pre><span class="cm">// Database Scaling Roadmap</span>
+
+Database
+   │
+   ├── Replication (HA + Read Scaling)
+   │      ├── Master → Slave
+   │      └── Master ↔ Master
+   │
+   ├── Federation
+   │      Split DB by business module
+   │
+   ├── Sharding
+   │      Split same table across DBs
+   │
+   └── Cache (Redis/Memcached)
+          Reduce DB load
+</pre>
+
+            <pre><span class="cm">// SQL vs NoSQL</span>
+
+SQL
+✔ ACID
+✔ Strong consistency
+✔ Joins
+✔ Fixed schema
+✔ Banking, Orders
+
+NoSQL
+✔ BASE
+✔ Flexible schema
+✔ Horizontal scaling
+✔ High throughput
+✔ Logs, Chat, Feed, Cache
+</pre>
+
+            <pre><span class="cm">// ACID</span>
+
+A → Atomicity (All or Nothing)
+C → Consistency
+I → Isolation
+D → Durability
+
+Interview:
+Need strict transactions?
+→ Choose SQL
+</pre>
+
+            <pre><span class="cm">// BASE</span>
+
+B → Basically Available
+A → Soft State
+E → Eventual Consistency
+
+Interview:
+Need scalability + availability?
+→ Choose NoSQL
+</pre>
+
+            <pre><span class="cm">// Replication</span>
+
+Master → Slave
+
+Writes → Master
+Reads → Slaves
+
+✔ Read scaling
+✔ Backup
+✔ HA
+
+Cons
+✖ Replication lag
+✖ Master bottleneck
+
+
+Master ↔ Master
+
+✔ Reads/Writes both
+✔ Faster failover
+
+Cons
+✖ Conflict resolution
+✖ Complex synchronization
+</pre>
+
+            <pre><span class="cm">// Federation vs Sharding</span>
+
+Federation
+-------------
+Split by Feature
+
+User DB
+Product DB
+Order DB
+
+Best for Microservices
+
+
+Sharding
+-------------
+Split same table
+
+Users A-M
+Users N-Z
+
+Best for huge datasets
+</pre>
+
+            <pre><span class="cm">// Index</span>
+
+Without Index
+Query → Full Table Scan O(n)
+
+With B-Tree Index
+Query → O(log n)
+
+Pros
+✔ Fast SELECT
+✔ Fast ORDER BY
+✔ Fast JOIN
+
+Cons
+✖ Slow INSERT/UPDATE
+✖ More storage
+</pre>
+
+            <pre><span class="cm">// Normalization</span>
+
+Goal
+Reduce redundancy
+
+1NF → Atomic values
+2NF → Remove partial dependency
+3NF → Remove transitive dependency
+BCNF → Every determinant is candidate key
+
+Pros
+✔ Consistency
+✔ Less duplication
+
+Cons
+✖ More JOINs
+</pre>
+
+            <pre><span class="cm">// Denormalization</span>
+
+Duplicate data
+
+Pros
+✔ Faster reads
+✔ Fewer joins
+
+Cons
+✖ More storage
+✖ Data inconsistency
+</pre>
+
+            <pre><span class="cm">// NoSQL Types</span>
+
+Key-Value
+Redis
+(Cache, Session)
+
+Document
+MongoDB
+(JSON)
+
+Wide Column
+Cassandra
+(Big Data)
+
+Graph
+Neo4j
+(Social Network)
+</pre>
+
+            <pre><span class="cm">// Cache Strategies</span>
+
+Cache Aside (Lazy)
+App → Cache → DB
+
+✔ Most common
+✔ Simple
+
+---------------------
+
+Write Through
+
+App → Cache → DB
+
+✔ No stale data
+✖ Slow writes
+
+---------------------
+
+Write Behind
+
+App → Cache
+      ↓
+     DB later
+
+✔ Fast writes
+✖ Risk of data loss
+
+---------------------
+
+Refresh Ahead
+
+Refresh before expiry
+
+✔ Low latency
+</pre>
+
+            <pre><span class="cm">// Cache Eviction</span>
+
+LRU  ⭐ Most Common
+LFU
+FIFO
+MRU
+Random
+</pre>
+
+            <pre><span class="cm">// Storage Types</span>
+
+File Storage
+📁 Files
+(EFS)
+
+Block Storage
+💽 Raw blocks
+(EBS)
+
+Object Storage
+🪣 Images/Videos/Backups
+(S3)
+</pre>
+
+            <pre><span class="cm">// RAID</span>
+
+RAID 0
+Striping
+✔ Fast
+✖ No fault tolerance
+
+RAID 1
+Mirroring
+✔ Safe
+✖ 50% capacity
+
+RAID 5
+Striping + Parity
+✔ Good balance
+
+RAID 6
+Double parity
+✔ More fault tolerance
+
+RAID 10
+Mirror + Striping
+✔ Fast + Safe
+✖ Expensive
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Interview Decision Tree</strong><br><br>
+
+              ✔ Banking / Payments → <strong>SQL + ACID</strong><br>
+              ✔ Social Feed / Chat → <strong>NoSQL + BASE</strong><br>
+              ✔ Read-heavy system → <strong>Replication + Redis Cache</strong><br>
+              ✔ Massive user growth → <strong>Sharding</strong><br>
+              ✔ Microservices → <strong>Federation</strong><br>
+              ✔ Fast lookup → <strong>Index</strong><br>
+              ✔ Faster reads → <strong>Denormalization</strong><br>
+              ✔ Data consistency → <strong>Normalization</strong><br>
+              ✔ Sessions / Cache → <strong>Redis</strong><br>
+              ✔ Images / Videos → <strong>Object Storage (S3)</strong><br><br>
+
+              <strong>⭐ Architect Interview One-Liners</strong><br>
+              • Replication = Availability + Read Scaling<br>
+              • Sharding = Horizontal Scaling<br>
+              • Cache = Reduce DB load & latency<br>
+              • Index = Faster reads, slower writes<br>
+              • SQL = Consistency<br>
+              • NoSQL = Scalability<br>
+              • Normalize for OLTP, Denormalize for Analytics/Read-heavy systems
+            </div>
+
+          </div>
+        </div>
+        <!-- Design Patterns  -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🏗️</div>
+            <span class="card-title">Design Patterns Cheat Sheet (Architect Interview)</span>
+            <span class="card-tag">Must Know</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>Purpose</strong> → Reusable solutions to recurring design problems</li>
+              <li><strong>Remember</strong> → Pattern solves a problem, don't force-fit it</li>
+              <li><strong>Categories</strong> → Creational • Structural • Behavioral</li>
+              <li><strong>Interview Focus</strong> → Why this pattern? Trade-offs? Alternative?</li>
+              <li><strong>Golden Rule</strong> → Prefer composition over inheritance where possible</li>
+              <li><strong>SOLID</strong> → Most patterns are practical implementations of SOLID principles</li>
+            </ul>
+
+            <pre><span class="cm">// 📦 Categories</span>
+
+🏭 Creational
+Creates Objects
+
+Simple Factory
+Factory Method
+Abstract Factory
+Builder
+Prototype
+Singleton
+
+🏗 Structural
+Combines Objects
+
+Adapter
+Bridge
+Composite
+Decorator
+Facade
+Flyweight
+Proxy
+
+⚙ Behavioral
+Communication Between Objects
+
+Chain of Responsibility
+Command
+Iterator
+Mediator
+Memento
+Observer
+Visitor
+Strategy
+State
+Template Method
+</pre>
+
+            <pre><span class="cm">// 🏭 Creational Patterns</span>
+
+Simple Factory
+👉 Hide object creation
+Example: NotificationFactory.create("email")
+
+Factory Method
+👉 Child decides which object to create
+Example: PaymentGateway → RazorPay/Stripe
+
+Abstract Factory
+👉 Creates families of related objects
+Example: Windows UI vs Mac UI components
+
+Builder
+👉 Step-by-step complex object creation
+Example: HttpRequestBuilder, PizzaBuilder
+
+Prototype
+👉 Clone existing object
+Example: Duplicate Form, Copy Document
+
+Singleton
+👉 Only one instance
+Example: Logger, Config, Cache
+⚠ Avoid overuse (Global State)
+</pre>
+
+            <pre><span class="cm">// 🏗 Structural Patterns</span>
+
+Adapter
+👉 Convert incompatible interfaces
+Example: Legacy API → New API
+
+Bridge
+👉 Separate abstraction from implementation
+Example: Theme + Page
+(DarkTheme + HomePage)
+
+Composite
+👉 Tree structure
+Treat group & individual same
+Example: Folder/File
+
+Decorator
+👉 Add behavior dynamically
+Example: Coffee + Milk + Sugar
+Angular HTTP Interceptors
+
+Facade
+👉 Simple interface over complex system
+Example: OrderService.placeOrder()
+
+Flyweight
+👉 Share common objects
+Example: Icons, Characters, CDN cache
+
+Proxy
+👉 Control access
+Example: Auth Guard, Lazy Loading,
+Caching Proxy
+</pre>
+
+            <pre><span class="cm">// ⚙ Behavioral Patterns</span>
+
+Chain of Responsibility
+👉 Pass request until handled
+Example: Middleware Pipeline
+
+Command
+👉 Encapsulate action
+Example: Undo/Redo, Button Commands
+
+Iterator
+👉 Traverse collection
+Example: Array Iterator
+
+Mediator
+👉 Central communication hub
+Example: Event Bus, Chat Room
+
+Memento
+👉 Save & Restore state
+Example: Undo History
+
+Observer
+👉 Publish/Subscribe
+Example: RxJS Observable
+
+Visitor
+👉 Add new operations
+without modifying objects
+
+Strategy
+👉 Swap algorithms at runtime
+Example: Payment Strategy
+Sorting Strategy
+
+State
+👉 Behavior changes with state
+Example: Order Status
+Traffic Signal
+
+Template Method
+👉 Fixed workflow,
+customize individual steps
+Example: Build Pipeline
+</pre>
+
+            <pre><span class="cm">// 🎯 Angular Mapping</span>
+
+Strategy      → Dependency Injection
+Observer      → RxJS Signals / Observable
+Decorator     → @Component @Injectable
+Facade        → Facade Service
+Proxy         → Route Guards
+Command       → NgRx Actions
+Singleton     → providedIn:'root'
+Builder       → HttpParams Builder
+Composite     → Component Tree
+Adapter       → API Mapper
+State         → NgRx / Signals
+</pre>
+
+            <div class="tip-box">
+              💡 <strong>Interview Shortcut:</strong><br><br>
+
+              🏭 <strong>Need object creation?</strong> → Factory / Builder / Singleton<br><br>
+
+              🏗 <strong>Need to connect or wrap objects?</strong> → Adapter / Decorator / Facade / Proxy /
+              Composite<br><br>
+
+              ⚙ <strong>Need behavior or communication?</strong> → Strategy / Observer / Command / State / Chain<br><br>
+
+              🔥 <strong>Most Asked Patterns:</strong><br>
+              Strategy ⭐⭐⭐⭐⭐<br>
+              Observer ⭐⭐⭐⭐⭐<br>
+              Factory ⭐⭐⭐⭐⭐<br>
+              Decorator ⭐⭐⭐⭐<br>
+              Singleton ⭐⭐⭐⭐<br>
+              Facade ⭐⭐⭐⭐<br>
+              Adapter ⭐⭐⭐⭐<br>
+              Command ⭐⭐⭐<br>
+              State ⭐⭐⭐<br>
+              Template Method ⭐⭐⭐<br><br>
+
+              💡 <strong>Easy Memory Trick:</strong><br>
+              <b>Create → Structure → Behave</b><br>
+              Creational → Makes Objects<br>
+              Structural → Connects Objects<br>
+              Behavioral → Controls Communication
+            </div>
+
+          </div>
+        </div>
+        <!-- Scalability & performance -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">⚡</div>
+            <span class="card-title">Scalability & Performance (System Design Revision)</span>
+            <span class="card-tag">Core</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>Scalability</strong> → Handle increasing load by adding resources</li>
+              <li><strong>Performance</strong> → Fast response + efficient resource utilization</li>
+              <li><strong>Performance Issue</strong> → Slow even for a single user</li>
+              <li><strong>Scalability Issue</strong> → Fast for one user, slow under heavy load</li>
+              <li><strong>Key Metrics</strong> → Latency, Throughput, Response Time</li>
+              <li><strong>Avoid</strong> → SPOF (Single Point of Failure) & Bottlenecks</li>
+              <li><strong>Design Rule</strong> → Start simple → Measure → Optimize bottlenecks</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 Performance Metrics</span>
+
+Response Time = Time to serve one request
+
+Latency = Delay before data starts arriving
+          (Measured in ms)
+
+Throughput = Requests/Data processed per second
+             (Measured in MBps / RPS)
+
+Resource Utilization =
+CPU + Memory + Disk + Network Usage
+</pre>
+
+            <pre><span class="cm">// 🔹 Performance vs Scalability</span>
+
+Single User Slow
+        ↓
+Performance Problem
+
+Single User Fast
+1000 Users Slow
+        ↓
+Scalability Problem
+
+Goal:
+More Servers
+      ↓
+Almost Linear Increase in Capacity
+</pre>
+
+            <pre><span class="cm">// 🔹 Latency vs Throughput vs Bandwidth</span>
+
+Bandwidth
+= Maximum possible capacity
+
+Throughput
+= Actual data transferred
+
+Latency
+= Time delay
+
+High Bandwidth ≠ High Throughput
+
+Low Latency + High Throughput
+        =
+Best User Experience
+</pre>
+
+            <pre><span class="cm">// 🔹 Improve Performance</span>
+
+✔ Caching (Redis / CDN)
+✔ Load Balancer
+✔ Database Indexing
+✔ Async Processing
+✔ Horizontal Scaling
+✔ Compression
+✔ Connection Pooling
+✔ CDN for Static Assets
+</pre>
+
+            <pre><span class="cm">// 🔹 Reduce Latency</span>
+
+Move servers closer (CDN)
+
+Reduce network hops
+
+Optimize protocol
+
+Avoid unnecessary API calls
+
+Cache frequently used data
+</pre>
+
+            <pre><span class="cm">// 🔹 Increase Throughput</span>
+
+Increase Bandwidth
+
+Scale Horizontally
+
+Parallel Processing
+
+Efficient Algorithms
+
+Reduce Packet Loss
+
+Optimize Network Topology
+</pre>
+
+            <pre><span class="cm">// 🔹 High Load Problems</span>
+
+❌ SPOF
+One server fails
+→ Entire system down
+
+❌ Bottleneck
+Slowest component limits
+whole application speed
+</pre>
+
+            <pre><span class="cm">// 🔹 Architecture Patterns</span>
+
+Load Balancer
+→ Distribute requests
+
+N-Tier
+→ UI | Business | Database
+
+Microservices
+→ Independent deployable services
+
+Event Notification
+→ Publish event only
+
+Event-Carried State
+→ Event contains required data
+
+Event Sourcing
+→ Events are source of truth
+
+CQRS
+→ Separate Read & Write
+
+Map Reduce
+→ Parallel large data processing
+</pre>
+
+            <pre><span class="cm">// 🔹 High-Level Design Flow</span>
+
+Client
+   │
+Load Balancer
+   │
+Application Servers
+   │
+Cache (Redis)
+   │
+Database
+   │
+Message Queue (Kafka)
+   │
+Background Workers
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Golden Rule:</strong> Performance = Current speed, Scalability = Future growth.<br><br>
+
+              💡 <strong>Interview Shortcut:</strong><br>
+              Slow for 1 user → Performance problem<br>
+              Slow only under load → Scalability problem.<br><br>
+
+              💡 <strong>Latency:</strong> Time taken for one request.<br>
+              💡 <strong>Throughput:</strong> Number of requests handled per second.<br>
+              💡 <strong>Bandwidth:</strong> Maximum network capacity.<br><br>
+
+              💡 <strong>Always Watch:</strong> SPOF, Bottlenecks, Network Congestion, Cache Hit Ratio.<br><br>
+
+              💡 <strong>Architect's Checklist:</strong><br>
+              Keep components simple ✔<br>
+              Design for horizontal scaling ✔<br>
+              Eliminate SPOFs ✔<br>
+              Measure before optimizing ✔<br>
+              Cache aggressively ✔<br>
+              Prefer async/event-driven communication when possible ✔
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Scaling System and security in SD -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🏗️</div>
+            <span class="card-title">System Design Essentials (Scalability & Security)</span>
+            <span class="card-tag">Interview Revision</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>Scalability</strong> → Vertical (bigger server) vs Horizontal (more servers)</li>
+              <li><strong>Storage</strong> → RAID, File, Block, Object, NAS, HDFS</li>
+              <li><strong>Resiliency</strong> → Circuit Breaker + Retry + Timeout</li>
+              <li><strong>Protection</strong> → Rate Limiting + Load Balancer</li>
+              <li><strong>Discovery</strong> → Service Registry + Service Discovery + Service Mesh</li>
+              <li><strong>Reliability</strong> → SLA, SLO, SLI + Disaster Recovery (RTO/RPO)</li>
+              <li><strong>Deployment</strong> → Containers > VMs for Microservices</li>
+              <li><strong>Authentication</strong> → OAuth2, OIDC, SSO, SAML</li>
+              <li><strong>Security</strong> → TLS, mTLS for service communication</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 1. Scaling</span>
+
+Vertical (Scale Up)
++ Add CPU/RAM to one machine
+✔ Simple
+✔ Consistent data
+❌ Single point of failure
+❌ Hardware limit
+
+Horizontal (Scale Out)
++ Add more servers
+✔ Highly available
+✔ Fault tolerant
+✔ Infinite scaling
+❌ Distributed complexity
+❌ Data consistency challenges
+
+Interview:
+Small apps → Vertical
+Large distributed apps → Horizontal
+</pre>
+
+            <pre><span class="cm">// 🔹 2. Storage</span>
+
+RAID
+RAID 0  → Striping → Fastest → No fault tolerance
+RAID 1  → Mirroring → Safe → 50% storage
+RAID 5  → Striping + Parity → Good balance
+RAID 6  → Double parity → Safer
+RAID 10 → Striping + Mirroring → Best performance + safety
+
+Storage Types
+
+File Storage
+• Hierarchical files
+• Shared documents
+Example → EFS
+
+Block Storage
+• Raw disk blocks
+• Low latency
+• Databases
+Example → EBS
+
+Object Storage
+• Stores objects + metadata
+• Highly scalable
+• Images/Videos/Backups
+Example → S3
+
+NAS
+• Shared storage over network
+
+HDFS
+• Distributed storage
+• Big Data
+• Replicated blocks
+</pre>
+
+            <pre><span class="cm">// 🔹 3. Circuit Breaker</span>
+
+Closed
+↓ (Failures exceed threshold)
+
+Open
+Reject requests immediately
+↓ (Timeout)
+
+Half Open
+Allow few requests
+
+Success → Closed
+Failure → Open
+
+Purpose
+✔ Prevent cascading failures
+✔ Protect downstream services
+✔ Improve resiliency
+</pre>
+
+            <pre><span class="cm">// 🔹 4. Rate Limiting</span>
+
+Purpose
+✔ Prevent DoS
+✔ Protect APIs
+✔ Reduce cloud cost
+✔ Fair usage
+
+Algorithms
+
+Leaky Bucket
+→ Constant output rate
+
+Token Bucket ⭐
+→ Allows bursts
+→ Most commonly used
+
+Fixed Window
+→ Simple
+→ Boundary problem
+
+Sliding Log
+→ Accurate
+→ Memory expensive
+
+Sliding Window ⭐
+→ Production favorite
+→ Smooth traffic
+
+Distributed Challenges
+
+Problem
+• Multiple servers
+• Race conditions
+
+Solution
+• Redis
+• Atomic INCR
+• Lua scripts
+• Avoid get-then-set
+</pre>
+
+            <pre><span class="cm">// 🔹 5. Service Discovery</span>
+
+Need
+Microservice IPs change frequently
+
+Client-side Discovery
+Client → Registry → Service
+
+Server-side Discovery ⭐
+Client → Load Balancer → Service
+
+Service Registry
+• Consul
+• etcd
+• ZooKeeper
+
+Registration
+
+Self Registration
+Service registers itself
+
+Third-party Registration
+Kubernetes/ECS registers automatically
+
+Service Mesh
+
+Istio + Envoy
+
+Provides
+✔ Traffic routing
+✔ mTLS
+✔ Retry
+✔ Observability
+</pre>
+
+            <pre><span class="cm">// 🔹 6. Reliability</span>
+
+SLA
+Business contract
+Example
+99.9% uptime
+
+↓
+
+SLO
+Engineering target
+
+↓
+
+SLI
+Measured metric
+
+Example
+
+SLA = 99.9%
+SLO = 99.95%
+SLI = Current uptime (99.97%)
+</pre>
+
+            <pre><span class="cm">// 🔹 7. Disaster Recovery</span>
+
+RTO
+How quickly system recovers
+
+RPO
+Maximum acceptable data loss
+
+Recovery Strategies
+
+Backup
+✔ Cheapest
+❌ Slow
+
+Cold Site
+✔ Infrastructure only
+
+Hot Site
+✔ Always synchronized
+✔ Fastest recovery
+❌ Most expensive
+</pre>
+
+            <pre><span class="cm">// 🔹 8. VMs vs Containers</span>
+
+Virtual Machine
+
+Hypervisor
+Guest OS
+Application
+
+✔ Strong isolation
+❌ Heavy
+❌ Slow startup
+
+Container
+
+Host OS
+Docker
+Application
+
+✔ Lightweight
+✔ Fast startup
+✔ Better density
+✔ Ideal for Kubernetes
+
+Interview
+Microservices → Containers
+Legacy apps → VMs
+</pre>
+
+            <pre><span class="cm">// 🔹 9. Authentication & Authorization</span>
+
+OAuth2
+Authorization only
+"Can app access resource?"
+
+OIDC
+OAuth2 + Authentication
+Returns JWT + User Identity
+
+SSO
+One login
+Many applications
+
+SAML
+XML based
+Enterprise SSO
+
+OAuth/OIDC
+JSON + REST
+Modern Web & Mobile
+</pre>
+
+            <pre><span class="cm">// 🔹 10. Communication Security</span>
+
+SSL
+Old protocol (Deprecated)
+
+TLS ⭐
+Encryption
+Authentication
+Integrity
+
+mTLS ⭐⭐
+Client verifies Server
+Server verifies Client
+
+Used in
+• Kubernetes
+• Service Mesh
+• Internal Microservices
+• Zero Trust Architecture
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Scaling:</strong> Vertical = Bigger machine | Horizontal = More machines (preferred for cloud)
+
+              <br><br>
+
+              💡 <strong>Storage Rule:</strong> File → Documents | Block → Databases | Object → Images, Videos, Backups
+
+              <br><br>
+
+              💡 <strong>Circuit Breaker Flow:</strong> Closed → Open → Half Open → Closed
+
+              <br><br>
+
+              💡 <strong>Rate Limiting:</strong> Token Bucket & Sliding Window are the most common interview answers.
+
+              <br><br>
+
+              💡 <strong>Service Discovery:</strong> Registry stores service IPs. Kubernetes + Consul + ZooKeeper
+              automate discovery.
+
+              <br><br>
+
+              💡 <strong>Reliability:</strong> SLA (Contract) → SLO (Target) → SLI (Measured Value)
+
+              <br><br>
+
+              💡 <strong>Disaster Recovery:</strong> RTO = Time to Recover | RPO = Data Loss Allowed
+
+              <br><br>
+
+              💡 <strong>Deployment:</strong> Containers share OS kernel → Faster & lighter than VMs.
+
+              <br><br>
+
+              💡 <strong>Security:</strong>
+              OAuth2 = Authorization |
+              OIDC = Login |
+              SSO = One Login |
+              SAML = Enterprise |
+              TLS = Secure Communication |
+              mTLS = Mutual Authentication
+
+              <br><br>
+
+              💡 <strong>Architect Interview Keywords:</strong>
+              Horizontal Scaling • Load Balancer • Redis • Circuit Breaker • Retry • Timeout • Service Registry • Istio
+              • Envoy • Kubernetes • Docker • OAuth2 • JWT • mTLS • High Availability • Fault Tolerance • Disaster
+              Recovery • RTO • RPO
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Asynchronous Systems -->
+        <div class="card c-yellow full accordion-item">
+          <div class="card-header accordion-header">
+            <div class="card-icon">🏗️</div>
+            <span class="card-title">System Design Fundamentals (Monoliths, Microservices, Messaging, APIs)</span>
+            <span class="card-tag">Architect Revision</span>
+          </div>
+
+          <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+            <ul class="rule-list">
+              <li><strong>N-Tier</strong> → Presentation → Business → Data layers</li>
+              <li><strong>Closed Layer</strong> → Only next layer access (more control)</li>
+              <li><strong>Open Layer</strong> → Can skip layers (better performance)</li>
+              <li><strong>Monolith</strong> → Single deployable application</li>
+              <li><strong>Modular Monolith</strong> → Monolith with isolated modules</li>
+              <li><strong>Microservices</strong> → Independent services around business domains</li>
+              <li><strong>Message Broker</strong> → Async communication between services</li>
+              <li><strong>Queue</strong> → One producer → One consumer</li>
+              <li><strong>Pub/Sub</strong> → One producer → Multiple consumers</li>
+              <li><strong>EDA</strong> → Systems communicate using events</li>
+              <li><strong>API Gateway</strong> → Single entry point to microservices</li>
+              <li><strong>BFF</strong> → Backend tailored for each frontend</li>
+              <li><strong>REST</strong> → Resource based APIs</li>
+              <li><strong>GraphQL</strong> → Client chooses fields</li>
+              <li><strong>gRPC</strong> → Fast binary communication</li>
+            </ul>
+
+            <pre><span class="cm">// 🔹 Architecture Evolution</span>
+
+1-Tier
+Client + Business + DB
+
+        ↓
+
+3-Tier
+UI → Service → DB
+
+        ↓
+
+Modular Monolith
+Modules inside one deployment
+
+        ↓
+
+Microservices
+Order Service
+User Service
+Payment Service
+Inventory Service
+
+(each owns its DB)
+</pre>
+
+            <pre><span class="cm">// 🔹 Messaging Patterns</span>
+
+Queue (P2P)
+
+Producer
+   ↓
+ Queue
+   ↓
+Consumer
+
+✔ One consumer gets message
+✔ Task processing
+✔ Order processing
+
+--------------------------------
+
+Publish / Subscribe
+
+          Topic
+        /   |   \
+      S1   S2   S3
+
+✔ Every subscriber gets event
+✔ Fanout
+✔ Notifications
+✔ Analytics
+</pre>
+
+            <pre><span class="cm">// 🔹 Message Queue Features</span>
+
+✔ FIFO Ordering
+✔ At-Least-Once Delivery
+✔ Exactly-Once (FIFO Queues)
+✔ Retry Mechanism
+✔ Dead Letter Queue (DLQ)
+✔ Delayed Messages
+✔ Push / Pull Consumption
+✔ Backpressure Handling
+
+Examples:
+RabbitMQ
+Amazon SQS
+ActiveMQ
+</pre>
+
+            <pre><span class="cm">// 🔹 Event Driven Architecture</span>
+
+Producer
+   ↓ Event
+Broker (Kafka)
+   ↓
+Consumer A
+Consumer B
+Consumer C
+
+Example:
+
+OrderCreated Event
+
+→ Payment Service
+→ Inventory Service
+→ Notification Service
+
+Benefits:
+✔ Loose Coupling
+✔ Independent Scaling
+✔ Easy Extensibility
+</pre>
+
+            <pre><span class="cm">// 🔹 Event Sourcing vs EDA</span>
+
+EDA
+----
+Events = Communication
+
+OrderCreated
+OrderShipped
+
+--------------------------------
+
+Event Sourcing
+--------------
+Events = Source of Truth
+
+OrderCreated
+OrderUpdated
+OrderCancelled
+
+Current State = Replay Events
+
+Benefits:
+✔ Audit Trail
+✔ Time Travel
+✔ Rebuild State
+</pre>
+
+            <pre><span class="cm">// 🔹 CQRS</span>
+
+Write Model
+(Commands)
+
+CreateOrder()
+CancelOrder()
+
+        ↓
+
+Event Store
+
+        ↓
+
+Read Model
+(Queries)
+
+GetOrders()
+GetDashboard()
+
+Benefits:
+✔ Read/Write Scale Separately
+✔ Faster Queries
+✔ Better Performance
+</pre>
+
+            <pre><span class="cm">// 🔹 API Gateway</span>
+
+Client
+   ↓
+API Gateway
+ ├── User Service
+ ├── Order Service
+ ├── Payment Service
+
+Responsibilities:
+
+✔ Authentication
+✔ Authorization
+✔ Routing
+✔ Rate Limiting
+✔ Caching
+✔ Retry
+✔ Logging
+✔ Circuit Breaker
+✔ Monitoring
+
+Examples:
+Kong
+Apigee
+Amazon API Gateway
+</pre>
+
+            <pre><span class="cm">// 🔹 Backend For Frontend (BFF)</span>
+
+Web App  → Web BFF
+Mobile   → Mobile BFF
+
+            ↓
+      Microservices
+
+Benefits:
+✔ Client-specific APIs
+✔ Reduced Overfetching
+✔ UI-specific aggregation
+</pre>
+
+            <pre><span class="cm">// 🔹 REST vs GraphQL vs gRPC</span>
+
+REST
+----
+Resource Based
+GET /users/1
+
+✔ Simple
+✔ Cache Friendly
+✖ Over-fetching
+
+--------------------------------
+
+GraphQL
+--------
+
+query {
+  user {
+    id
+    name
+  }
+}
+
+✔ Exact Data
+✔ Single Request
+✖ Complex Server
+
+--------------------------------
+
+gRPC
+-----
+
+service UserService {
+ rpc GetUser()
+}
+
+✔ Fastest
+✔ Binary Protocol
+✔ Code Generation
+✖ Browser Support
+</pre>
+
+            <pre><span class="cm">// 🔹 Real-Time Communication</span>
+
+Long Polling
+------------
+Client → Request
+Server waits
+Server responds
+
+✔ Easy
+✖ Not scalable
+
+-----------------------------
+
+Server Sent Events (SSE)
+------------------------
+
+Server → Client only
+
+✔ Simple
+✔ Live notifications
+
+✖ Unidirectional
+
+-----------------------------
+
+WebSocket
+----------
+
+Client ↔ Server
+
+✔ Full Duplex
+✔ Real Time
+✔ Chat Apps
+✔ Trading Apps
+</pre>
+
+            <pre><span class="cm">// 🔹 Monolith vs Microservices</span>
+
+Monolith
+---------
+✔ Easy Development
+✔ Easy Testing
+✔ ACID Transactions
+✔ Simple Deployment
+
+✖ Hard Scaling
+✖ Large Codebase
+✖ Full Redeploy
+
+--------------------------------
+
+Microservices
+-------------
+✔ Independent Deployment
+✔ Independent Scaling
+✔ Team Autonomy
+✔ Technology Flexibility
+
+✖ Distributed Complexity
+✖ Network Latency
+✖ Eventual Consistency
+✖ Observability Challenges
+</pre>
+
+            <pre><span class="cm">// 🔹 Distributed Monolith (Interview Trap)</span>
+
+Looks like Microservices
+
+Order Service
+User Service
+Payment Service
+
+BUT
+
+✖ Shared Database
+✖ Synchronous Chains
+✖ Tight Coupling
+✖ Must Deploy Together
+
+Result:
+Worst of Monolith + Worst of Microservices
+</pre>
+
+            <pre><span class="cm">// 🔹 Microservices Best Practices</span>
+
+✔ Domain Driven Design (DDD)
+✔ Bounded Context
+✔ Database Per Service
+✔ Loose Coupling
+✔ High Cohesion
+✔ API Contracts
+✔ Circuit Breaker
+✔ Retry + DLQ
+✔ Idempotency
+✔ Backward Compatible APIs
+✔ Event Driven Integration
+✔ Decentralized Ownership
+</pre>
+
+            <pre><span class="cm">// 🔹 Merkle Tree (Distributed Systems)</span>
+
+            Root Hash
+           /         \
+       HashAB       HashCD
+       /   \         /   \
+      A     B       C     D
+
+Use Cases:
+
+✔ Data Integrity
+✔ Replica Validation
+✔ Blockchain
+✔ Cassandra Repair
+
+Find mismatch in O(log N)
+instead of O(N)
+</pre>
+
+            <pre><span class="cm">// 🔹 Gossip Protocol</span>
+
+Node A ↔ Node B
+   ↕       ↕
+Node C ↔ Node D
+
+Each node shares information
+with random peers.
+
+Benefits:
+
+✔ No central coordinator
+✔ Self-healing
+✔ Fault tolerant
+
+Used In:
+
+Cassandra
+Consul
+Memberlist
+</pre>
+
+            <div class="tip-box">
+
+              💡 <strong>Interview Rule #1:</strong>
+              Start with <strong>Modular Monolith</strong>. Move to Microservices only when team scaling, deployment
+              independence, or domain complexity requires it.<br /><br />
+
+              💡 <strong>Queue vs Pub/Sub:</strong>
+              Queue = One consumer processes task. Pub/Sub = Multiple consumers react to same event.<br /><br />
+
+              💡 <strong>Kafka Interview Answer:</strong>
+              Kafka is primarily an <strong>event streaming platform</strong> used for Event-Driven Architecture,
+              asynchronous communication, replayability, and high-throughput processing.<br /><br />
+
+              💡 <strong>CQRS + Event Sourcing:</strong>
+              Commonly used together in large-scale systems requiring auditability and independent read/write
+              scaling.<br /><br />
+
+              💡 <strong>API Choice Cheat Sheet:</strong>
+              REST → Public APIs<br />
+              GraphQL → Frontend-heavy apps needing flexible data<br />
+              gRPC → Internal microservice communication<br /><br />
+
+              💡 <strong>Architect-Level Golden Statement:</strong>
+              <strong>"Microservices solve organizational scaling problems more than technical problems."</strong>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- Cloud Computing Theory -->
+         <div class="card c-yellow full accordion-item">
+  <div class="card-header accordion-header">
+    <div class="card-icon">☁️</div>
+    <span class="card-title">Cloud Computing with Java (Interview Revision)</span>
+    <span class="card-tag">L1 → L3</span>
+  </div>
+
+  <div class="card-body accordion-content" style="display:flex;flex-direction:column;gap:1rem">
+
+    <ul class="rule-list">
+      <li><strong>Goal</strong> → Build scalable, resilient, cloud-native Java applications</li>
+      <li><strong>Cloud Providers</strong> → AWS | Azure | GCP</li>
+      <li><strong>Java Stack</strong> → Spring Boot + Docker + Kubernetes + CI/CD</li>
+      <li><strong>Architecture</strong> → Stateless Microservices + Event Driven</li>
+      <li><strong>Deployment</strong> → EC2/App Service/App Engine | Containers | Lambda</li>
+      <li><strong>Scaling</strong> → Horizontal Scaling + Load Balancer + Auto Scaling</li>
+      <li><strong>Configuration</strong> → Environment Variables + ConfigMaps + Secret Managers</li>
+      <li><strong>Observability</strong> → Logs + Metrics + Tracing + Alerts</li>
+      <li><strong>Security</strong> → OAuth2, JWT, TLS, IAM, RBAC, Secret Manager</li>
+      <li><strong>Golden Rule</strong> → Cloud Native Apps must be Stateless</li>
+    </ul>
+
+<pre><span class="cm">// ☁️ Cloud Native Architecture</span>
+
+Client
+   │
+API Gateway
+   │
+Load Balancer
+   │
+Kubernetes / ECS / App Service
+   │
+Spring Boot Microservices
+   │
+├── RDS / Cloud SQL
+├── Redis Cache
+├── Kafka / SQS / PubSub
+├── Object Storage (S3/Blob/GCS)
+└── CloudWatch / Prometheus / Grafana
+
+Scale = Add more service instances (Horizontal Scaling)
+</pre>
+
+<pre><span class="cm">// 🚀 Typical Deployment Flow</span>
+
+Developer
+      │
+Git Push
+      │
+CI/CD Pipeline
+      │
+Run Tests
+      │
+Build JAR
+      │
+Docker Build
+      │
+Push Image
+      │
+Deploy to Kubernetes / ECS / Lambda
+      │
+Health Checks
+      │
+Auto Scaling + Monitoring
+</pre>
+
+<pre><span class="cm">// 📦 Cloud Services Cheat Sheet</span>
+
+Compute
+EC2      → Virtual Machines
+Lambda   → Serverless Functions
+ECS/EKS  → Containers
+
+Storage
+S3        → Files
+RDS       → SQL Database
+DynamoDB  → NoSQL
+Redis      → Cache
+
+Messaging
+Kafka
+SQS
+SNS
+Pub/Sub
+
+Monitoring
+CloudWatch
+Prometheus
+Grafana
+Zipkin
+Jaeger
+</pre>
+
+<pre><span class="cm">// 🐳 Docker → Kubernetes</span>
+
+Spring Boot
+      │
+Package JAR
+      │
+Docker Image
+      │
+Container
+      │
+Kubernetes Pod
+      │
+Deployment
+      │
+ReplicaSet
+      │
+Service + LoadBalancer
+</pre>
+
+<pre><span class="cm">// ⚡ Serverless Flow</span>
+
+API Gateway / S3 Upload / Queue
+            │
+            ▼
+AWS Lambda
+            │
+Business Logic
+            │
+S3 / DynamoDB / SNS
+</pre>
+
+<div class="tip-box">
+
+💡 <strong>Cloud != Hosting</strong><br>
+Cloud provides managed infrastructure (Auto Scaling, Load Balancing, Monitoring, HA).
+
+<br><br>
+
+💡 <strong>Stateless Services</strong><br>
+Never store session/files locally.<br>
+Store Files → S3<br>
+Cache → Redis<br>
+Session → Database/Redis
+
+<br><br>
+
+💡 <strong>12-Factor App (Must Remember)</strong><br>
+✔ Config via Environment Variables<br>
+✔ Stateless Processes<br>
+✔ Logs as Event Streams<br>
+✔ One Codebase, Multiple Deployments<br>
+✔ Fast Startup & Shutdown
+
+<br><br>
+
+💡 <strong>Horizontal > Vertical Scaling</strong><br>
+❌ Bigger Server<br>
+✅ More Service Instances behind Load Balancer
+
+<br><br>
+
+💡 <strong>Configuration Best Practice</strong><br>
+Never hardcode passwords/API Keys.<br>
+Use:
+<ul>
+<li>Environment Variables</li>
+<li>Kubernetes ConfigMaps</li>
+<li>AWS Secrets Manager</li>
+<li>Azure Key Vault</li>
+<li>GCP Secret Manager</li>
+</ul>
+
+💡 <strong>Cloud Logging</strong><br>
+Application → stdout → CloudWatch / ELK / Grafana<br>
+Never write logs to local files.
+
+<br><br>
+
+💡 <strong>Observability = 3 Pillars</strong><br>
+📄 Logs → What happened?<br>
+📈 Metrics → Is system healthy?<br>
+🔍 Traces → Where is request slow?
+
+<br><br>
+
+💡 <strong>Cloud Security Checklist</strong><br>
+✔ HTTPS/TLS<br>
+✔ OAuth2/JWT<br>
+✔ RBAC<br>
+✔ IAM Roles<br>
+✔ Secret Manager<br>
+✔ Encryption at Rest & Transit
+
+<br><br>
+
+💡 <strong>Cloud Resilience Patterns</strong><br>
+Circuit Breaker → Prevent cascading failures<br>
+Retry + Exponential Backoff → Handle transient failures<br>
+Bulkhead → Isolate failures<br>
+Rate Limiting → Prevent abuse
+
+<br><br>
+
+💡 <strong>Container vs Kubernetes</strong><br>
+Docker → Package Application<br>
+Kubernetes → Deploy, Scale & Heal Containers
+
+<br><br>
+
+💡 <strong>When to Use Lambda?</strong><br>
+✔ Image Processing<br>
+✔ File Upload Events<br>
+✔ Notifications<br>
+✔ Background Jobs<br>
+❌ Long-running Stateful Applications
+
+<br><br>
+
+💡 <strong>Interview Architecture Flow</strong><br>
+
+Client<br>
+→ API Gateway<br>
+→ Load Balancer<br>
+→ Spring Boot Microservices<br>
+→ Kafka/SQS<br>
+→ Database + Redis<br>
+→ Monitoring (Prometheus/Grafana)<br>
+→ Kubernetes Auto Scaling
+
+<br><br>
+
+💡 <strong>Architect-Level Keywords</strong><br>
+
+Cloud Native • Stateless • Microservices • Docker • Kubernetes • CI/CD • Auto Scaling • High Availability • Fault Tolerance • Service Discovery • API Gateway • Distributed Tracing • Observability • Infrastructure as Code • Serverless • Event Driven • Secrets Management • Multi-Region • Blue-Green • Canary • GitOps
+
+</div>
+
+  </div>
+</div>
       </div>
     </div>
   </div>
